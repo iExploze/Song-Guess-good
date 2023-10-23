@@ -1,2 +1,4 @@
-package dataAccessObjects;public class spotifyAuthenticationObject {
+package dataAccessObjects;
+
+public class spotifyAuthenticationObject {
 }

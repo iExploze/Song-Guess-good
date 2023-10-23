@@ -1,2 +1,4 @@
-package interactors;public class test {
+package interactors;
+
+public class test {
 }

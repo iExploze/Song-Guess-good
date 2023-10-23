@@ -1,2 +1,4 @@
-package usecase;public class test {
+package usecase;
+
+public class test {
 }
