@@ -5,6 +5,7 @@ public interface Song {
 
     String getSongName();
 
+    //may not need song genre
     String getSongGenre();
 
     String getNumStreams();
