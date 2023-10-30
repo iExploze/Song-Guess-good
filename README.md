@@ -52,3 +52,17 @@ of calling API using postman.
 ![](photos/API_screenshot.jpeg)
 <img width="1470" alt="Screenshot 2023-10-01 at 09 36 13" src="https://github.com/iExploze/Song-Guesser/assets/54289660/80c2a1ba-a008-40d9-925b-bbf3147c4031">
 
+Work flow:
+1. Quick discussion/ detail discussion with group
+2. Divide work up clearly
+3. Communicate clearly what we're working on and what information we need.
+4. Do implementation
+5. Submit pull request for it and do a review on it
+6. repeat.
+
+
+Goals: 
+Finish entities + Skip, Check, Textbox, and a single button gui working by the next class.
+
+
+
