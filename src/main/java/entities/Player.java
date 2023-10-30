@@ -1,4 +1,4 @@
-package entities;
+package main.java.entities;
 
 public interface Player {
     // potentially a setName() method later on allowing users to change their name after making an account
