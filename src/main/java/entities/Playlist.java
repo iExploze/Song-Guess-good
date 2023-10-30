@@ -1,7 +1,6 @@
-package entities;
+package main.java.entities;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public interface Playlist {
     ArrayList<Song> songs();
