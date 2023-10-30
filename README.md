@@ -58,11 +58,18 @@ Work flow:
 3. Communicate clearly what we're working on and what information we need.
 4. Do implementation
 5. Submit pull request for it and do a review on it
-6. repeat.
+6. Delete/pull branch
+7. repeat.
 
 
 Goals: 
-Finish entities + Skip, Check, Textbox, and a single button gui working by the next class.
+Finish entities 
+Use case to be completed:
+- signup - Ricky
+- login - Ricky
+- play song - Flora
+- skip song - Ian
+- guess song - Anson
 
 
 
