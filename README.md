@@ -8,20 +8,20 @@ Flora
 
 Work flow:
 
-Quick discussion/ detail discussion with group
-Divide work up clearly
-Communicate clearly what we're working on and what information we need.
-Do implementation
-Submit pull request for it and do a review on it
-Delete/pull branch
-repeat.
-Goals: Finish entities Use case to be completed: 
+- Quick discussion/ detail discussion with group
+- Divide work up clearly
+- Communicate clearly what we're working on and what information we need.
+- Do implementation
+- Submit pull request for it and do a review on it
+- Delete/pull branch
+- repeat.
+- Goals: Finish entities Use case to be completed: 
 
-signup - Ricky
-login - Ricky
-play song - Flora
-skip song - Ian
-guess song - Anson
+- signup - Ricky
+- login - Ricky
+- play song - Flora
+- skip song - Ian
+- guess song - Anson
 
 **A description of the problem domain your team is tentatively wanting to focus 
 on in the project. (e.g., trivia, finance, real estate, etc…):**
