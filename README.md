@@ -15,7 +15,7 @@ Do implementation
 Submit pull request for it and do a review on it
 Delete/pull branch
 repeat.
-Goals: Finish entities Use case to be completed:
+Goals: Finish entities Use case to be completed: 
 
 signup - Ricky
 login - Ricky
