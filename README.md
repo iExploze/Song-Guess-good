@@ -6,6 +6,24 @@ Robert
 Ricky
 Flora
 
+Work flow:
+
+- Quick discussion/ detail discussion with group
+- Divide work up clearly
+- Communicate clearly what we're working on and what information we need.
+- Do implementation
+- Submit pull request for it and do a review on it
+- Delete/pull branch
+- repeat.
+- 
+Goals: Finish entities and Use case to be completed: 
+
+- signup - Ricky
+- login - Ricky
+- play song - Flora
+- skip song - Ian
+- guess song - Anson
+
 **A description of the problem domain your team is tentatively wanting to focus 
 on in the project. (e.g., trivia, finance, real estate, etc…):**
 Our application is primarily centered around music trivia and is targeted toward 
@@ -51,4 +69,3 @@ of calling API using postman.
 
 ![](photos/API_screenshot.jpeg)
 <img width="1470" alt="Screenshot 2023-10-01 at 09 36 13" src="https://github.com/iExploze/Song-Guesser/assets/54289660/80c2a1ba-a008-40d9-925b-bbf3147c4031">
-
