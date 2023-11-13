@@ -1,4 +1,4 @@
-package main.java.entities;
+package entities;
 
 public interface Song {
     String getArtistName();

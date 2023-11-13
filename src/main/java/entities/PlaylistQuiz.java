@@ -1,4 +1,40 @@
-package main.java.entities;
+package entities;
 
-public class PlaylistQuiz {
+import java.util.ArrayList;
+
+public class PlaylistQuiz implements Quiz{
+    @Override
+    public ArrayList<Player> players() {
+        return null;
+    }
+
+    @Override
+    public Song currentPlaying() {
+        return null;
+    }
+
+    @Override
+    public void goNext() {
+
+    }
+
+    @Override
+    public double getTimeLeft() {
+        return 0;
+    }
+
+    @Override
+    public int getRemaining() {
+        return 0;
+    }
+
+    @Override
+    public boolean isSong(String name) {
+        return false;
+    }
+
+    @Override
+    public int getPoints() {
+        return 0;
+    }
 }

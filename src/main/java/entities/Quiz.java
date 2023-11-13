@@ -1,4 +1,4 @@
-package main.java.entities;
+package entities;
 
 import java.util.ArrayList;
 
@@ -7,7 +7,7 @@ public interface Quiz {
 
     Song currentPlaying();
 
-    Song goNext();
+    void goNext();
 
     double getTimeLeft();
 
