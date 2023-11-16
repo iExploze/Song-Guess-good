@@ -1,4 +1,4 @@
-package main.java.interactors.SignUp;
+package main.java.usecase.SignUp;
 
 public interface SignUpOutputBoundary {
     void prepareSuccessView(SignUpOutputData signUpOutputData);

@@ -1,4 +1,4 @@
-package main.java.interactors.SignUp;
+package main.java.usecase.SignUp;
 
 import main.java.dataAccessObjects.UserStorage.UserDataAccessObject;
 

@@ -10,10 +10,6 @@ public class CommonUser implements User {
         this.password = password;
         this.accessToken = accessToken;
     }
-    public CommonUser(String username, String password) {
-        this.username = username;
-        this.password = password;
-    }
 
     public void setUsername(String username) {
         this.username = username;
@@ -22,7 +18,7 @@ public class CommonUser implements User {
     public void setPassword(String password) {
         this.password = password;
     }
-
+    @Override
     public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
     }

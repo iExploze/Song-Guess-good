@@ -6,4 +6,6 @@ public interface UserDataAccessObject {
     boolean exists(String username);
 
     void save(User user);
+
+    void setAccessToken(User user);
 }

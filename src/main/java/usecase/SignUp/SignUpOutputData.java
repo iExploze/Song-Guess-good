@@ -1,4 +1,4 @@
-package main.java.interactors.SignUp;
+package main.java.usecase.SignUp;
 
 public class SignUpOutputData {
     // so far only give back username, can add more later for this view
