@@ -1,4 +1,4 @@
-package main.java.usecase.guess;
+package usecase.guess;
 
 import main.java.dataAccessObjects.GuessDataAccessInterface;
 
