@@ -1,4 +1,4 @@
-package main.java.usecase.guess;
+package usecase.guess;
 
 public interface GuessOutputBoundary {
     void prepareSuccessView(GuessOutputBoundary correctGuess);
