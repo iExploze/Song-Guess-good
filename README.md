@@ -20,7 +20,7 @@ Goals: Finish entities and Use case to be completed:
 
 - signup - Ricky
 - login - Ricky
-- play song - Flora
+- play song(stop song) - Flora
 - skip song - Ian
 - guess song - Anson
 
