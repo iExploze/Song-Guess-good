@@ -1,4 +1,4 @@
-package interface_adapter.Skip;
+package usecase.Skip;
 
 public class SkipInputBoundary {
 }
