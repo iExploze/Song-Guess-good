@@ -3,11 +3,11 @@ package usecase.guess;
 public class GuessOutputData {
     private final String guess;
 
-    private boolean correctGuess;
+    private final boolean guessStatus;
 
     public GuessOutputData(String guess, boolean correctGuess) {
         this.guess = guess;
-        this.correctGuess = correctGuess;
+        this.guessStatus = correctGuess;
     }
 
     public String getGuess(){
@@ -15,6 +15,6 @@ public class GuessOutputData {
     }
 
     public boolean getGuessStatus(){
-        return correctGuess;
+        return guessStatus;
     }
 }
