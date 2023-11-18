@@ -15,7 +15,7 @@ public class PlayViewModel extends ViewModel {
     private PlayState state = new PlayState();
 
     public PlayViewModel() {
-        super();
+        super("");
     }
 
     public void setState(PlayState state) {
@@ -36,5 +36,6 @@ public class PlayViewModel extends ViewModel {
     }
 
     public PlayState getState() {
+        return null;
     }
 }

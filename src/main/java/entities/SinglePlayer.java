@@ -1,8 +1,10 @@
-package main.java.entities;
+package entities;
+
+import entities.Player;
 
 import java.time.LocalDateTime;
 
-class SinglePlayer implements Player{
+class SinglePlayer implements Player {
     @Override
     public String getName() {
         return null;
