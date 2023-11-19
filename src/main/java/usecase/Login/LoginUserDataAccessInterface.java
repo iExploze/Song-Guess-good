@@ -1,12 +1,12 @@
-package main.java.usecase.Login;
+package usecase.Login;
 
 
-import main.java.entities.Users.User;
+import entities.Users.User;
 
 public interface LoginUserDataAccessInterface {
     boolean exists(String identifier);
 
     void save(User user);
 
-    User get(String username);
+    User getUser(String username);
 }

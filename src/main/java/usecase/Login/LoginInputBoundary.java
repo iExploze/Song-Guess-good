@@ -1,4 +1,4 @@
-package main.java.usecase.Login;
+package usecase.Login;
 
 public interface LoginInputBoundary {
     void execute(LoginInputData loginInputData);

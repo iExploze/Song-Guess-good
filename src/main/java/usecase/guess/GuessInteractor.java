@@ -1,6 +1,6 @@
 package usecase.guess;
 
-import main.java.dataAccessObjects.GuessDataAccessInterface;
+
 
 //public class GuessInteractor implements GuessInputBoundary{
 //    final GuessDataAccessInterface guessDataAccessObject;

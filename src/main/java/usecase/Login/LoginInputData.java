@@ -1,4 +1,4 @@
-package main.java.usecase.Login;
+package usecase.Login;
 
 public class LoginInputData {
 
@@ -10,11 +10,11 @@ public class LoginInputData {
         this.password = password;
     }
 
-    String getUsername() {
+    public String getUsername() {
         return username;
     }
 
-    String getPassword() {
+    public String getPassword() {
         return password;
     }
 

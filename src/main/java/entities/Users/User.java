@@ -1,8 +1,8 @@
-package main.java.entities.Users;
+package entities.Users;
 
 public interface User {
     String getUsername();
     String getPassword();
     String getAccessToken();
-    void setAccessToken(String username);
+    void setAccessToken(String accessToken);
 }

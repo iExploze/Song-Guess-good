@@ -1,9 +1,9 @@
-package main.java.usecase.SignUp;
+package usecase.SignUp;
 
-import main.java.dataAccessObjects.UserStorage.UserDataAccessObject;
+import dataAccessObjects.UserStorage.UserDataAccessObject;
 
-import main.java.entities.Users.User;
-import main.java.entities.Users.UserFactory;
+import entities.Users.User;
+import entities.Users.UserFactory;
 
 public class SignUpInteractor implements SignUpInputBoundary {
 

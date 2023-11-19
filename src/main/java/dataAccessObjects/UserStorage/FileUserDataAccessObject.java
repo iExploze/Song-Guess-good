@@ -1,8 +1,8 @@
-package main.java.dataAccessObjects.UserStorage;
+package dataAccessObjects.UserStorage;
 
-import main.java.entities.Users.User;
-import main.java.entities.Users.UserFactory;
-import main.java.usecase.Login.LoginUserDataAccessInterface;
+import entities.Users.User;
+import entities.Users.UserFactory;
+import usecase.Login.LoginUserDataAccessInterface;
 
 import java.io.*;
 import java.time.LocalDateTime;
@@ -61,8 +61,8 @@ public class FileUserDataAccessObject implements UserDataAccessObject, LoginUser
         this.save();
     }
 
-    @Override
-    public User get(String username) {
+
+    public User getUser(String username) {
         return accounts.get(username);
     }
 

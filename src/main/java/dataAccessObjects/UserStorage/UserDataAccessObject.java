@@ -1,6 +1,6 @@
-package main.java.dataAccessObjects.UserStorage;
+package dataAccessObjects.UserStorage;
 
-import main.java.entities.Users.User;
+import entities.Users.User;
 
 public interface UserDataAccessObject {
     boolean exists(String username);
@@ -8,4 +8,6 @@ public interface UserDataAccessObject {
     void save(User user);
 
     void setAccessToken(User user);
+
+    User getUser(String username);
 }

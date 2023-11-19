@@ -1,4 +1,4 @@
-package main.java.entities.Users;
+package entities.Users;
 
 public class CommonUser implements User {
     private String username;

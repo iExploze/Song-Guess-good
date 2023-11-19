@@ -1,4 +1,4 @@
-package main.java.usecase.Login;
+package usecase.Login;
 
 public class LoginOutputData {
 
