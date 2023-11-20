@@ -1,4 +1,4 @@
-package interactors.Skip;
+package usecase.Skip;
 
 import entities.PlaylistQuiz;
 

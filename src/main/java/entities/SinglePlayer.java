@@ -2,33 +2,27 @@ package entities;
 
 import entities.Player;
 
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 
-public class SinglePlayer implements Player {
-
-
-    private final SpotifyPlaylist playlist;
-    private final String name;
-    private float points;
-
-    public SinglePlayer(String name, SpotifyPlaylist playlist)
-    {
-        this.name = name;
-        this.playlist = playlist;
-    }
+class SinglePlayer implements Player {
     @Override
     public String getName() {
-        return name;
+        return null;
     }
 
     @Override
-    public void setPoints(float points) {
-        this.points = points;
+    public String getPassword() {
+        return null;
+    }
+
+    @Override
+    public String setPoints() {
+        return null;
     }
 
     @Override
     public String getPoints() {
-        return (String.valueOf(this.points));
+        return null;
     }
 
     @Override
@@ -37,7 +31,7 @@ public class SinglePlayer implements Player {
     }
 
     @Override
-    public Playlist getPlayList() {
-        return this.playlist;
+    public LocalDateTime getCreationTime() {
+        return null;
     }
 }
