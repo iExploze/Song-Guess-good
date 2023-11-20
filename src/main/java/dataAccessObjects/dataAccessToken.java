@@ -1,4 +1,4 @@
-package main.java.dataAccessObjects;
+package dataAccessObjects;
 
 import java.io.IOException;
 
