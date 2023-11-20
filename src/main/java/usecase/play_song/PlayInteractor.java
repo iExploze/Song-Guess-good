@@ -2,6 +2,8 @@ package usecase.play_song;
 
 import entities.Player;
 import entities.PlayerFactory;
+import entities.Song;
+
 public class PlayInteractor implements PlayInputBoundary{
     final PlayUserDataAccessInterface userDataAccessObject;
     final PlayOutputBoundary playPresenter;
@@ -16,6 +18,12 @@ public class PlayInteractor implements PlayInputBoundary{
     }
 
     public void execute() {
+        if (userDataAccessObject.existSongPreview()) {
+            for (String url: userDataAccessObject.existing_Previews()){
 
+            }
+
+        }
+        playPresenter.prepareSucessView();
     }
 }
