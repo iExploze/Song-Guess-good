@@ -1,4 +1,6 @@
 package usecase.Skip;
 
-public class SkipInputBoundary {
+public interface SkipInputBoundary {
+
+    public void execute();
 }
