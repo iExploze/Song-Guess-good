@@ -1,6 +1,7 @@
 package view;
 
 import interface_adapter.play_song.PlayController;
+import interface_adapter.skip_song.SkipController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,10 +11,10 @@ import java.awt.event.ActionListener;
 public class PlayView extends JPanel implements ActionListener {
     public static final String viewName = "PLAY_VIEW"; // Add a static constant for the view name
     private final JButton skipButton;
-    private final PlayController playController;
+    private final SkipController skipController;
 
-    public PlayView(PlayController playController) {
-        this.playController = playController;
+    public PlayView(PlayController playController, SkipController skipController) {
+        this.skipController = skipController;
         this.setLayout(new BorderLayout()); // Use BorderLayout for simplicity
 
         // Create the skip button and set its size and action listener
@@ -33,7 +34,7 @@ public class PlayView extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(skipButton)) {
-            playController.execute(); // Ensure this method is implemented in the PlayController
+            skipController.execute(); // Ensure this method is implemented in the PlayController
         }
     }
 }

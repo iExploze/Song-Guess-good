@@ -4,7 +4,7 @@ import entities.Player;
 
 import java.time.LocalDateTime;
 
-class SinglePlayer implements Player {
+public class SinglePlayer implements Player {
     private final String name;
     private float points;
     private Playlist playlist;

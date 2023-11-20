@@ -10,9 +10,9 @@ public class PlaylistQuiz implements Quiz{
     public PlaylistQuiz(Player player)
     {
         this.index = 0;
-        this.curr = SongList.getSong(this.index);
+        this.SongList = player.getPlayList();
+        this.curr = this.SongList.getSong(this.index);
         this.player = player;
-        SongList = player.getPlayList();
     }
     @Override
     public ArrayList<Player> players() {
