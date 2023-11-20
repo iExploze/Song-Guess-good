@@ -15,27 +15,24 @@ public class PlayViewModel extends ViewModel {
     private PlayState state = new PlayState();
 
     public PlayViewModel() {
-        super("");
+        super("play");
     }
 
     public void setState(PlayState state) {
         this.state = state;
     }
 
-    public void addPropertyChangeListener(PlayView playView) {
+    private final PropertyChangeSupport support = new PropertyChangeSupport(this);
+
+    public void firePropertyChanged(){
+        support.firePropertyChange("state", null, this.state);
     }
 
-    @Override
-    public void firePropertyChanged() {
-
-    }
-
-    @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {
-
+        support.addPropertyChangeListener(listener);
     }
 
     public PlayState getState() {
-        return null;
+        return state;
     }
 }
