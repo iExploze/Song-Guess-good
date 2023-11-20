@@ -1,5 +1,6 @@
 package view;
 
+import interface_adapter.guess.GuessController;
 import interface_adapter.play_song.PlayState;
 import interface_adapter.play_song.PlayViewModel;
 import interface_adapter.play_song.PlayController;
@@ -8,6 +9,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -16,13 +19,18 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
     private final JTextField answerInputField = new JTextField(15);
     private final PlayViewModel playViewModel;
     private final PlayController playController;
+
+    private final GuessController guessController;
     private final JButton play;
     //private final JButton stop;
     private final JButton guess;
 
-    public PlayView(PlayViewModel playViewModel, PlayController playController) {
+    public PlayView(PlayViewModel playViewModel,
+                    PlayController playController,
+                    GuessController guessController) {
         this.playViewModel = playViewModel;
         this.playController = playController;
+        this.guessController = guessController;
 
         playViewModel.addPropertyChangeListener(this);
 
@@ -42,7 +50,27 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
                         if (evt.getSource().equals(guess)) {
+                            guessController.execute(playViewModel.getState().getGuess());
                         }
+                    }
+                }
+        );
+
+        answerInputField.addKeyListener(
+                new KeyListener() {
+                    @Override
+                    public void keyTyped(KeyEvent e) {
+                        PlayState currentState = playViewModel.getState();
+                        currentState.setGuess(answerInputField.getText() + e.getKeyChar());
+                        playViewModel.setState(currentState);
+                    }
+
+                    @Override
+                    public void keyPressed(KeyEvent e) {
+                    }
+
+                    @Override
+                    public void keyReleased(KeyEvent e) {
                     }
                 }
         );
@@ -57,7 +85,10 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
                 }
         );
 
-
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.add(title);
+        this.add(answerInfo);
+        this.add(buttons);
     }
 
     @Override
