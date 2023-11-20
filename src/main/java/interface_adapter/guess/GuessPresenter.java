@@ -29,7 +29,9 @@ public class GuessPresenter implements GuessOutputBoundary {
     }
 
     @Override
-    public void prepareFailView(String incorrectGuess) {
-        //nothing for now, may change depending on how we want to add scores
+    public void prepareFailView(String incorrectGuessMessage) {
+        PlayState playState = playViewModel.getState();
+        playState.setIncorrectGuess(incorrectGuessMessage);
+        playViewModel.firePropertyChanged();
     }
 }

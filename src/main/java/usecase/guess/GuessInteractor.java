@@ -18,7 +18,11 @@ public class GuessInteractor implements GuessInputBoundary{
         String playerGuess = guessInputData.getGuess();
         boolean guessStatus = songName.equals(playerGuess);
 
-        GuessOutputData guessOutputData = new GuessOutputData(playerGuess, guessStatus);
-        guessPresenter.prepareSuccessView(guessOutputData);
+        if (guessStatus){
+            GuessOutputData guessOutputData = new GuessOutputData(playerGuess, guessStatus);
+            guessPresenter.prepareSuccessView(guessOutputData);
+        }else{
+            guessPresenter.prepareFailView("Incorrect guess");
+        }
     }
 }
