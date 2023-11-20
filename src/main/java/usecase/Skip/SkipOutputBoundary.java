@@ -1,4 +1,6 @@
 package usecase.Skip;
 
-public class SkipOutputBoundary {
+public interface SkipOutputBoundary {
+
+    void prepareView(String name);
 }
