@@ -3,6 +3,11 @@ package entities;
 import entities.Song;
 
 public class SongData implements Song {
+    String name;
+    public SongData(String name)
+    {
+        this.name = name;
+    }
     @Override
     public String getArtistName() {
         return null;

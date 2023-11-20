@@ -5,9 +5,18 @@ import entities.Player;
 import java.time.LocalDateTime;
 
 class SinglePlayer implements Player {
+    private final String name;
+    private float points;
+    private Playlist playlist;
+
+    public SinglePlayer(String name)
+    {
+        this.name = name;
+        this.playlist = new SpotifyPlaylist();
+    }
     @Override
     public String getName() {
-        return null;
+        return this.name;
     }
 
     @Override
@@ -16,13 +25,13 @@ class SinglePlayer implements Player {
     }
 
     @Override
-    public String setPoints() {
-        return null;
+    public void setPoints(float points) {
+        this.points = points;
     }
 
     @Override
     public String getPoints() {
-        return null;
+        return (String.valueOf(this.points));
     }
 
     @Override
@@ -33,5 +42,10 @@ class SinglePlayer implements Player {
     @Override
     public LocalDateTime getCreationTime() {
         return null;
+    }
+
+    @Override
+    public Playlist getPlayList() {
+        return this.playlist;
     }
 }
