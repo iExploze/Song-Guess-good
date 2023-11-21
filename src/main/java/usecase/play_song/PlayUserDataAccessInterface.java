@@ -5,9 +5,7 @@ import entities.Player;
 import java.util.Collection;
 
 public interface PlayUserDataAccessInterface {
-    String getsong();
-    boolean existSongPreview();
-    Collection<String> existing_Previews();
-    void removesong();
-    void addsong();
+    boolean existSong(String title);
+    String getSong(String title);
+    void playSong(String url);
 }
