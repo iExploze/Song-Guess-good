@@ -23,12 +23,13 @@ public class TestTopTracks {
         accessToken = Apitest.getAccessToken();
         commonUserFactory = new CommonUserFactory();
         user = commonUserFactory.createUser("Hello", "bye");
-        user.setAccessToken("BQCtAWjoq0XROmLSrxngG2B343utT8_ftd-TSpAWFuIq5l14A8ko0uKQGu1xMzCwFr_mj_WeXifHcZbJPbut5IqOXzjwdoGuUaRVwMhVJSq2XdEitZ8");
+
+        user.setAccessToken("");
     }
 
     @Test
     public void testFileUserDataAccessObject() throws IOException {
-        System.out.println(user.getAccessToken());
+        System.out.println(accessToken);
         userTopTracksDataAccessObject a = new userTopTracksDataAccessObject();
 
         HashMap res = a.getTopTracks(user);
