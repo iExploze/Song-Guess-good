@@ -20,8 +20,8 @@ public class APItest implements dataAccessToken{
     * https://developer.spotify.com/dashboard
     * */
     private static String TOKEN_URL = "https://accounts.spotify.com/api/token";
-    private static String CLIENT_ID = "";
-    private static String CLIENT_SECRET = "";
+    private static String CLIENT_ID = "ee5a4dc5c931462e9e630c64a8aee5ac";
+    private static String CLIENT_SECRET = "1a006c3d6aec4f7e920560c25ddf46ab";
 
     public String getAccessToken() throws IOException {
         //URL Access Point
