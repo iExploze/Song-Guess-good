@@ -26,9 +26,12 @@ public class userOAuthObject {
                 "&code_challenge=%s&redirect_uri=%s", clientid, scope, codeVerifier, redirectURL);
         try {
             URL url = new URL(urlLinkWithParams);
-            //then we need to open a connection to this website have the user sign in,.
+
+            //then we need to open a connection to this website have the user sign in. So first we need to send our link
+            // to a webbrowser. To do this, we need to send the link to the home view model
         } catch (MalformedURLException e) {
             System.out.println("Malformed URL");
         }
+        // going to assume this function gives me the result from authentication.
     }
 }
