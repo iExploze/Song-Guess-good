@@ -1,4 +1,25 @@
 package interface_adapter.play_song;
 
-public class PlayPresenter {
+import interface_adapter.ViewManagerModel;
+import usecase.play_song.PlayOutputBoundary;
+
+public class PlayPresenter implements PlayOutputBoundary {
+    private final PlayViewModel playViewModel;
+    private ViewManagerModel viewManagerModel;
+
+    public PlayPresenter(ViewManagerModel viewManagerModel,
+                         PlayViewModel playViewModel) {
+        this.playViewModel = playViewModel;
+        this.viewManagerModel = viewManagerModel;
+    }
+
+    @Override
+    public void prepareSuccessView() {
+        PlayState playState = playViewModel.getState();
+        this.playViewModel.setState(playState);
+        playViewModel.firePropertyChanged();
+
+        viewManagerModel.setActiveView(viewManagerModel.getActiveView());
+        viewManagerModel.firePropertyChanged();
+    }
 }
