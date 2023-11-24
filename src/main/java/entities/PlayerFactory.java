@@ -1,6 +1,4 @@
-package main.java.entities;
-
-import entities.Player;
+package entities;
 
 import java.time.LocalDateTime;
 
