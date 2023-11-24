@@ -1,5 +1,6 @@
 package interface_adapter;
 
+import interface_adapter.UAuthViewModel;
 import interface_adapter.play_song.PlayViewModel;
 import usecase.UserAuth.UAuthOutputBoundary;
 import usecase.UserAuth.UAuthOutputData;
