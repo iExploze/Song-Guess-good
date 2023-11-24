@@ -24,15 +24,14 @@ public class TestTopTracks {
         commonUserFactory = new CommonUserFactory();
         user = commonUserFactory.createUser("Hello", "bye");
 
-        user.setAccessToken("");
     }
 
     @Test
-    public void testFileUserDataAccessObject() throws IOException {
+    public void testFileUserDataAccessObject() throws IOException, userTopTracksDataAccessObject.NeedRefreshException {
         System.out.println(accessToken);
-        userTopTracksDataAccessObject a = new userTopTracksDataAccessObject();
+        userTopTracksDataAccessObject a = new userTopTracksDataAccessObject(user);
 
-        HashMap res = a.getTopTracks(user);
+        HashMap res = a.getTopTracks();
         System.out.println(res);
     }
 

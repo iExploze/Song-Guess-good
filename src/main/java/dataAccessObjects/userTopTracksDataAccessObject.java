@@ -12,8 +12,18 @@ import java.util.HashMap;
 
 public class userTopTracksDataAccessObject implements userTrackandPlaylistDataAccessObject {
 
+    private User user;
+    public userTopTracksDataAccessObject(User user) {
+        this.user = user;
+    }
+    public class NeedRefreshException extends Exception {
+        public NeedRefreshException(String message) {
+            super(message);
+        }
+    }
+
     @Override
-    public HashMap getTopTracks(User user) throws IOException {
+    public HashMap getTopTracks() throws IOException, NeedRefreshException {
         URL url = new URL("https://api.spotify.com/v1/me/top/tracks");
 
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -21,7 +31,7 @@ public class userTopTracksDataAccessObject implements userTrackandPlaylistDataAc
         connection.setDoInput(true);
 
         connection.setRequestMethod("GET");
-        connection.addRequestProperty("Authorization", "Bearer " + user.getAccessToken()); //Access token
+        connection.addRequestProperty("Authorization", "Bearer " + this.user.getAccessToken()); //Access token
 
         int responseCode = connection.getResponseCode();
 
@@ -38,9 +48,19 @@ public class userTopTracksDataAccessObject implements userTrackandPlaylistDataAc
                 System.out.println(result);
                 return result;
             }
-        } else {
+        } else if (responseCode == HttpURLConnection.HTTP_UNAUTHORIZED) {
+
+
+            throw new NeedRefreshException("Token Expired");
+        }
+
+            // refresh access Token then try again
+            // UserAccessToken u = new UserAccessToken();
+            //            u.getUpdatedAccessToken(user);
+
+        else {
             System.out.println("Error: HTTP request failed with code " + responseCode);
         }
-        return new HashMap();
+        return null;
     }
 }

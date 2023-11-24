@@ -43,7 +43,7 @@ public class SignupTests {
     public void testAccessTokenChange() {
 
         user = fileDataUserObject.getUser("Hello");
-        user.setAccessToken("ADSADWASDADWASDAWD");
+        user.setTokenInfo("ADSADWASDADWASDAWD");
         fileDataUserObject.setAccessToken(user);
         User user1 = fileDataUserObject.getUser("Hello");
         assertEquals(user1.getAccessToken(), "ADSADWASDADWASDAWD");

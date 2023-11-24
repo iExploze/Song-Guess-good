@@ -1,28 +1,28 @@
 package entities;
 
-import entities.Player;
+import dataAccessObjects.UserAccessToken;
+import dataAccessObjects.userTopTracksDataAccessObject;
+import entities.Users.User;
 
-import java.time.LocalDateTime;
+import java.io.IOException;
+import java.util.HashMap;
 
 public class SinglePlayer implements Player {
-    private final String name;
     private float points;
     private Playlist playlist;
+    private User user;
 
-    public SinglePlayer(String name)
+    public SinglePlayer(User user)
     {
-        this.name = name;
+        this.user = user;
         this.playlist = new SpotifyPlaylist();
+        this.points = 0;
     }
     @Override
     public String getName() {
-        return this.name;
+        return user.getUsername();
     }
 
-    @Override
-    public String getPassword() {
-        return null;
-    }
 
     @Override
     public void setPoints(float points) {
@@ -34,14 +34,23 @@ public class SinglePlayer implements Player {
         return (String.valueOf(this.points));
     }
 
-    @Override
-    public boolean spotifyAuthenticated() {
-        return false;
-    }
 
-    @Override
-    public LocalDateTime getCreationTime() {
-        return null;
+    public HashMap getTopTracks() throws IOException, userTopTracksDataAccessObject.NeedRefreshException {
+        if (this.user.checkExpired()) {
+            UserAccessToken u = new UserAccessToken();
+            u.getUpdatedAccessToken(this.user);
+        }
+        try {
+            userTopTracksDataAccessObject utd = new userTopTracksDataAccessObject(this.user);
+            return utd.getTopTracks();
+        } catch (userTopTracksDataAccessObject.NeedRefreshException e) {
+            UserAccessToken u = new UserAccessToken();
+            u.getUpdatedAccessToken(this.user);
+            userTopTracksDataAccessObject utd = new userTopTracksDataAccessObject(this.user);
+            return utd.getTopTracks();
+        }
+
+
     }
 
     @Override

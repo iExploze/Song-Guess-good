@@ -27,7 +27,7 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
         users.put(user.getUsername(), user);
     }
 
-    public void setAccessToken(User user) {users.put(user.getUsername(), user);}
+    public void setTokenInfo(User user) {users.put(user.getUsername(), user);}
 
     @Override
     public User getUser(String username) {
