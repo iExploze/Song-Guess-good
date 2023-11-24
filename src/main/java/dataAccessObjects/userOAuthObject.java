@@ -1,5 +1,6 @@
 package dataAccessObjects;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
@@ -24,14 +25,21 @@ public class userOAuthObject {
         //convert java object to JSON format
         String urlLinkWithParams = String.format("https://accounts.spotify.com/authorize?response_type=code&client_id=%s&%s&code_challenge_method=S256" +
                 "&code_challenge=%s&redirect_uri=%s", clientid, scope, codeVerifier, redirectURL);
+
+        String results = "";
         try {
             URL url = new URL(urlLinkWithParams);
 
+            results = url.openConnection().getInputStream().toString();
             //then we need to open a connection to this website have the user sign in. So first we need to send our link
             // to a webbrowser. To do this, we need to send the link to the home view model
+
         } catch (MalformedURLException e) {
             System.out.println("Malformed URL");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
         // going to assume this function gives me the result from authentication.
+        return results;
     }
 }

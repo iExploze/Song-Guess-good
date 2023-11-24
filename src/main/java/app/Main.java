@@ -12,6 +12,7 @@ import interface_adapter.skip_song.SkipViewModel;
 import usecase.Skip.SkipInputBoundary;
 import usecase.Skip.SkipInteractor;
 import usecase.Skip.SkipOutputBoundary;
+import dataAccessObjects.userOAuthObject;
 import view.PlayView;
 import interface_adapter.play_song.PlayController;
 
@@ -20,6 +21,8 @@ import java.awt.*;
 
 public class Main {
     public static void main(String[] args) {
+        String hi = userOAuthObject.requestUserAccessToken()
+
         JFrame application = new JFrame("Song Playback Example");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
