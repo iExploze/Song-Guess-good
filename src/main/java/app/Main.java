@@ -21,7 +21,6 @@ import java.awt.*;
 
 public class Main {
     public static void main(String[] args) {
-        String hi = userOAuthObject.requestUserAccessToken()
 
         JFrame application = new JFrame("Song Playback Example");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
