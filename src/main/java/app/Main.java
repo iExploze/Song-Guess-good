@@ -5,6 +5,9 @@ import entities.Player;
 import entities.PlaylistQuiz;
 import entities.Quiz;
 import entities.SinglePlayer;
+import interface_adapter.UAuthController;
+import interface_adapter.UAuthPresenter;
+import interface_adapter.UAuthViewModel;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.skip_song.SkipController;
 import interface_adapter.skip_song.SkipPresenter;
@@ -12,14 +15,21 @@ import interface_adapter.skip_song.SkipViewModel;
 import usecase.Skip.SkipInputBoundary;
 import usecase.Skip.SkipInteractor;
 import usecase.Skip.SkipOutputBoundary;
+import dataAccessObjects.userOAuthObject;
+import usecase.UserAuth.UAuthInputBoundary;
+import usecase.UserAuth.UAuthInteractor;
+import usecase.UserAuth.UAuthOutputBoundary;
+import usecase.UserAuth.UAuthOutputData;
 import view.PlayView;
 import interface_adapter.play_song.PlayController;
+import view.UAuthView;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class Main {
     public static void main(String[] args) {
+
         JFrame application = new JFrame("Song Playback Example");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -36,15 +46,24 @@ public class Main {
         Quiz quiz = new PlaylistQuiz(player);
 
         SkipViewModel skipViewModel = new SkipViewModel();
-        SkipOutputBoundary skipOutputBoundary = new SkipPresenter(viewManagerModel, skipViewModel);
+        SkipOutputBoundary skipOutputBoundary = new SkipPresenter(skipViewModel);
         SkipInputBoundary skipInputBoundary = new SkipInteractor(quiz, skipOutputBoundary);
         SkipController skipController = new SkipController(skipInputBoundary);
         PlayView playView = new PlayView(playController, skipController);
 
-        // Here, the viewName is a public static final String field in the PlayView class
-        views.add(playView, PlayView.viewName);
+        UAuthOutputData uAuthOutputData = new UAuthOutputData();
 
-        viewManagerModel.setActiveView(PlayView.viewName);
+        UAuthViewModel uAuthViewModel = new UAuthViewModel();
+        UAuthOutputBoundary uAuthOutputBoundary = new UAuthPresenter(uAuthOutputData, uAuthViewModel);
+        UAuthInputBoundary uAuthInputBoundary = new UAuthInteractor(uAuthOutputBoundary, uAuthOutputData);
+        UAuthController uAuthController = new UAuthController(uAuthInputBoundary);
+        UAuthView uAuthView = new UAuthView(uAuthController, uAuthViewModel);
+
+        // Here, the viewName is a public static final String field in the PlayView class
+        //views.add(playView, PlayView.viewName);
+        views.add(uAuthView, UAuthView.viewName);
+
+        viewManagerModel.setActiveView(UAuthView.viewName);
         viewManagerModel.firePropertyChanged();
 
         application.pack();
