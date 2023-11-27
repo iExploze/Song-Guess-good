@@ -7,7 +7,7 @@ public class UAuthInteractor implements UAuthInputBoundary{
 
     final UAuthOutputBoundary uAuthOutputBoundary;
     private String URL;
-    final String redirectURL = "http://localhost/";
+    final String redirectURL = "http://localhost:8080/callback";
 
     final String client_id = "ee5a4dc5c931462e9e630c64a8aee5ac";
 
