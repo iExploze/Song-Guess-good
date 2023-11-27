@@ -15,14 +15,15 @@ Work flow:
 - Submit pull request for it and do a review on it
 - Delete/pull branch
 - repeat.
-- 
+  
 Goals: Finish entities and Use case to be completed: 
 
-- signup - Ricky
-- login - Ricky
+- signup - Ricky [Done]
+- login - Ricky [Done]
 - play song(stop song) - Flora
-- skip song - Ian
+- skip song - Ian [Done]
 - guess song - Anson
+- API authentication - Ian & Ricky
 
 **A description of the problem domain your team is tentatively wanting to focus 
 on in the project. (e.g., trivia, finance, real estate, etc…):**

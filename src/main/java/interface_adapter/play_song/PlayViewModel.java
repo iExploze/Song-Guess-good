@@ -24,9 +24,8 @@ public class PlayViewModel extends ViewModel {
 
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
 
-    public void firePropertyChanged(){
-        support.firePropertyChange("state", null, this.state);
-    }
+    @Override
+    public void firePropertyChanged() { support.firePropertyChange("state", null, this.state); }
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         support.addPropertyChangeListener(listener);
