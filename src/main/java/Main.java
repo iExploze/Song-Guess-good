@@ -20,14 +20,12 @@ import java.awt.*;
 
 public class Main {
     public static void main(String[] args) {
-        JFrame application = new JFrame("Play Example");
         JFrame application = new JFrame("Song Playback Example");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         CardLayout cardLayout = new CardLayout();
         JPanel views = new JPanel(cardLayout);
         application.add(views);
-
 
         ViewManagerModel viewManagerModel = new ViewManagerModel();
 
