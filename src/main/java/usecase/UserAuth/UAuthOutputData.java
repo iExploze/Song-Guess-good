@@ -2,13 +2,16 @@ package usecase.UserAuth;
 
 public class UAuthOutputData {
 
-    private final String URL;
-    public UAuthOutputData(String url)
+    private String URL;
+    public UAuthOutputData()
     {
-
-        URL = url;
+        this.URL = "";
     }
 
+    public void setURL(String URL)
+    {
+        this.URL = URL;
+    }
     public String getURL()
     {
         return URL;

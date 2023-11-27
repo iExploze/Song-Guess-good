@@ -51,11 +51,11 @@ public class Main {
         SkipController skipController = new SkipController(skipInputBoundary);
         PlayView playView = new PlayView(playController, skipController);
 
-        UAuthOutputData uAuthOutputData = new UAuthOutputData("http://localhost/");
+        UAuthOutputData uAuthOutputData = new UAuthOutputData();
 
         UAuthViewModel uAuthViewModel = new UAuthViewModel();
         UAuthOutputBoundary uAuthOutputBoundary = new UAuthPresenter(uAuthOutputData, uAuthViewModel);
-        UAuthInputBoundary uAuthInputBoundary = new UAuthInteractor(uAuthOutputBoundary);
+        UAuthInputBoundary uAuthInputBoundary = new UAuthInteractor(uAuthOutputBoundary, uAuthOutputData);
         UAuthController uAuthController = new UAuthController(uAuthInputBoundary);
         UAuthView uAuthView = new UAuthView(uAuthController, uAuthViewModel);
 

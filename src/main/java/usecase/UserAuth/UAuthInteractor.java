@@ -11,26 +11,25 @@ public class UAuthInteractor implements UAuthInputBoundary{
 
     final String client_id = "ee5a4dc5c931462e9e630c64a8aee5ac";
 
-    private RandomSecureS256Generator randString;
+    private final UAuthOutputData uAuthOutputData;
 
-    private String random;
 
-    public UAuthInteractor(UAuthOutputBoundary uAuthOutputBoundary) {
+    public UAuthInteractor(UAuthOutputBoundary uAuthOutputBoundary, UAuthOutputData uAuthOutputData) {
         this.uAuthOutputBoundary = uAuthOutputBoundary;
-        this.URL = "";
+        this.uAuthOutputData = uAuthOutputData;
 
-        randString = new RandomSecureS256Generator(43);
-        randString.generateSHA256Hash(randString.generateRandomString());
+        userOAuthObject o = new userOAuthObject();
+        RandomSecureS256Generator rand = new RandomSecureS256Generator(43);
+        rand.generateSHA256Hash(rand.generateRandomString());
+
+        String random = rand.getHash();
+
+        this.URL = o.requestUserAccessToken(client_id, redirectURL, "user-top-read", random);
     }
 
     @Override
     public void execute() {
-        userOAuthObject o = new userOAuthObject();
-        URL = o.requestUserAccessToken(client_id, redirectURL, "user-top-read", randString.toString());
-    }
-
-    @Override
-    public String getURL() {
-        return URL;
+        this.uAuthOutputData.setURL(this.URL);
+        this.uAuthOutputBoundary.prepareView();
     }
 }

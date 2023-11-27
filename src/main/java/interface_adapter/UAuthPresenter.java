@@ -9,16 +9,17 @@ public class UAuthPresenter implements UAuthOutputBoundary {
 
     private PlayViewModel playViewModel;
     private UAuthViewModel uAuthViewModel;
+
+    private UAuthOutputData uAuthOutputData;
     public String URL;
     public UAuthPresenter(UAuthOutputData uAuthOutputData, UAuthViewModel uAuthViewModel)
     {
-        URL = uAuthOutputData.getURL();
+        this.uAuthOutputData = uAuthOutputData;
         this.uAuthViewModel = uAuthViewModel;
-        this.uAuthViewModel.setUrl(URL);
     }
 
     @Override
     public void prepareView() {
-
+        this.uAuthViewModel.setUrl(this.uAuthOutputData.getURL());
     }
 }

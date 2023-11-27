@@ -13,6 +13,5 @@ public class UAuthController {
     public void execute()
     {
         uAuthInteractorUsecase.execute();
-        uAuthInteractorUsecase.getURL();
     }
 }
