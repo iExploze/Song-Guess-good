@@ -1,12 +1,8 @@
 package dataAccessObjects;
 
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
-
-import com.google.gson.Gson;
-import org.apache.http.client.utils.URIBuilder;
 
 
 public class userOAuthObject {
