@@ -1,13 +1,13 @@
-package usecase.guess;
+package main.java.usecase.guess;
 
 public class GuessOutputData {
     private final String guess;
 
-    private final boolean guessStatus;
+    private boolean correctGuess;
 
     public GuessOutputData(String guess, boolean correctGuess) {
         this.guess = guess;
-        this.guessStatus = correctGuess;
+        this.correctGuess = correctGuess;
     }
 
     public String getGuess(){
@@ -15,6 +15,6 @@ public class GuessOutputData {
     }
 
     public boolean getGuessStatus(){
-        return guessStatus;
+        return correctGuess;
     }
 }
