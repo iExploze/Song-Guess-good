@@ -22,7 +22,7 @@ public class GuessPresenter implements GuessOutputBoundary {
     public void prepareSuccessView(GuessOutputData correctGuess) {
         PlayState playState = playViewModel.getState();
         this.playViewModel.setState(playState);
-        //playState.setGuess(correctGuess.getGuess());
+        playState.setGuess(correctGuess.getGuess());
         playViewModel.firePropertyChanged();
         viewManagerModel.setActiveView(playViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
@@ -31,7 +31,7 @@ public class GuessPresenter implements GuessOutputBoundary {
     @Override
     public void prepareFailView(String incorrectGuessMessage) {
         PlayState playState = playViewModel.getState();
-        //playState.setIncorrectGuess(incorrectGuessMessage);
+        playState.setIncorrectGuessMessage(incorrectGuessMessage);
         playViewModel.firePropertyChanged();
     }
 }
