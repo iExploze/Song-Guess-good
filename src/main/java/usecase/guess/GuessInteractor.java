@@ -1,26 +1,28 @@
 package usecase.guess;
 
+import entities.Song;
 
+public class GuessInteractor implements GuessInputBoundary{
+    final GuessOutputBoundary guessPresenter;
+    final Song song;
 
-//public class GuessInteractor implements GuessInputBoundary{
-//    final GuessDataAccessInterface guessDataAccessObject;
-//
-//    final GuessOutputBoundary guessPresenter;
-//
-//    public GuessInteractor(GuessDataAccessInterface guessDataAccessInterface,
-//                           GuessOutputBoundary guessOutputBoundary){
-//        this.guessDataAccessObject = guessDataAccessInterface;
-//        this.guessPresenter = guessOutputBoundary;
-//    }
-//
-//    @Override
-//    public void execute(GuessInputData guessInputData) {
-//        //if the user's guess is the same as the song name accessed using the DAO
-//            //prepare successView
-//            //successView might involve adding a point to the user's score
-//        //else if it's not the same
-//            //prepare failView
-//        //else
-//            //skip button?
-//    }
-//}
+    public GuessInteractor(GuessOutputBoundary guessOutputBoundary,
+                           Song song){
+        this.guessPresenter = guessOutputBoundary;
+        this.song = song;
+    }
+
+    @Override
+    public void execute(GuessInputData guessInputData) {
+        String songName = song.getSongName();
+        String playerGuess = guessInputData.getGuess();
+        boolean guessStatus = songName.equals(playerGuess);
+
+        if (guessStatus){
+            GuessOutputData guessOutputData = new GuessOutputData(playerGuess, guessStatus);
+            guessPresenter.prepareSuccessView(guessOutputData);
+        }else{
+            guessPresenter.prepareFailView("Incorrect guess");
+        }
+    }
+}
