@@ -14,6 +14,5 @@ public interface Player {
 
     String getPoints();
 
-    String getTopTracks() throws IOException, UserTopTracksDataAccessObject.NeedRefreshException;
     Playlist getPlayList();
 }
