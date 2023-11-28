@@ -8,6 +8,7 @@ public interface User {
     String getPassword();
     String getAccessToken();
     String getRefreshToken();
+    boolean getTokenInfo();
     List getTopSongs();
     void setTokenInfo(HashMap<String, String> tokenInfo);
     boolean checkExpired();

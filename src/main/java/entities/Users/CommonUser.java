@@ -43,6 +43,7 @@ public class CommonUser implements User {
     @Override
     public String getAccessToken() {return tokenInfo.get("access_token");
     }
+    public boolean getTokenInfo() {return tokenInfo == null;}
 
     public List getTopSongs() {
         return this.topSongs;

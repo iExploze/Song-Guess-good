@@ -36,7 +36,7 @@ public class UserAuthenticationBuilder {
         String url = this.userOAuthObject.userAuthorizationURL("ee5a4dc5c931462e9e630c64a8aee5ac",
                 "http://localhost:8080/callback","user-top-read", codeChallenge);
         Gson gson = new Gson();
-        if (user.getAccessToken() == null) {
+        if (user.getTokenInfo() == true) {
             userAuthentication userauthentication = new userAuthentication(url);
             this.userauthentication = userauthentication;
 

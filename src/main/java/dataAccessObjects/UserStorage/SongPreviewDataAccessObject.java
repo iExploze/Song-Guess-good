@@ -11,7 +11,7 @@ public class SongPreviewDataAccessObject {
 
      
 
-        String accessToken = new CommonUser().getAccessToken();
+        String accessToken = "new CommonUser().getAccessToken()";
 
         String contentType = "application/json";
         String market = "US";
