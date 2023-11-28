@@ -1,6 +1,8 @@
 package entities;
 
-import java.time.LocalDateTime;
+import dataAccessObjects.spotifyAccessObjects.UserTopTracksDataAccessObject;
+
+import java.io.IOException;
 
 public interface Player {
     // potentially a setName() method later on allowing users to change their name after making an account
@@ -8,15 +10,9 @@ public interface Player {
 
     String getName();
 
-    String getPassword();
-
     void setPoints(float points);
 
     String getPoints();
-
-    boolean spotifyAuthenticated();
-
-    LocalDateTime getCreationTime();
 
     Playlist getPlayList();
 }
