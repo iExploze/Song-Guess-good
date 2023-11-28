@@ -1,4 +1,4 @@
-package dataAccessObjects;
+package dataAccessObjects.spotifyAccessObjects;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -14,19 +14,24 @@ public class userAuthentication {
 
     String url;
     String response;
-    public userAuthentication(String url) {
+    public userAuthentication(String url) throws IOException {
         this.url = url;
+        this.openWebPage(url);
     }
 
     public void setResponse(String response) {
         this.response=response;
     }
+    public String getResponse() {return this.response;}
     private void openWebPage(String url) throws IOException {
         startServer(this);
         if (Desktop.isDesktopSupported()) {
             Desktop desktop = Desktop.getDesktop();
             try {
                 desktop.browse(new URI(url));
+                while (this.getResponse() == null) {
+                    Thread.sleep(1000);
+                }
             } catch (Exception ex) {
                 ex.printStackTrace();
             }

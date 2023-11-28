@@ -5,6 +5,8 @@ import entities.Player;
 import entities.PlaylistQuiz;
 import entities.Quiz;
 import entities.SinglePlayer;
+import entities.Users.CommonUserFactory;
+import entities.Users.User;
 import interface_adapter.UAuthController;
 import interface_adapter.UAuthPresenter;
 import interface_adapter.UAuthViewModel;
@@ -15,7 +17,6 @@ import interface_adapter.skip_song.SkipViewModel;
 import usecase.Skip.SkipInputBoundary;
 import usecase.Skip.SkipInteractor;
 import usecase.Skip.SkipOutputBoundary;
-import dataAccessObjects.userOAuthObject;
 import usecase.UserAuth.UAuthInputBoundary;
 import usecase.UserAuth.UAuthInteractor;
 import usecase.UserAuth.UAuthOutputBoundary;
@@ -42,7 +43,12 @@ public class Main {
         // Assuming PlayController is correctly implemented and has the required methods
         PlayController playController = new PlayController();
 
-        Player player = new SinglePlayer("tester");
+        CommonUserFactory commonUserFactory= new CommonUserFactory();
+        User user = commonUserFactory.createUser("a","b");
+
+
+
+        Player player = new SinglePlayer(user);
         Quiz quiz = new PlaylistQuiz(player);
 
         SkipViewModel skipViewModel = new SkipViewModel();
