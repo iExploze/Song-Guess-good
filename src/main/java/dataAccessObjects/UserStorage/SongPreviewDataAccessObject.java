@@ -8,7 +8,7 @@ import java.io.InputStreamReader;
 public class SongPreviewDataAccessObject {
     public static void main(String[] args) {
         String url = "https://api.spotify.com/v1/albums/{id}/tracks";
-        String accessToken = new CommonUser().getAccessToken();
+        String accessToken = "ab";
         String contentType = "application/json";
         String market = "US";
 

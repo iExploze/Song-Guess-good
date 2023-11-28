@@ -2,96 +2,89 @@ package dataAccessObjects;
 
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
-import java.util.HashMap;
+import java.net.URLEncoder;
+import java.net.http.HttpRequest;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
+import java.net.http.HttpResponse;
+import java.net.http.HttpClient;
 
 
 public class SpotifyAuthenticationObject {
 
-    public HashMap requestAccessTokenfromAuthorization(String authorizationCode, String clientid, String redirect_url, String codeVerifier) throws IOException {
-        String TOKEN_URL = "https://accounts.spotify.com/api/token";
-        URL url = new URL(TOKEN_URL);
-        //Open http connection to URL
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setDoOutput(true);
-        connection.setDoInput(true);
-
-        //setup post function and request headers
-
-        connection.setRequestMethod("POST");
-        connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-        OutputStream outStream = connection.getOutputStream();
-        OutputStreamWriter outStreamWriter = new OutputStreamWriter(outStream, "UTF-8");
-        outStreamWriter.write(String.format("?clientid=%s&grant_type=authorization_code&%s&redirect_uri=%s&code_verifier=%s",
-                clientid, authorizationCode, redirect_url, codeVerifier));
-        outStreamWriter.flush();
-        outStreamWriter.close();
-        outStream.close();
-        connection.connect();
-
-        int responseCode = connection.getResponseCode();
-
-        if (responseCode == HttpURLConnection.HTTP_OK) {
-            // Read the response into a BufferedReader
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
-                // Create a Gson instance
-                Gson gson = new Gson();
-
-                // Use Gson to parse the JSON data into your Java object
-                HashMap result = gson.fromJson(reader, HashMap.class);
-
-                // Now 'result' contains the data from the JSON file
-                System.out.println(result);
-                return result;
+    static HttpRequest.BodyPublisher buildFormDataFromMap(Map<Object, Object> data) {
+        var builder = new StringBuilder();
+        for (Map.Entry<Object, Object> entry : data.entrySet()) {
+            if (builder.length() > 0) {
+                builder.append("&");
             }
-        } else {
-            System.out.println("Error: HTTP request failed with code " + responseCode);
+
+            builder.append(URLEncoder.encode(entry.getKey().toString(), StandardCharsets.UTF_8));
+            builder.append("=");
+            builder.append(URLEncoder.encode(entry.getValue().toString(), StandardCharsets.UTF_8));
         }
-        return null;
+        return HttpRequest.BodyPublishers.ofString(builder.toString());
+    }
+    public String requestAccessTokenfromAuthorization(String authorizationCode, String clientid, String redirect_url, String codeVerifier) {
+
+        // Constructing the request payload
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://accounts.spotify.com/api/token"))
+                .header("Content-Type", "application/x-www-form-urlencoded")
+                .POST(buildFormDataFromMap(Map.of(
+                        "client_id", clientid,
+                        "grant_type", "authorization_code",
+                        "code", authorizationCode,
+                        "redirect_uri", redirect_url,
+                        "code_verifier", codeVerifier
+                )))
+                .build();
+
+        // Sending the request
+        HttpClient client = HttpClient.newHttpClient();
+        try {
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            // Handle the response
+            System.out.println("Response Code: " + response.statusCode());
+            System.out.println("Response Body: " + response.body());
+            return response.body();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
-    public HashMap getRequestTokenfromRefreshToken(String refreshToken, String clientid) throws IOException {
-        String TOKEN_URL = "https://accounts.spotify.com/api/token";
-        URL url = new URL(TOKEN_URL);
-        //Open http connection to URL
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setDoOutput(true);
-        connection.setDoInput(true);
+    public String getRequestTokenfromRefreshToken(String refreshToken, String clientid) throws IOException {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://accounts.spotify.com/api/token"))
+                .header("Content-Type", "application/x-www-form-urlencoded")
+                .POST(buildFormDataFromMap(Map.of(
+                        "refresh_token", refreshToken,
+                        "grant_type", "refresh_token",
+                        "client_id", clientid
+                )))
+                .build();
+        HttpClient client = HttpClient.newHttpClient();
+        try {
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-        //setup post function and request headers
-
-        connection.setRequestMethod("POST");
-        connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-        OutputStream outStream = connection.getOutputStream();
-        OutputStreamWriter outStreamWriter = new OutputStreamWriter(outStream, "UTF-8");
-        outStreamWriter.write(String.format("?grant_type=refresh_token&refresh_token=%s&clientid=%s",
-                refreshToken, clientid));
-        outStreamWriter.flush();
-        outStreamWriter.close();
-        outStream.close();
-        connection.connect();
-        int responseCode = connection.getResponseCode();
-
-        if (responseCode == HttpURLConnection.HTTP_OK) {
-            // Read the response into a BufferedReader
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
-                // Create a Gson instance
-                Gson gson = new Gson();
-
-                // Use Gson to parse the JSON data into your Java object
-                HashMap result = gson.fromJson(reader, HashMap.class);
-
-                // Now 'result' contains the data from the JSON file
-                System.out.println(result);
-                return result;
-            }
-        } else {
-            System.out.println("Error: HTTP request failed with code " + responseCode);
+            // Handle the response
+            System.out.println("Response Code: " + response.statusCode());
+            System.out.println("Response Body: " + response.body());
+            return response.body();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return null;
+        return "";
+
     }
 
 

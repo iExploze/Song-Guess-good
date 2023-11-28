@@ -1,4 +1,4 @@
-package main.java.entities;
+package entities;
 
 import entities.Player;
 import entities.Users.User;

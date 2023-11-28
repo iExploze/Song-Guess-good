@@ -14,9 +14,9 @@ public class UserAccessToken implements dataAccessToken {
 
     public String getUpdatedAccessToken(User user) throws IOException {
         SpotifyAuthenticationObject spotifyAuthenticationObject = new SpotifyAuthenticationObject();
-        HashMap<String, String> tokenInfo = spotifyAuthenticationObject.getRequestTokenfromRefreshToken(
-                user.getRefreshToken(), "ee5a4dc5c931462e9e630c64a8aee5ac");
-        user.setTokenInfo(tokenInfo);
+        //HashMap<String, String> tokenInfo = spotifyAuthenticationObject.getRequestTokenfromRefreshToken(
+                //user.getRefreshToken(), "ee5a4dc5c931462e9e630c64a8aee5ac");
+        //user.setTokenInfo(tokenInfo);
         return user.getRefreshToken();
     }
 

@@ -1,9 +1,6 @@
 
 import dataAccessObjects.APItest;
-import dataAccessObjects.userTopTracksDataAccessObject;
-import dataAccessObjects.UserStorage.FileUserDataAccessObject;
-import dataAccessObjects.UserStorage.InMemoryUserDataAccessObject;
-import entities.Users.CommonUser;
+import dataAccessObjects.UserTopTracksDataAccessObject;
 import entities.Users.CommonUserFactory;
 import entities.Users.User;
 import org.junit.Before;
@@ -12,7 +9,6 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.HashMap;
 
-import static org.junit.Assert.*;
 public class TestTopTracks {
     String accessToken;
     CommonUserFactory commonUserFactory;
@@ -27,11 +23,11 @@ public class TestTopTracks {
     }
 
     @Test
-    public void testFileUserDataAccessObject() throws IOException, userTopTracksDataAccessObject.NeedRefreshException {
+    public void testFileUserDataAccessObject() throws IOException, UserTopTracksDataAccessObject.NeedRefreshException {
         System.out.println(accessToken);
-        userTopTracksDataAccessObject a = new userTopTracksDataAccessObject(user);
+        UserTopTracksDataAccessObject a = new UserTopTracksDataAccessObject(user);
 
-        HashMap res = a.getTopTracks();
+        String res = a.getTopTracks();
         System.out.println(res);
     }
 

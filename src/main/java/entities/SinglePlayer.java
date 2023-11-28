@@ -1,11 +1,10 @@
 package entities;
 
 import dataAccessObjects.UserAccessToken;
-import dataAccessObjects.userTopTracksDataAccessObject;
+import dataAccessObjects.UserTopTracksDataAccessObject;
 import entities.Users.User;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 public class SinglePlayer implements Player {
     private float points;
@@ -35,18 +34,18 @@ public class SinglePlayer implements Player {
     }
 
 
-    public HashMap getTopTracks() throws IOException, userTopTracksDataAccessObject.NeedRefreshException {
+    public String getTopTracks() throws IOException, UserTopTracksDataAccessObject.NeedRefreshException {
         if (this.user.checkExpired()) {
             UserAccessToken u = new UserAccessToken();
             u.getUpdatedAccessToken(this.user);
         }
         try {
-            userTopTracksDataAccessObject utd = new userTopTracksDataAccessObject(this.user);
+            UserTopTracksDataAccessObject utd = new UserTopTracksDataAccessObject(this.user);
             return utd.getTopTracks();
-        } catch (userTopTracksDataAccessObject.NeedRefreshException e) {
+        } catch (UserTopTracksDataAccessObject.NeedRefreshException e) {
             UserAccessToken u = new UserAccessToken();
             u.getUpdatedAccessToken(this.user);
-            userTopTracksDataAccessObject utd = new userTopTracksDataAccessObject(this.user);
+            UserTopTracksDataAccessObject utd = new UserTopTracksDataAccessObject(this.user);
             return utd.getTopTracks();
         }
 

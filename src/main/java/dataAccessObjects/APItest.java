@@ -1,5 +1,7 @@
 package dataAccessObjects;
 
+import entities.Users.User;
+
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -45,5 +47,15 @@ public class APItest implements dataAccessToken{
         String AccessToken = scanner.next();
 
         return AccessToken;
+    }
+
+    @Override
+    public String getAccessToken(User user) throws IOException {
+        return null;
+    }
+
+    @Override
+    public String getUpdatedAccessToken(User user) throws IOException {
+        return null;
     }
 }
