@@ -17,7 +17,6 @@ import interface_adapter.skip_song.SkipViewModel;
 import usecase.Skip.SkipInputBoundary;
 import usecase.Skip.SkipInteractor;
 import usecase.Skip.SkipOutputBoundary;
-import dataAccessObjects.userOAuthObject;
 import usecase.UserAuth.UAuthInputBoundary;
 import usecase.UserAuth.UAuthInteractor;
 import usecase.UserAuth.UAuthOutputBoundary;

@@ -1,13 +1,12 @@
 
 import dataAccessObjects.APItest;
-import dataAccessObjects.UserTopTracksDataAccessObject;
+import dataAccessObjects.spotifyAccessObjects.UserTopTracksDataAccessObject;
 import entities.Users.CommonUserFactory;
 import entities.Users.User;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 public class TestTopTracks {
     String accessToken;

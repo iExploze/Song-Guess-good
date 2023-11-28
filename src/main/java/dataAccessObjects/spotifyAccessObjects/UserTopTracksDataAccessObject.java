@@ -1,11 +1,9 @@
-package dataAccessObjects;
+package dataAccessObjects.spotifyAccessObjects;
 
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
-import entities.Song;
 import entities.Users.User;
 
-import javax.ws.rs.core.Link;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -28,7 +26,7 @@ public class UserTopTracksDataAccessObject implements userTrackandPlaylistDataAc
     }
 
     //@Override
-    public String getTopTracks() throws IOException, NeedRefreshException {
+    public String getTopTracks() throws IOException {
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.spotify.com/v1/me/top/tracks?limit=50"))

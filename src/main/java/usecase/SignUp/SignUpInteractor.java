@@ -2,8 +2,11 @@ package usecase.SignUp;
 
 import dataAccessObjects.UserStorage.UserDataAccessObject;
 
+import dataAccessObjects.spotifyAccessObjects.*;
 import entities.Users.User;
 import entities.Users.UserFactory;
+
+import java.io.IOException;
 
 public class SignUpInteractor implements SignUpInputBoundary {
 
@@ -12,6 +15,7 @@ public class SignUpInteractor implements SignUpInputBoundary {
     UserFactory userFactory;
     UserDataAccessObject userDataAccessObject;
     SignUpOutputBoundary userPresenter;
+    UserAuthenticationBuilder userAuthenticationBuilder;
 
     public SignUpInteractor(UserFactory userFactory, UserDataAccessObject userDataAccessObject,
                             SignUpOutputBoundary userPresenter) {
@@ -19,7 +23,7 @@ public class SignUpInteractor implements SignUpInputBoundary {
         this.userDataAccessObject = userDataAccessObject;
         this.userPresenter = userPresenter;
     }
-    public void execute(SignUpInputData signUpInputData) {
+    public void execute(SignUpInputData signUpInputData) throws IOException {
         String username = signUpInputData.getUsername();
         String password = signUpInputData.getPassword();
         String confirmPassword = signUpInputData.getConfirmPassword();
@@ -32,6 +36,10 @@ public class SignUpInteractor implements SignUpInputBoundary {
         }
         else {
             User user = userFactory.createUser(username, password);
+
+            UserTopTracks userTopTracksObject = new UserTopTracksObject(); // Here we don't actually care about top tracks
+            // but it still does authentication for the user
+            userTopTracksObject.getTopTracks(user);
             userDataAccessObject.save(user);
 
             SignUpOutputData signUpOutputData = new SignUpOutputData(username);

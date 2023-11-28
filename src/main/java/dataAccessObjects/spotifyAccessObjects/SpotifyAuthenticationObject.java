@@ -1,4 +1,4 @@
-package dataAccessObjects;
+package dataAccessObjects.spotifyAccessObjects;
 
 
 import com.google.gson.Gson;

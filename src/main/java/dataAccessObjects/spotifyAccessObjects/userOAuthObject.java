@@ -1,4 +1,4 @@
-package dataAccessObjects;
+package dataAccessObjects.spotifyAccessObjects;
 
 import java.net.MalformedURLException;
 import java.net.URL;

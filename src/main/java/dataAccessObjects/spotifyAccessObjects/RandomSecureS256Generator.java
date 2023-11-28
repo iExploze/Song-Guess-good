@@ -1,13 +1,9 @@
-package dataAccessObjects;
+package dataAccessObjects.spotifyAccessObjects;
 
-import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.SecureRandom;
 import java.util.Base64;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.util.Base64;
 
 
 /*Generates S256 hash */
@@ -19,9 +15,7 @@ public class RandomSecureS256Generator {
     private int length;
     private String hash;
 
-    public RandomSecureS256Generator(int length) {
-        this.length = length;
-        this.hash = null;
+    public RandomSecureS256Generator() {
     }
 
 
@@ -71,14 +65,8 @@ public class RandomSecureS256Generator {
 
 
 
-    public String getHash() {
-        return this.hash;
-    }
-
 
 
     public static void main(String[] args) {// Specify the desired length of the random string. Should be btwn 43 and 128.
-        RandomSecureS256Generator string = new RandomSecureS256Generator(43);
-
     }
 }

@@ -1,6 +1,6 @@
 
 import com.google.gson.Gson;
-import dataAccessObjects.*;
+import dataAccessObjects.spotifyAccessObjects.*;
 import entities.Users.CommonUserFactory;
 import entities.Users.User;
 import org.junit.Before;
@@ -25,7 +25,7 @@ public class AuthenticationTests {
     List topTrackData;
     @Before
     public void init() throws IOException, UserTopTracksDataAccessObject.NeedRefreshException {
-        RandomSecureS256Generator randomSecureS256Generator = new RandomSecureS256Generator(43);
+        RandomSecureS256Generator randomSecureS256Generator = new RandomSecureS256Generator();
         userOAuthObject useroAuthObject = new userOAuthObject();
         codeVerifier = randomSecureS256Generator.generateRandomCodeVerifier(60);
         codeChallenge = randomSecureS256Generator.generateRandomCodeChallenge(codeVerifier);

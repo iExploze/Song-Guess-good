@@ -1,6 +1,6 @@
 package entities;
 
-import dataAccessObjects.UserTopTracksDataAccessObject;
+import dataAccessObjects.spotifyAccessObjects.UserTopTracksDataAccessObject;
 
 import java.io.IOException;
 

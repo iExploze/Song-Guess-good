@@ -1,7 +1,6 @@
 package entities;
 
-import dataAccessObjects.UserAccessToken;
-import dataAccessObjects.UserTopTracksDataAccessObject;
+import dataAccessObjects.spotifyAccessObjects.UserTopTracksDataAccessObject;
 import entities.Users.User;
 
 import java.io.IOException;
@@ -33,24 +32,6 @@ public class SinglePlayer implements Player {
         return (String.valueOf(this.points));
     }
 
-
-    public String getTopTracks() throws IOException, UserTopTracksDataAccessObject.NeedRefreshException {
-        if (this.user.checkExpired()) {
-            UserAccessToken u = new UserAccessToken();
-            u.getUpdatedAccessToken(this.user);
-        }
-        try {
-            UserTopTracksDataAccessObject utd = new UserTopTracksDataAccessObject(this.user);
-            return utd.getTopTracks();
-        } catch (UserTopTracksDataAccessObject.NeedRefreshException e) {
-            UserAccessToken u = new UserAccessToken();
-            u.getUpdatedAccessToken(this.user);
-            UserTopTracksDataAccessObject utd = new UserTopTracksDataAccessObject(this.user);
-            return utd.getTopTracks();
-        }
-
-
-    }
 
     @Override
     public Playlist getPlayList() {

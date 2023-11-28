@@ -1,7 +1,7 @@
 package usecase.UserAuth;
 
-import dataAccessObjects.RandomSecureS256Generator;
-import dataAccessObjects.userOAuthObject;
+import dataAccessObjects.spotifyAccessObjects.RandomSecureS256Generator;
+import dataAccessObjects.spotifyAccessObjects.userOAuthObject;
 
 public class UAuthInteractor implements UAuthInputBoundary{
 
@@ -19,12 +19,12 @@ public class UAuthInteractor implements UAuthInputBoundary{
         this.uAuthOutputData = uAuthOutputData;
 
         userOAuthObject o = new userOAuthObject();
-        RandomSecureS256Generator rand = new RandomSecureS256Generator(43);
+        RandomSecureS256Generator rand = new RandomSecureS256Generator();
         //rand.generateSHA256Hash(rand.generateRandomString());
 
-        String random = rand.getHash();
+        //String random = rand.getHash();
 
-        this.URL = o.userAuthorizationURL(client_id, redirectURL, "user-top-read", random);
+        //this.URL = o.userAuthorizationURL(client_id, redirectURL, "user-top-read", random);
     }
 
     @Override

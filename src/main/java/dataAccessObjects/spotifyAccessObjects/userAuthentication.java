@@ -1,4 +1,4 @@
-package dataAccessObjects;
+package dataAccessObjects.spotifyAccessObjects;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
