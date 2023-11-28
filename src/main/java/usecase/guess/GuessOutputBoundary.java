@@ -1,7 +1,7 @@
-package main.java.usecase.guess;
+package usecase.guess;
 
 public interface GuessOutputBoundary {
-    void prepareSuccessView(GuessOutputBoundary correctGuess);
+    void prepareSuccessView(GuessOutputData correctGuess);
 
     void prepareFailView(String incorrectGuess);
 }
