@@ -7,7 +7,7 @@ public interface UserDataAccessObject {
 
     void save(User user);
 
-    void setAccessToken(User user);
+    void setTokenInfo(User user);
 
     User getUser(String username);
 }
