@@ -3,6 +3,7 @@ package dataAccessObjects.UserStorage;
 import entities.Users.User;
 import entities.Users.UserFactory;
 import usecase.Login.LoginUserDataAccessInterface;
+import usecase.SignUp.SignupUserDataAccessInterface;
 
 import java.io.*;
 import java.time.LocalDateTime;
@@ -11,7 +12,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-public class FileUserDataAccessObject implements UserDataAccessObject, LoginUserDataAccessInterface {
+public class FileUserDataAccessObject implements UserDataAccessObject, LoginUserDataAccessInterface, SignupUserDataAccessInterface {
     private final File csvFile;
 
     private final Map<String, Integer> headers = new LinkedHashMap<>();

@@ -17,7 +17,7 @@ public class PlayViewModel extends ViewModel {
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
 
     public PlayViewModel() {
-        super("PlayView");
+        super("PLAY_VIEW");
         this.score = 0;
         this.time = 0; // Initialize timer to 0
     }

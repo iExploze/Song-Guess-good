@@ -13,11 +13,11 @@ public class SignUpInteractor implements SignUpInputBoundary {
     // we want this to pass to check the user details, see if it infringes on anything and if not create the user using
     // input data and saving it to our SignUpFactory database?
     UserFactory userFactory;
-    UserDataAccessObject userDataAccessObject;
+    SignupUserDataAccessInterface userDataAccessObject;
     SignUpOutputBoundary userPresenter;
     UserAuthenticationBuilder userAuthenticationBuilder;
 
-    public SignUpInteractor(UserFactory userFactory, UserDataAccessObject userDataAccessObject,
+    public SignUpInteractor(UserFactory userFactory, SignupUserDataAccessInterface userDataAccessObject,
                             SignUpOutputBoundary userPresenter) {
         this.userFactory = userFactory;
         this.userDataAccessObject = userDataAccessObject;
@@ -42,9 +42,14 @@ public class SignUpInteractor implements SignUpInputBoundary {
             userTopTracksObject.getTopTracks(user);
             userDataAccessObject.save(user);
 
-            SignUpOutputData signUpOutputData = new SignUpOutputData(username);
+            SignUpOutputData signUpOutputData = new SignUpOutputData(user);
             userPresenter.prepareSuccessView(signUpOutputData);
         }
 
+    }
+
+    @Override
+    public void switchLoginView() {
+        userPresenter.switchLoginView();
     }
 }
