@@ -11,6 +11,9 @@ import interface_adapter.UAuthController;
 import interface_adapter.UAuthPresenter;
 import interface_adapter.UAuthViewModel;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.guess.GuessController;
+import interface_adapter.guess.GuessPresenter;
+import interface_adapter.play_song.PlayViewModel;
 import interface_adapter.skip_song.SkipController;
 import interface_adapter.skip_song.SkipPresenter;
 import interface_adapter.skip_song.SkipViewModel;
@@ -21,6 +24,9 @@ import usecase.UserAuth.UAuthInputBoundary;
 import usecase.UserAuth.UAuthInteractor;
 import usecase.UserAuth.UAuthOutputBoundary;
 import usecase.UserAuth.UAuthOutputData;
+import usecase.guess.GuessInputBoundary;
+import usecase.guess.GuessInteractor;
+import usecase.guess.GuessOutputBoundary;
 import view.PlayView;
 import interface_adapter.play_song.PlayController;
 import view.UAuthView;
@@ -51,11 +57,18 @@ public class Main {
         Player player = new SinglePlayer(user);
         Quiz quiz = new PlaylistQuiz(player);
 
+        PlayViewModel playViewModel = new PlayViewModel();
+
         SkipViewModel skipViewModel = new SkipViewModel();
         SkipOutputBoundary skipOutputBoundary = new SkipPresenter(skipViewModel);
         SkipInputBoundary skipInputBoundary = new SkipInteractor(quiz, skipOutputBoundary);
         SkipController skipController = new SkipController(skipInputBoundary);
-        PlayView playView = new PlayView(playController, skipController);
+
+        GuessOutputBoundary guessOutputBoundary = new GuessPresenter(viewManagerModel, playViewModel);
+        GuessInputBoundary guessInputBoundary = new GuessInteractor(guessOutputBoundary, quiz);
+        GuessController guessController = new GuessController(guessInputBoundary);
+
+        PlayView playView = new PlayView(playViewModel, playController, skipController, guessController);
 
         UAuthOutputData uAuthOutputData = new UAuthOutputData();
 
