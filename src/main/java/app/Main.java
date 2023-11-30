@@ -1,21 +1,20 @@
 // Main.java
 package app;
 
-import entities.*;
+import entities.Player;
 import entities.PlaylistQuiz;
 import entities.Quiz;
 import entities.SinglePlayer;
 import entities.Users.CommonUserFactory;
 import entities.Users.User;
-import interface_adapter.*;
+import interface_adapter.PlayViewModel;
 import interface_adapter.UAuth.UAuthController;
 import interface_adapter.UAuth.UAuthPresenter;
 import interface_adapter.UAuth.UAuthViewModel;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.guess.GuessController;
 import interface_adapter.guess.GuessPresenter;
-import interface_adapter.play_song.PlayViewModel;
-import interface_adapter.PlayViewModel;
+import interface_adapter.play_song.PlayController;
 import interface_adapter.score.ScoreController;
 import interface_adapter.score.ScorePresenter;
 import interface_adapter.skip_song.SkipController;
@@ -38,7 +37,6 @@ import usecase.score.ScoreInteractor;
 import usecase.score.ScoreOutputBoundary;
 import usecase.timer.*;
 import view.PlayView;
-import interface_adapter.play_song.PlayController;
 import view.UAuthView;
 
 import javax.swing.*;
@@ -90,7 +88,7 @@ public class Main {
         TimerController timerController = new TimerController(timeInteractor, timeInputData);
 
         // Pass the timerController to the PlayView
-        PlayView playView = new PlayView(playController, skipController, scoreController, playViewModel, timerController);
+        PlayView playView = new PlayView(playController, skipController, scoreController, playViewModel, timerController, guessController);
 
 
         UAuthOutputData uAuthOutputData = new UAuthOutputData();

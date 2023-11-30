@@ -4,8 +4,7 @@ import interface_adapter.guess.GuessController;
 import interface_adapter.play_song.PlayController;
 import interface_adapter.PlayViewModel;
 import interface_adapter.score.ScoreController;
-import interface_adapter.play_song.PlayState;
-import interface_adapter.play_song.PlayViewModel;
+import interface_adapter.PlayState;
 import interface_adapter.skip_song.SkipController;
 import interface_adapter.timer.TimerController;
 

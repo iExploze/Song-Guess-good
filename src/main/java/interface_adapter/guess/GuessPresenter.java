@@ -1,8 +1,8 @@
 package interface_adapter.guess;
 
 import interface_adapter.ViewManagerModel;
-import interface_adapter.play_song.PlayState;
-import interface_adapter.play_song.PlayViewModel;
+import interface_adapter.PlayState;
+import interface_adapter.PlayViewModel;
 import usecase.guess.GuessOutputBoundary;
 import usecase.guess.GuessOutputData;
 
