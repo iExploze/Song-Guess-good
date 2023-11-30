@@ -27,6 +27,7 @@ Goals: Finish entities and Use case to be completed:
 - Score counter - Ian[Done]
 - Score popup - Anson
 - Login - Ricky
+- AutoCompleteTextBox - Ricky
   
 
 **A description of the problem domain your team is tentatively wanting to focus 
