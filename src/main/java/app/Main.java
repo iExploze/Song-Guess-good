@@ -11,6 +11,9 @@ import interface_adapter.UAuth.UAuthController;
 import interface_adapter.UAuth.UAuthPresenter;
 import interface_adapter.UAuth.UAuthViewModel;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.play_song.PlayViewModel;
+import interface_adapter.score.ScoreController;
+import interface_adapter.score.ScorePresenter;
 import interface_adapter.skip_song.SkipController;
 import interface_adapter.skip_song.SkipPresenter;
 import interface_adapter.skip_song.SkipViewModel;
@@ -21,6 +24,9 @@ import usecase.UserAuth.UAuthInputBoundary;
 import usecase.UserAuth.UAuthInteractor;
 import usecase.UserAuth.UAuthOutputBoundary;
 import usecase.UserAuth.UAuthOutputData;
+import usecase.score.ScoreInputBoundary;
+import usecase.score.ScoreInteractor;
+import usecase.score.ScoreOutputBoundary;
 import view.PlayView;
 import interface_adapter.play_song.PlayController;
 import view.UAuthView;
@@ -55,7 +61,11 @@ public class Main {
         SkipOutputBoundary skipOutputBoundary = new SkipPresenter(skipViewModel);
         SkipInputBoundary skipInputBoundary = new SkipInteractor(quiz, skipOutputBoundary);
         SkipController skipController = new SkipController(skipInputBoundary);
-        PlayView playView = new PlayView(playController, skipController);
+        PlayViewModel playViewModel = new PlayViewModel();
+        ScoreOutputBoundary scoreOutputBoundary = new ScorePresenter(playViewModel);
+        ScoreInputBoundary scoreInputBoundary = new ScoreInteractor(quiz, scoreOutputBoundary);
+        ScoreController scoreController = new ScoreController(scoreInputBoundary);
+        PlayView playView = new PlayView(playController, skipController, scoreController, playViewModel);
 
         UAuthOutputData uAuthOutputData = new UAuthOutputData();
 

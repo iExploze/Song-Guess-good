@@ -16,7 +16,7 @@ public class PlaylistQuiz implements Quiz{
         this.curr = this.SongList.getSong(this.index);
         this.player = player;
         this.timeLeft = 120;
-        this.points = 0;
+        this.points = 188;
     }
     @Override
     public ArrayList<Player> players() {

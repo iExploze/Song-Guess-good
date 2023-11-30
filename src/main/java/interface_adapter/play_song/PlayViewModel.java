@@ -15,7 +15,7 @@ public class PlayViewModel extends ViewModel {
     private PlayState state = new PlayState();
 
     public PlayViewModel() {
-        super("");
+        super("PlayView");
     }
 
     public void setState(PlayState state) {
@@ -25,7 +25,11 @@ public class PlayViewModel extends ViewModel {
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
 
     @Override
-    public void firePropertyChanged() { support.firePropertyChange("state", null, this.state); }
+    public void firePropertyChanged()
+    {
+        support.firePropertyChange("state", null, this.state);
+        support.firePropertyChange("score", null, this.score);
+    }
 
     @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {
@@ -34,5 +38,16 @@ public class PlayViewModel extends ViewModel {
 
     public PlayState getState() {
         return state;
+    }
+
+    private int score;
+
+    public void setScore(int score) {
+        this.score = score;
+        firePropertyChanged();
+    }
+
+    public int getScore() {
+        return score;
     }
 }
