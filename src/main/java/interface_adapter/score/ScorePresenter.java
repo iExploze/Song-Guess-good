@@ -6,7 +6,7 @@ import usecase.score.ScoreOutputData;
 
 public class ScorePresenter implements ScoreOutputBoundary {
 
-    private PlayViewModel playViewModel;
+    private final PlayViewModel playViewModel;
 
     public ScorePresenter(PlayViewModel playViewModel) {
         this.playViewModel = playViewModel;

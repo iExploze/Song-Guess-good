@@ -30,7 +30,7 @@ public class TimeInteractor implements TimeInputBoundary {
             @Override
             public void run() {
                 quiz.decreaseTime();
-                timeOutputBoundary.displayTime();
+                timeOutputBoundary.displayTime(timeOutputData.getRemainingTime());
                 // Check if the time has run out and stop the timer if it has
                 if (quiz.getTimeLeft() <= 0) {
                     timer.cancel();
@@ -44,8 +44,8 @@ public class TimeInteractor implements TimeInputBoundary {
     public void setTimer() {
         pauseTimer(); // First, pause the current timer
         this.quiz.setTime(this.timeInputData.getTimeInput()); // Set the new time
-        this.timeOutputBoundary.displayTime(); // Update the displayed time immediately
         this.timeOutputData.setRemainingTime((int)this.quiz.getTimeLeft());
+        this.timeOutputBoundary.displayTime(timeOutputData.getRemainingTime()); // Update the displayed time immediately
     }
 
     @Override

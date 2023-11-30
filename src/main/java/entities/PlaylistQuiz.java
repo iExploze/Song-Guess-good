@@ -72,4 +72,9 @@ public class PlaylistQuiz implements Quiz{
     public void decreaseTime(int amount) {
         this.timeLeft = Math.max(this.timeLeft - amount, 0);
     }
+
+    @Override
+    public void setTime(int time) {
+        this.timeLeft = time;
+    }
 }
