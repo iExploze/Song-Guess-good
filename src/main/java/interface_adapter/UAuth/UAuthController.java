@@ -1,4 +1,4 @@
-package interface_adapter;
+package interface_adapter.UAuth;
 
 import usecase.UserAuth.UAuthInputBoundary;
 
