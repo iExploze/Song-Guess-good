@@ -6,20 +6,19 @@ import javax.sound.sampled.*;
 import java.io.IOException;
 import java.net.URL;
 import java.security.SecureRandom;
+import java.util.HashMap;
 import java.util.Random;
 
 public class SongData implements Song {
-    String name;
-    String url;
+    HashMap<String, String> songPreviewLinks; // Key: Song title, Value: Preview url link
 
-    public SongData(String name)
-    {
-        this.name = name;
-        this.url = getURL();
+    public SongData() {
+        this.songPreviewLinks = new HashMap<>();
     }
+
     @Override
-    public String getArtistName() {
-        return null;
+    public boolean existSong() { // Check if there is a song preview link for all the songs in player's playlist
+        return songPreviewLinks.isEmpty();
     }
 
     @Override
@@ -37,18 +36,8 @@ public class SongData implements Song {
     }
 
     @Override
-    public String getSongGenre() {
-        return null;
-    }
-
-    @Override
-    public String getNumStreams() {
-        return null;
-    }
-
-    @Override
     public String getURL() {
-        return null;
+        return songPreviewLinks.get(getSongName());
     }
 
     /**
@@ -68,7 +57,7 @@ public class SongData implements Song {
         try {
             // get the audio input stream from the song URL
             // checks if it's a supported format
-            AudioInputStream audioInput = AudioSystem.getAudioInputStream(new URL(url));
+            AudioInputStream audioInput = AudioSystem.getAudioInputStream(new URL(songPreviewLinks.get(getSongName())));
 
             // get the audio stream format
             AudioFormat sourceFormat = audioInput.getFormat();
