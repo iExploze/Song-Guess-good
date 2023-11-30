@@ -1,8 +1,10 @@
 package view;
 
+import interface_adapter.guess.GuessController;
 import interface_adapter.play_song.PlayController;
 import interface_adapter.PlayViewModel;
 import interface_adapter.score.ScoreController;
+import interface_adapter.PlayState;
 import interface_adapter.skip_song.SkipController;
 import interface_adapter.timer.TimerController;
 
@@ -10,32 +12,44 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 public class PlayView extends JPanel implements ActionListener, PropertyChangeListener {
     public static final String viewName = "PLAY_VIEW"; // Add a static constant for the view name
+    private PlayViewModel playViewModel;
+
+    // buttons
     private final JButton skipButton;
     private final JButton pauseButton;
     private final JButton startButton;
+
+    private JTextField guessInputField = new JTextField(15);
+
     private final SkipController skipController;
     private final ScoreController scoreController;
     private final TimerController timerController;
+    private GuessController guessController;
     private JLabel scoreLabel;
     private JLabel timeLabel;
     private int score;
     private int timeLeft;
-    private PlayViewModel playViewModel;
 
-    public PlayView(PlayController playController, SkipController skipController, ScoreController scoreController, PlayViewModel playViewModel, TimerController timerController) {
+    public PlayView(PlayController playController, SkipController skipController, ScoreController scoreController, PlayViewModel playViewModel, TimerController timerController, GuessController guessController) {
         this.playViewModel = playViewModel;
         this.skipController = skipController;
+        this.guessController = guessController;
         this.scoreController = scoreController;
         this.timerController = timerController;
         this.setLayout(new BorderLayout());
 
         // Set the background color for the main panel
         this.setBackground(new Color(64, 64, 64)); // Dark grey
+
+        // Get the user's guess
+        LabelTextPanel guessInfo = new LabelTextPanel(new JLabel(PlayViewModel.ANSWER_LABEL), guessInputField);
 
         // Initialize score
         this.score = 0;
@@ -86,9 +100,33 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
         scorePanel.setBackground(new Color(64, 64, 64)); // Dark grey background
         scorePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
+        guessInputField.addKeyListener(
+                new KeyListener() {
+                    @Override
+                    public void keyTyped(KeyEvent e) {
+                        PlayState currentState = playViewModel.getState();
+                        String input = guessInputField.getText();
+                        currentState.setGuess(input);
+                    }
+
+                    @Override
+                    public void keyPressed(KeyEvent e) {
+                        if (e.getKeyCode() == KeyEvent.VK_ENTER){
+                            guessController.execute(guessInputField.getText());
+                        }
+                    }
+
+                    @Override
+                    public void keyReleased(KeyEvent e) {
+
+                    }
+                }
+        );
+
         // Add components to layout
         this.add(buttonPanel, BorderLayout.CENTER);
         this.add(scorePanel, BorderLayout.NORTH);
+        this.add(guessInfo);
 
         playViewModel.addPropertyChangeListener(this);
     }

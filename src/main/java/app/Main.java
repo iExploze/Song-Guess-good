@@ -1,18 +1,20 @@
 // Main.java
 package app;
 
-import entities.*;
+import entities.Player;
 import entities.PlaylistQuiz;
 import entities.Quiz;
 import entities.SinglePlayer;
 import entities.Users.CommonUserFactory;
 import entities.Users.User;
-import interface_adapter.*;
+import interface_adapter.PlayViewModel;
 import interface_adapter.UAuth.UAuthController;
 import interface_adapter.UAuth.UAuthPresenter;
 import interface_adapter.UAuth.UAuthViewModel;
 import interface_adapter.ViewManagerModel;
-import interface_adapter.PlayViewModel;
+import interface_adapter.guess.GuessController;
+import interface_adapter.guess.GuessPresenter;
+import interface_adapter.play_song.PlayController;
 import interface_adapter.score.ScoreController;
 import interface_adapter.score.ScorePresenter;
 import interface_adapter.skip_song.SkipController;
@@ -27,12 +29,14 @@ import usecase.UserAuth.UAuthInputBoundary;
 import usecase.UserAuth.UAuthInteractor;
 import usecase.UserAuth.UAuthOutputBoundary;
 import usecase.UserAuth.UAuthOutputData;
+import usecase.guess.GuessInputBoundary;
+import usecase.guess.GuessInteractor;
+import usecase.guess.GuessOutputBoundary;
 import usecase.score.ScoreInputBoundary;
 import usecase.score.ScoreInteractor;
 import usecase.score.ScoreOutputBoundary;
 import usecase.timer.*;
 import view.PlayView;
-import interface_adapter.play_song.PlayController;
 import view.UAuthView;
 
 import javax.swing.*;
@@ -61,6 +65,7 @@ public class Main {
         Player player = new SinglePlayer(user);
         Quiz quiz = new PlaylistQuiz(player);
 
+        PlayViewModel playViewModel = new PlayViewModel();
         SkipViewModel skipViewModel = new SkipViewModel();
 
 
@@ -68,7 +73,9 @@ public class Main {
         SkipInputBoundary skipInputBoundary = new SkipInteractor(quiz, skipOutputBoundary);
         SkipController skipController = new SkipController(skipInputBoundary);
 
-        PlayViewModel playViewModel = new PlayViewModel();
+        GuessOutputBoundary guessOutputBoundary = new GuessPresenter(viewManagerModel, playViewModel);
+        GuessInputBoundary guessInputBoundary = new GuessInteractor(guessOutputBoundary, quiz);
+        GuessController guessController = new GuessController(guessInputBoundary);
 
         ScoreOutputBoundary scoreOutputBoundary = new ScorePresenter(playViewModel);
         ScoreInputBoundary scoreInputBoundary = new ScoreInteractor(quiz, scoreOutputBoundary);
@@ -81,8 +88,7 @@ public class Main {
         TimerController timerController = new TimerController(timeInteractor, timeInputData);
 
         // Pass the timerController to the PlayView
-        PlayView playView = new PlayView(playController, skipController, scoreController, playViewModel, timerController);
-
+        PlayView playView = new PlayView(playController, skipController, scoreController, playViewModel, timerController, guessController);
 
 
         UAuthOutputData uAuthOutputData = new UAuthOutputData();
