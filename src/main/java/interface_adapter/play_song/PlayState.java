@@ -15,11 +15,4 @@ public class PlayState {
 
     public String getGuess(){return guess;}
 
-    public void setIncorrectGuessMessage(String incorrectGuessMessage){
-        this.incorrectGuessMessage = incorrectGuessMessage;
-    }
-
-    public String getIncorrectGuessMessage() {
-        return incorrectGuessMessage;
-    }
 }
