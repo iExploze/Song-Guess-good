@@ -66,10 +66,10 @@ public class Main {
         UAuthView uAuthView = new UAuthView(uAuthController, uAuthViewModel);
 
         // Here, the viewName is a public static final String field in the PlayView class
-        //views.add(playView, PlayView.viewName);
+        views.add(playView, PlayView.viewName);
         views.add(uAuthView, UAuthView.viewName);
 
-        viewManagerModel.setActiveView(UAuthView.viewName);
+        //viewManagerModel.setActiveView(UAuthView.viewName);
         viewManagerModel.firePropertyChanged();
 
         application.pack();

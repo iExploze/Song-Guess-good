@@ -12,10 +12,17 @@ public class PlayView extends JPanel implements ActionListener {
     public static final String viewName = "PLAY_VIEW"; // Add a static constant for the view name
     private final JButton skipButton;
     private final SkipController skipController;
+    private JLabel scoreLabel;
+    private int score;
 
     public PlayView(PlayController playController, SkipController skipController) {
         this.skipController = skipController;
         this.setLayout(new BorderLayout()); // Use BorderLayout for simplicity
+
+        // Initialize Score
+        score = 0;
+        scoreLabel = new JLabel("Score: "+ score);
+        scoreLabel.setHorizontalAlignment(JLabel.CENTER);
 
         // Create the skip button and set its size and action listener
         skipButton = new JButton("Skip");
@@ -29,6 +36,7 @@ public class PlayView extends JPanel implements ActionListener {
 
         // Add the button panel to the center of the BorderLayout, which will provide white space automatically
         this.add(buttonPanel, BorderLayout.CENTER);
+        this.add(scoreLabel, BorderLayout.NORTH);
     }
 
     @Override
