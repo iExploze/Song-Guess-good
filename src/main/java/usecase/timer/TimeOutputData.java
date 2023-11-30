@@ -1,7 +1,7 @@
 package usecase.timer;
 
 public class TimeOutputData {
-    int currTime;
+    private int currTime;
     public TimeOutputData()
     {
         currTime = 0;
