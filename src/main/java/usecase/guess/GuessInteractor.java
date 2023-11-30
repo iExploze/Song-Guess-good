@@ -1,15 +1,18 @@
 package usecase.guess;
 
+import entities.Quiz;
 import entities.Song;
 
 public class GuessInteractor implements GuessInputBoundary{
     final GuessOutputBoundary guessPresenter;
     final Song song;
+    Quiz quiz;
 
     public GuessInteractor(GuessOutputBoundary guessOutputBoundary,
-                           Song song){
+                           Song song, Quiz quiz){
         this.guessPresenter = guessOutputBoundary;
         this.song = song;
+        this.quiz = quiz;
     }
 
     @Override
@@ -24,5 +27,7 @@ public class GuessInteractor implements GuessInputBoundary{
         }else{
             guessPresenter.prepareFailView("Incorrect guess");
         }
+
+        quiz.goNext(); // progress to the next song
     }
 }

@@ -18,11 +18,6 @@ public class PlayInteractor implements PlayInputBoundary{
     }
 
     public void execute(PlayInputData playInputData) {
-        // check if the song preview exists, could be null
-        String name = playInputData.getTitle();
-        if (userDataAccessObject.existSong(name)) {
-            userDataAccessObject.playSong(userDataAccessObject.getSong(name));
-        }
-        playPresenter.prepareSuccessView();
+        userDataAccessObject.playSong();
     }
 }

@@ -29,7 +29,7 @@ public class SpotifyPlaylist implements Playlist {
         }
         String randomName = sb.toString();
 
-        return new SongData(randomName);
+        return new SongData();
     }
 
     @Override
