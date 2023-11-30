@@ -1,25 +1,34 @@
 // Main.java
 package app;
 
+
+import dataAccessObjects.UserStorage.FileUserDataAccessObject;
 import entities.*;
 import entities.PlaylistQuiz;
 import entities.Quiz;
 import entities.SinglePlayer;
 import entities.Users.CommonUserFactory;
 import entities.Users.User;
-import interface_adapter.*;
+import interface_adapter.PlayViewModel;
 import interface_adapter.UAuth.UAuthController;
 import interface_adapter.UAuth.UAuthPresenter;
 import interface_adapter.UAuth.UAuthViewModel;
 import interface_adapter.ViewManagerModel;
+
 import interface_adapter.PlayViewModel;
+import interface_adapter.login.LoginViewModel;
+
+
+
 import interface_adapter.score.ScoreController;
 import interface_adapter.score.ScorePresenter;
+import interface_adapter.signup.SignupViewModel;
 import interface_adapter.skip_song.SkipController;
 import interface_adapter.skip_song.SkipPresenter;
 import interface_adapter.skip_song.SkipViewModel;
 import interface_adapter.timer.TimerController;
 import interface_adapter.timer.TimerPresenter;
+import org.apache.commons.logging.Log;
 import usecase.Skip.SkipInputBoundary;
 import usecase.Skip.SkipInteractor;
 import usecase.Skip.SkipOutputBoundary;
@@ -27,16 +36,21 @@ import usecase.UserAuth.UAuthInputBoundary;
 import usecase.UserAuth.UAuthInteractor;
 import usecase.UserAuth.UAuthOutputBoundary;
 import usecase.UserAuth.UAuthOutputData;
+import usecase.guess.GuessInputBoundary;
+import usecase.guess.GuessInteractor;
+import usecase.guess.GuessOutputBoundary;
 import usecase.score.ScoreInputBoundary;
 import usecase.score.ScoreInteractor;
 import usecase.score.ScoreOutputBoundary;
 import usecase.timer.*;
-import view.PlayView;
+
+import view.*;
 import interface_adapter.play_song.PlayController;
-import view.UAuthView;
+
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {
@@ -49,6 +63,7 @@ public class Main {
         application.add(views);
 
         ViewManagerModel viewManagerModel = new ViewManagerModel();
+        new ViewManager(views, cardLayout, viewManagerModel);
 
         // Assuming PlayController is correctly implemented and has the required methods
         PlayController playController = new PlayController();
@@ -61,6 +76,7 @@ public class Main {
         Player player = new SinglePlayer(user);
         Quiz quiz = new PlaylistQuiz(player);
 
+        PlayViewModel playViewModel = new PlayViewModel();
         SkipViewModel skipViewModel = new SkipViewModel();
 
 
@@ -68,7 +84,9 @@ public class Main {
         SkipInputBoundary skipInputBoundary = new SkipInteractor(quiz, skipOutputBoundary);
         SkipController skipController = new SkipController(skipInputBoundary);
 
-        PlayViewModel playViewModel = new PlayViewModel();
+        GuessOutputBoundary guessOutputBoundary = new GuessPresenter(viewManagerModel, playViewModel);
+        GuessInputBoundary guessInputBoundary = new GuessInteractor(guessOutputBoundary, quiz);
+        GuessController guessController = new GuessController(guessInputBoundary);
 
         ScoreOutputBoundary scoreOutputBoundary = new ScorePresenter(playViewModel);
         ScoreInputBoundary scoreInputBoundary = new ScoreInteractor(quiz, scoreOutputBoundary);
@@ -81,8 +99,7 @@ public class Main {
         TimerController timerController = new TimerController(timeInteractor, timeInputData);
 
         // Pass the timerController to the PlayView
-        PlayView playView = new PlayView(playController, skipController, scoreController, playViewModel, timerController);
-
+        PlayView playView = new PlayView(playController, skipController, scoreController, playViewModel, timerController, guessController);
 
 
         UAuthOutputData uAuthOutputData = new UAuthOutputData();
@@ -92,17 +109,47 @@ public class Main {
         UAuthInputBoundary uAuthInputBoundary = new UAuthInteractor(uAuthOutputBoundary, uAuthOutputData);
         UAuthController uAuthController = new UAuthController(uAuthInputBoundary);
         UAuthView uAuthView = new UAuthView(uAuthController, uAuthViewModel);
+        LoginViewModel loginViewModel = new LoginViewModel();
+        SignupViewModel signupViewModel = new SignupViewModel();
 
-        // Here, the viewName is a public static final String field in the PlayView class
+        FileUserDataAccessObject userDataAccessObject;
+        try {
+            userDataAccessObject = new FileUserDataAccessObject("./users.csv", new CommonUserFactory());
+        } catch (
+                IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        ;
+        SignupView signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel, signupViewModel, userDataAccessObject, playViewModel);
+
+
+
+        LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel, userDataAccessObject, playViewModel, signupViewModel);
+
+
+
         views.add(playView, PlayView.viewName);
-        views.add(uAuthView, UAuthView.viewName);
+        // Here, the viewName is a public static final String field in the PlayView class
+        views.add(loginView, loginView.viewName);
 
+        views.add(uAuthView, UAuthView.viewName);
+        views.add(signupView, signupView.viewName);
         //viewManagerModel.setActiveView(UAuthView.viewName);
+        viewManagerModel.setActiveView(loginView.viewName);
         viewManagerModel.firePropertyChanged();
 
         application.pack();
-        application.setSize(new Dimension(800, 600)); // Set the size of the window
+         // Set the size of the window
         application.setLocationRelativeTo(null); // Center the window
         application.setVisible(true);
+
+
+
+
+
+
+
+
     }
 }

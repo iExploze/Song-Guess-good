@@ -1,9 +1,9 @@
-package usecase.Login;
-
+package usecase.SignUp;
 
 import entities.Users.User;
 
-public interface LoginUserDataAccessInterface {
+
+public interface SignupUserDataAccessInterface {
     boolean exists(String username);
 
     void save(User user);
