@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public interface Playlist {
     ArrayList<Song> songs();
 
-    Song[] getSongs();
+    Song getSong(int index);
 
     Song getByName(String name);
 

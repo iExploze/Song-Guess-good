@@ -1,37 +1,40 @@
 package entities;
 
-import entities.Player;
+import dataAccessObjects.spotifyAccessObjects.UserTopTracksDataAccessObject;
+import entities.Users.User;
 
-import java.time.LocalDateTime;
+import java.io.IOException;
 
-class SinglePlayer implements Player {
+public class SinglePlayer implements Player {
+    private float points;
+    private Playlist playlist;
+    private User user;
+
+    public SinglePlayer(User user)
+    {
+        this.user = user;
+        this.playlist = new SpotifyPlaylist();
+        this.points = 0;
+    }
     @Override
     public String getName() {
-        return null;
+        return user.getUsername();
     }
 
-    @Override
-    public String getPassword() {
-        return null;
-    }
 
     @Override
-    public String setPoints() {
-        return null;
+    public void setPoints(float points) {
+        this.points = points;
     }
 
     @Override
     public String getPoints() {
-        return null;
+        return (String.valueOf(this.points));
     }
 
-    @Override
-    public boolean spotifyAuthenticated() {
-        return false;
-    }
 
     @Override
-    public LocalDateTime getCreationTime() {
-        return null;
+    public Playlist getPlayList() {
+        return this.playlist;
     }
 }

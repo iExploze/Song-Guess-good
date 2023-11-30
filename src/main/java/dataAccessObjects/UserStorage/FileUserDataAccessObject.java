@@ -27,6 +27,7 @@ public class FileUserDataAccessObject implements UserDataAccessObject, LoginUser
         headers.put("username", 0);
         headers.put("password", 1);
         headers.put("access_token", 2);
+        headers.put("refresh_token", 3);
 
         if (csvFile.length() == 0) {
             save();
@@ -44,7 +45,11 @@ public class FileUserDataAccessObject implements UserDataAccessObject, LoginUser
                     String username = String.valueOf(col[headers.get("username")]);
                     String password = String.valueOf(col[headers.get("password")]);
                     String accessToken = String.valueOf(col[headers.get("access_token")]);
-                    User user = userFactory.createUser(username, password, accessToken);
+                    String refreshToken = String.valueOf(col[headers.get("refresh_token")]);
+                    HashMap <String, String> tokenInfo = new HashMap<>();
+                    tokenInfo.put("access_token", accessToken);
+                    tokenInfo.put("refresh_token", refreshToken);
+                    User user = userFactory.createUser(username, password, tokenInfo);
                     accounts.put(username, user);
                 }
             }
@@ -66,10 +71,10 @@ public class FileUserDataAccessObject implements UserDataAccessObject, LoginUser
         return accounts.get(username);
     }
 
-    public void setAccessToken(User user) { //assume updated user.
+    public void setTokenInfo(User user) { //assume updated user.
          //get user and update access token
         accounts.put(user.getUsername(), user); //reupdate the user
-        updateAccessToken(user.getUsername(), user.getAccessToken());
+        updateTokenInfo(user.getUsername(), user.getAccessToken(), user.getRefreshToken());
     }
     public void save() {
         BufferedWriter writer;
@@ -79,8 +84,8 @@ public class FileUserDataAccessObject implements UserDataAccessObject, LoginUser
             writer.newLine();
 
             for (User user : accounts.values()) {
-                String line = "%s,%s,%s".formatted(
-                        user.getUsername(), user.getPassword(), user.getAccessToken());
+                String line = "%s,%s,%s,%s".formatted(
+                        user.getUsername(), user.getPassword(), user.getAccessToken(), user.getRefreshToken());
                 writer.write(line);
                 writer.newLine();
             }
@@ -95,7 +100,7 @@ public class FileUserDataAccessObject implements UserDataAccessObject, LoginUser
 
     }
 
-    private void updateAccessToken(String username, String accessToken) {
+    private void updateTokenInfo(String username, String accessToken, String refreshToken) {
 
 
 
@@ -107,9 +112,10 @@ public class FileUserDataAccessObject implements UserDataAccessObject, LoginUser
                 String[] parts = line.split(","); // Assuming CSV format
 
                 // Check if the username matches the one to be modified
-                if (parts.length >= 3 && parts[0].trim().equals(username)) {
+                if (parts.length >= 4 && parts[0].trim().equals(username)) {
                     // Modify the access token
                     parts[2] = accessToken;
+                    parts[3] = refreshToken;
                 }
 
                 // Write the modified or unmodified line to the new file
