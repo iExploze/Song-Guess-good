@@ -1,4 +1,4 @@
-package interface_adapter.play_song;
+package interface_adapter;
 
 public class PlayState {
     private String guess = "";

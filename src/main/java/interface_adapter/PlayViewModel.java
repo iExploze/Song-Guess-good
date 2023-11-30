@@ -1,7 +1,5 @@
-package interface_adapter.play_song;
-import view.PlayView;
+package interface_adapter;
 
-import interface_adapter.ViewModel;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 

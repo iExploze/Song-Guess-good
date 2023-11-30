@@ -1,7 +1,7 @@
 package view;
 
 import interface_adapter.play_song.PlayController;
-import interface_adapter.play_song.PlayViewModel;
+import interface_adapter.PlayViewModel;
 import interface_adapter.score.ScoreController;
 import interface_adapter.skip_song.SkipController;
 

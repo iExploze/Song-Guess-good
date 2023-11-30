@@ -11,7 +11,7 @@ import interface_adapter.UAuth.UAuthController;
 import interface_adapter.UAuth.UAuthPresenter;
 import interface_adapter.UAuth.UAuthViewModel;
 import interface_adapter.ViewManagerModel;
-import interface_adapter.play_song.PlayViewModel;
+import interface_adapter.PlayViewModel;
 import interface_adapter.score.ScoreController;
 import interface_adapter.score.ScorePresenter;
 import interface_adapter.skip_song.SkipController;

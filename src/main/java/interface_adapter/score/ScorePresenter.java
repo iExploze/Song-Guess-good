@@ -1,6 +1,6 @@
 package interface_adapter.score;
 
-import interface_adapter.play_song.PlayViewModel;
+import interface_adapter.PlayViewModel;
 import usecase.score.ScoreOutputBoundary;
 import usecase.score.ScoreOutputData;
 
