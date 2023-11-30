@@ -37,7 +37,12 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
     private int score;
     private int timeLeft;
 
-    public PlayView(PlayController playController, SkipController skipController, ScoreController scoreController, PlayViewModel playViewModel, TimerController timerController, GuessController guessController) {
+
+    public PlayView(PlayController playController,
+                    SkipController skipController,
+                    ScoreController scoreController,
+                    PlayViewModel playViewModel,
+                    TimerController timerController) {
         this.playViewModel = playViewModel;
         this.skipController = skipController;
         this.guessController = guessController;
@@ -130,6 +135,7 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
 
         playViewModel.addPropertyChangeListener(this);
     }
+
 
     @Override
     public void actionPerformed(ActionEvent e) {

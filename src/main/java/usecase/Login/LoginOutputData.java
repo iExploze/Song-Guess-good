@@ -1,17 +1,19 @@
 package usecase.Login;
 
+import entities.Users.User;
+
 public class LoginOutputData {
 
-    private final String username;
+    private final User user;
     private boolean useCaseFailed;
 
-    public LoginOutputData(String username, boolean useCaseFailed) {
-        this.username = username;
+    public LoginOutputData(User user, boolean useCaseFailed) {
+        this.user = user;
         this.useCaseFailed = useCaseFailed;
     }
 
-    public String getUsername() {
-        return username;
+    public User getUser() {
+        return user;
     }
 
 }

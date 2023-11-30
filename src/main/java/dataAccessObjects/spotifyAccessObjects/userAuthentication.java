@@ -29,8 +29,14 @@ public class userAuthentication {
             Desktop desktop = Desktop.getDesktop();
             try {
                 desktop.browse(new URI(url));
+                int i = 0;
                 while (this.getResponse() == null) {
                     Thread.sleep(1000);
+                    i += 1;
+                    if (i == 20) {
+                        System.exit(0);
+                    }
+
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
