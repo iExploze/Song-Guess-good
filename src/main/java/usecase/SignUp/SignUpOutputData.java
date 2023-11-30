@@ -1,15 +1,17 @@
 package usecase.SignUp;
 
+import entities.Users.User;
+
 public class SignUpOutputData {
     // so far only give back username, can add more later for this view
-    String username;
+    User user;
 
 
-    public SignUpOutputData(String username) {
-        this.username = username;
+    public SignUpOutputData(User user) {
+        this.user = user;
     }
 
-    public String getUsername() {
-        return username;
+    public User getUsername() {
+        return this.user;
     }
 }

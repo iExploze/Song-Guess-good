@@ -1,6 +1,10 @@
 package usecase.Login;
 
+import dataAccessObjects.spotifyAccessObjects.UserTopTracks;
+import dataAccessObjects.spotifyAccessObjects.UserTopTracksObject;
 import entities.Users.User;
+
+import java.io.IOException;
 
 
 public class LoginInteractor implements LoginInputBoundary {
@@ -14,7 +18,7 @@ public class LoginInteractor implements LoginInputBoundary {
     }
 
 
-    public void execute(LoginInputData loginInputData) {
+    public void execute(LoginInputData loginInputData) throws IOException {
         String username = loginInputData.getUsername();
         String password = loginInputData.getPassword();
         if (!userDataAccessObject.exists(username)) {
@@ -26,10 +30,16 @@ public class LoginInteractor implements LoginInputBoundary {
             } else {
 
                 User user = userDataAccessObject.getUser(loginInputData.getUsername());
-
-                LoginOutputData loginOutputData = new LoginOutputData(user.getUsername(), false);
+                UserTopTracks userTopTracksObject = new UserTopTracksObject();
+                userTopTracksObject.getTopTracks(user);
+                LoginOutputData loginOutputData = new LoginOutputData(user, false);
                 loginPresenter.prepareSuccessView(loginOutputData);
             }
         }
+    }
+
+    @Override
+    public void switchSignUp() {
+        loginPresenter.prepareSignUpSwitch();
     }
 }

@@ -16,4 +16,14 @@ public interface Quiz {
     boolean isSong(String name);
 
     int getPoints();
+
+    public void addPoints();
+
+    public void addPoints(int amount);
+
+    public void decreaseTime();
+
+    public void decreaseTime(int amount);
+
+    public void setTime(int time);
 }

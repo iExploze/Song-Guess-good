@@ -5,29 +5,25 @@ import entities.Song;
 
 public class GuessInteractor implements GuessInputBoundary{
     final GuessOutputBoundary guessPresenter;
-    final Song song;
-    Quiz quiz;
+    final Quiz quiz;
 
     public GuessInteractor(GuessOutputBoundary guessOutputBoundary,
-                           Song song, Quiz quiz){
+                           Quiz quiz){
         this.guessPresenter = guessOutputBoundary;
-        this.song = song;
         this.quiz = quiz;
     }
 
     @Override
     public void execute(GuessInputData guessInputData) {
-        String songName = song.getSongName();
+        String songName = quiz.currentPlaying().getSongName();
         String playerGuess = guessInputData.getGuess();
         boolean guessStatus = songName.equals(playerGuess);
 
         if (guessStatus){
-            GuessOutputData guessOutputData = new GuessOutputData(playerGuess, guessStatus);
+            GuessOutputData guessOutputData = new GuessOutputData(playerGuess, songName);
             guessPresenter.prepareSuccessView(guessOutputData);
         }else{
-            guessPresenter.prepareFailView("Incorrect guess");
+            guessPresenter.prepareFailView(songName);
         }
-
-        quiz.goNext(); // progress to the next song
     }
 }
