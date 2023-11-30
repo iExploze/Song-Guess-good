@@ -2,19 +2,18 @@ package usecase.guess;
 
 public class GuessOutputData {
     private final String guess;
+    private final String correctSong;
 
-    private boolean correctGuess;
-
-    public GuessOutputData(String guess, boolean correctGuess) {
+    public GuessOutputData(String guess, String correctSong) {
         this.guess = guess;
-        this.correctGuess = correctGuess;
+        this.correctSong = correctSong;
     }
 
     public String getGuess(){
         return guess;
     }
 
-    public boolean getGuessStatus(){
-        return correctGuess;
+    public String getCorrectSong(){
+        return correctSong;
     }
 }

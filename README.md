@@ -23,8 +23,8 @@ Goals: Finish entities and Use case to be completed:
 - skip song - Ian [Done]
 - guess song - Anson
 - API authentication - Ian & Ricky [Done]
-- Timer - Ian 
-- Score counter - Ian[Done]
+- Timer - Ian [Done]
+- Score counter - Ian [Done]
 - Score popup - Anson
 - Login - Ricky
   
