@@ -2,7 +2,6 @@ CSC207-Group-Project
 group members:
 Ian
 Anson
-Robert
 Ricky
 Flora
 
@@ -24,6 +23,10 @@ Goals: Finish entities and Use case to be completed:
 - skip song - Ian [Done]
 - guess song - Anson
 - API authentication - Ian & Ricky [Done]
+- Timer - Ian 
+- Score counter - Ian[Done]
+- Score popup - Anson
+- Login - Ricky
   
 
 **A description of the problem domain your team is tentatively wanting to focus 
