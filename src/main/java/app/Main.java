@@ -1,19 +1,25 @@
 // Main.java
 package app;
 
-import entities.Player;
+import entities.*;
 import entities.PlaylistQuiz;
 import entities.Quiz;
 import entities.SinglePlayer;
 import entities.Users.CommonUserFactory;
 import entities.Users.User;
-import interface_adapter.UAuthController;
-import interface_adapter.UAuthPresenter;
-import interface_adapter.UAuthViewModel;
+import interface_adapter.*;
+import interface_adapter.UAuth.UAuthController;
+import interface_adapter.UAuth.UAuthPresenter;
+import interface_adapter.UAuth.UAuthViewModel;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.PlayViewModel;
+import interface_adapter.score.ScoreController;
+import interface_adapter.score.ScorePresenter;
 import interface_adapter.skip_song.SkipController;
 import interface_adapter.skip_song.SkipPresenter;
 import interface_adapter.skip_song.SkipViewModel;
+import interface_adapter.timer.TimerController;
+import interface_adapter.timer.TimerPresenter;
 import usecase.Skip.SkipInputBoundary;
 import usecase.Skip.SkipInteractor;
 import usecase.Skip.SkipOutputBoundary;
@@ -21,6 +27,10 @@ import usecase.UserAuth.UAuthInputBoundary;
 import usecase.UserAuth.UAuthInteractor;
 import usecase.UserAuth.UAuthOutputBoundary;
 import usecase.UserAuth.UAuthOutputData;
+import usecase.score.ScoreInputBoundary;
+import usecase.score.ScoreInteractor;
+import usecase.score.ScoreOutputBoundary;
+import usecase.timer.*;
 import view.PlayView;
 import interface_adapter.play_song.PlayController;
 import view.UAuthView;
@@ -52,10 +62,28 @@ public class Main {
         Quiz quiz = new PlaylistQuiz(player);
 
         SkipViewModel skipViewModel = new SkipViewModel();
+
+
         SkipOutputBoundary skipOutputBoundary = new SkipPresenter(skipViewModel);
         SkipInputBoundary skipInputBoundary = new SkipInteractor(quiz, skipOutputBoundary);
         SkipController skipController = new SkipController(skipInputBoundary);
-        PlayView playView = new PlayView(playController, skipController);
+
+        PlayViewModel playViewModel = new PlayViewModel();
+
+        ScoreOutputBoundary scoreOutputBoundary = new ScorePresenter(playViewModel);
+        ScoreInputBoundary scoreInputBoundary = new ScoreInteractor(quiz, scoreOutputBoundary);
+        ScoreController scoreController = new ScoreController(scoreInputBoundary);
+
+        TimeInputData timeInputData = new TimeInputData();
+        TimeOutputData timeOutputData = new TimeOutputData();
+        TimeOutputBoundary timeOutputBoundary = new TimerPresenter(playViewModel); // Assuming TimerPresenter is correctly implemented
+        TimeInputBoundary timeInteractor = new TimeInteractor(quiz, timeOutputBoundary, timeInputData, timeOutputData);
+        TimerController timerController = new TimerController(timeInteractor, timeInputData);
+
+        // Pass the timerController to the PlayView
+        PlayView playView = new PlayView(playController, skipController, scoreController, playViewModel, timerController);
+
+
 
         UAuthOutputData uAuthOutputData = new UAuthOutputData();
 
@@ -66,10 +94,10 @@ public class Main {
         UAuthView uAuthView = new UAuthView(uAuthController, uAuthViewModel);
 
         // Here, the viewName is a public static final String field in the PlayView class
-        //views.add(playView, PlayView.viewName);
+        views.add(playView, PlayView.viewName);
         views.add(uAuthView, UAuthView.viewName);
 
-        viewManagerModel.setActiveView(UAuthView.viewName);
+        //viewManagerModel.setActiveView(UAuthView.viewName);
         viewManagerModel.firePropertyChanged();
 
         application.pack();
