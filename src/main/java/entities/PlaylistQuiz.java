@@ -3,16 +3,20 @@ package entities;
 import java.util.ArrayList;
 
 public class PlaylistQuiz implements Quiz{
-    private Playlist SongList;
+    private final Playlist SongList;
     private final Player player;
     private Song curr; // the song currently playing
     private int index;
+    private int timeLeft;
+    private int points;
     public PlaylistQuiz(Player player)
     {
         this.index = 0;
         this.SongList = player.getPlayList();
         this.curr = this.SongList.getSong(this.index);
         this.player = player;
+        this.timeLeft = 120;
+        this.points = 0;
     }
     @Override
     public ArrayList<Player> players() {
@@ -34,7 +38,7 @@ public class PlaylistQuiz implements Quiz{
 
     @Override
     public double getTimeLeft() {
-        return 0;
+        return timeLeft;
     }
 
     @Override
@@ -47,8 +51,24 @@ public class PlaylistQuiz implements Quiz{
         return false;
     }
 
+    public void addPoints(){
+        this.points = this.points + 1;
+    }
+
+    public void addPoints(int amount){
+        this.points = this.points + amount;
+    }
+
     @Override
     public int getPoints() {
-        return 0;
+        return this.points;
+    }
+
+    public void decreaseTime() {
+        this.timeLeft = this.timeLeft - 1;
+    }
+
+    public void decreaseTime(int amount) {
+        this.timeLeft = this.timeLeft - amount;
     }
 }
