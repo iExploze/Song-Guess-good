@@ -1,21 +1,12 @@
 package view;
 
-import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
-import interface_adapter.UAuthController;
-import interface_adapter.UAuthViewModel;
-import com.sun.net.httpserver.HttpServer;
+import interface_adapter.UAuth.UAuthController;
+import interface_adapter.UAuth.UAuthViewModel;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.net.InetSocketAddress;
-import java.net.URI;
-
-
 
 
 public class UAuthView extends JPanel implements ActionListener {
