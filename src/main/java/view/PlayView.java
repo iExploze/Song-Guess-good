@@ -20,17 +20,15 @@ import java.beans.PropertyChangeListener;
 public class PlayView extends JPanel implements ActionListener, PropertyChangeListener {
     public static final String viewName = "PLAY_VIEW"; // Add a static constant for the view name
     private PlayViewModel playViewModel;
-
-    // buttons
-    private final JButton skipButton;
-    private final JButton pauseButton;
-    private final JButton startButton;
+    private final JButton play;
+    private final JButton next;
 
     private JTextField guessInputField = new JTextField(15);
 
-    private final SkipController skipController;
-    private final ScoreController scoreController;
-    private final TimerController timerController;
+    //private final SkipController skipController;
+    private final PlayController playController;
+    //private final ScoreController scoreController;
+    //private final TimerController timerController;
     private GuessController guessController;
     private JLabel scoreLabel;
     private JLabel timeLabel;
@@ -38,64 +36,37 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
     private int timeLeft;
 
 
-    public PlayView(PlayController playController,
-                    SkipController skipController,
-                    ScoreController scoreController,
-                    PlayViewModel playViewModel,
-                    TimerController timerController) {
+    public PlayView(PlayController playController, PlayViewModel playViewModel,
+                    GuessController guessController) {
         this.playViewModel = playViewModel;
-        this.skipController = skipController;
+        this.playController = playController;
+        //this.skipController = skipController;
         this.guessController = guessController;
-        this.scoreController = scoreController;
-        this.timerController = timerController;
-        this.setLayout(new BorderLayout());
+        //this.scoreController = scoreController;
+        //this.timerController = timerController;
+        //this.setLayout(new BorderLayout());
+        playViewModel.addPropertyChangeListener(this);
 
         // Set the background color for the main panel
-        this.setBackground(new Color(64, 64, 64)); // Dark grey
+        //this.setBackground(new Color(64, 64, 64)); // Dark grey
 
         // Get the user's guess
-        LabelTextPanel guessInfo = new LabelTextPanel(new JLabel(PlayViewModel.ANSWER_LABEL), guessInputField);
+        LabelTextPanel guessInfo = new LabelTextPanel(
+                new JLabel(PlayViewModel.ANSWER_LABEL), guessInputField);
 
         // Initialize score
         this.score = 0;
-        this.scoreLabel = new JLabel("Score: " + this.score);
+        this.scoreLabel = new JLabel(
+                ("Score: " + this.score));
         this.scoreLabel.setFont(new Font("SansSerif", Font.BOLD, 50));
-        this.scoreLabel.setForeground(Color.WHITE); // White font for visibility
+        this.timeLabel.setForeground(Color.WHITE);
 
         // Initialize Timer
         this.timeLeft = 0;
-        this.timeLabel = new JLabel("Time: " + this.timeLeft);
+        this.timeLabel = new JLabel(
+                ("Time: " + this.timeLeft));
         this.timeLabel.setFont(new Font("SansSerif", Font.BOLD, 50));
         this.timeLabel.setForeground(Color.WHITE); // White font for visibility
-
-        // Create skip button
-        this.skipButton = new JButton("Skip");
-        this.skipButton.addActionListener(this);
-        this.skipButton.setPreferredSize(new Dimension(200, 100));
-        this.skipButton.setBackground(new Color(96, 96, 96)); // Slightly lighter grey for the button
-        this.skipButton.setForeground(Color.BLACK); // White text for visibility
-
-        // Create pause button
-        this.pauseButton = new JButton("Pause");
-        this.pauseButton.addActionListener(this);
-        this.pauseButton.setPreferredSize(new Dimension(200, 100));
-        this.pauseButton.setBackground(new Color(96, 96, 96)); // Slightly lighter grey for the button
-        this.pauseButton.setForeground(Color.BLACK); // White text for visibility
-
-        // Create reset button
-        this.startButton = new JButton("Start Timer");
-        this.startButton.addActionListener(this);
-        this.startButton.setPreferredSize(new Dimension(200, 100));
-        this.startButton.setBackground(new Color(96, 96, 96)); // Slightly lighter grey for the button
-        this.startButton.setForeground(Color.BLACK); // White text for visibility
-
-        // Panel for skip button
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridBagLayout());
-        buttonPanel.setBackground(new Color(64, 64, 64)); // Dark grey background
-        buttonPanel.add(this.skipButton);
-        buttonPanel.add(this.startButton);
-        buttonPanel.add(this.pauseButton);
 
         // Score Panel - Positioned at the top right
         JPanel scorePanel = new JPanel();
@@ -104,6 +75,13 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
         scorePanel.add(this.timeLabel, BorderLayout.WEST);
         scorePanel.setBackground(new Color(64, 64, 64)); // Dark grey background
         scorePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        // add buttons for play and next
+        JPanel buttons = new JPanel();
+        play = new JButton(PlayViewModel.PLAY_BUTTON_LABEL);
+        buttons.add(play);
+        next = new JButton(PlayViewModel.NEXT_BUTTON_LABEL);
+        buttons.add(next);
 
         guessInputField.addKeyListener(
                 new KeyListener() {
@@ -117,7 +95,7 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
                     @Override
                     public void keyPressed(KeyEvent e) {
                         if (e.getKeyCode() == KeyEvent.VK_ENTER){
-                            guessController.execute(guessInputField.getText());
+                            PlayView.this.guessController.execute(guessInputField.getText());
                         }
                     }
 
@@ -128,30 +106,33 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
                 }
         );
 
+        play.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        if (e.getSource().equals(play)) {
+                            playController.execute();
+                        }
+                    }
+                }
+        );
+
+        /*
+        next.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        if (e.getSource().equals(next)) {
+                            skipController.execute();
+                        }
+                    }
+                }
+        );
+        */
+
         // Add components to layout
-        this.add(buttonPanel, BorderLayout.CENTER);
         this.add(scorePanel, BorderLayout.NORTH);
         this.add(guessInfo);
+        this.add(buttons);
 
-        playViewModel.addPropertyChangeListener(this);
-    }
-
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource().equals(this.skipButton)) {
-            this.scoreController.getScore();
-            this.skipController.execute(); // Ensure this method is implemented in the PlayController
-        }
-
-        if (e.getSource().equals(this.pauseButton)) {
-            this.timerController.updateTimerState();
-        }
-
-        if (e.getSource().equals(this.startButton)) {
-            this.timerController.setTimer(120);
-            this.timerController.startTimer();
-        }
     }
 
     private void updateScore() {
@@ -167,10 +148,17 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
         if ("score".equals(evt.getPropertyName())) {
             updateScore();
         }
-        if ("time".equals(evt.getPropertyName())) {
+        else if ("time".equals(evt.getPropertyName())) {
             //System.out.println("L");
             updateTime();
         }
+        //else if (evt.getNewValue() instanceof PlayState) {
+            //PlayState s = (PlayState) evt.getNewValue();
+        //}
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
 
     }
 }

@@ -16,10 +16,12 @@ import interface_adapter.UAuth.UAuthViewModel;
 import interface_adapter.ViewManagerModel;
 
 import interface_adapter.PlayViewModel;
+import interface_adapter.guess.GuessController;
+import interface_adapter.guess.GuessPresenter;
 import interface_adapter.login.LoginViewModel;
 
 
-
+import interface_adapter.play_song.PlayPresenter;
 import interface_adapter.score.ScoreController;
 import interface_adapter.score.ScorePresenter;
 import interface_adapter.signup.SignupViewModel;
@@ -28,7 +30,6 @@ import interface_adapter.skip_song.SkipPresenter;
 import interface_adapter.skip_song.SkipViewModel;
 import interface_adapter.timer.TimerController;
 import interface_adapter.timer.TimerPresenter;
-import org.apache.commons.logging.Log;
 import usecase.Skip.SkipInputBoundary;
 import usecase.Skip.SkipInteractor;
 import usecase.Skip.SkipOutputBoundary;
@@ -39,6 +40,10 @@ import usecase.UserAuth.UAuthOutputData;
 import usecase.guess.GuessInputBoundary;
 import usecase.guess.GuessInteractor;
 import usecase.guess.GuessOutputBoundary;
+import usecase.play_song.PlayInputBoundary;
+import usecase.play_song.PlayInteractor;
+import usecase.play_song.PlayOutputBoundary;
+import usecase.play_song.PlayUserDataAccessInterface;
 import usecase.score.ScoreInputBoundary;
 import usecase.score.ScoreInteractor;
 import usecase.score.ScoreOutputBoundary;
@@ -64,23 +69,18 @@ public class Main {
 
         ViewManagerModel viewManagerModel = new ViewManagerModel();
         new ViewManager(views, cardLayout, viewManagerModel);
-
-        // Assuming PlayController is correctly implemented and has the required methods
-        PlayController playController = new PlayController();
+        PlayViewModel playViewModel = new PlayViewModel();
 
         CommonUserFactory commonUserFactory= new CommonUserFactory();
         User user = commonUserFactory.createUser("a","b");
 
-
-
         Player player = new SinglePlayer(user);
         Quiz quiz = new PlaylistQuiz(player);
 
-        PlayViewModel playViewModel = new PlayViewModel();
+
         SkipViewModel skipViewModel = new SkipViewModel();
 
-
-        SkipOutputBoundary skipOutputBoundary = new SkipPresenter(skipViewModel);
+        SkipOutputBoundary skipOutputBoundary = new SkipPresenter(viewManagerModel, skipViewModel);
         SkipInputBoundary skipInputBoundary = new SkipInteractor(quiz, skipOutputBoundary);
         SkipController skipController = new SkipController(skipInputBoundary);
 
@@ -97,10 +97,6 @@ public class Main {
         TimeOutputBoundary timeOutputBoundary = new TimerPresenter(playViewModel); // Assuming TimerPresenter is correctly implemented
         TimeInputBoundary timeInteractor = new TimeInteractor(quiz, timeOutputBoundary, timeInputData, timeOutputData);
         TimerController timerController = new TimerController(timeInteractor, timeInputData);
-
-        // Pass the timerController to the PlayView
-        PlayView playView = new PlayView(playController, skipController, scoreController, playViewModel, timerController, guessController);
-
 
         UAuthOutputData uAuthOutputData = new UAuthOutputData();
 
@@ -120,13 +116,16 @@ public class Main {
             throw new RuntimeException(e);
         }
 
-        ;
+
         SignupView signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel, signupViewModel, userDataAccessObject, playViewModel);
 
 
 
         LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel, userDataAccessObject, playViewModel, signupViewModel);
 
+
+        PlayUserDataAccessInterface playUserDataAccessObject = new SongData();
+        PlayView playView = PlayUseCaseFactory.create(viewManagerModel, playViewModel, playUserDataAccessObject, quiz);
 
 
         views.add(playView, PlayView.viewName);

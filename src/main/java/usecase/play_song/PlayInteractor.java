@@ -4,20 +4,18 @@ import entities.Player;
 import entities.PlayerFactory;
 import entities.Song;
 
-public class PlayInteractor implements PlayInputBoundary{
+public class PlayInteractor implements PlayInputBoundary {
     final PlayUserDataAccessInterface userDataAccessObject;
     final PlayOutputBoundary playPresenter;
-    final PlayerFactory playerFactory;
 
     public PlayInteractor(PlayUserDataAccessInterface userDataAccessInterface,
-                          PlayOutputBoundary playOutputBoundary,
-                          PlayerFactory playerFactory) {
+                          PlayOutputBoundary playOutputBoundary) {
         this.userDataAccessObject = userDataAccessInterface;
         this.playPresenter = playOutputBoundary;
-        this.playerFactory = playerFactory;
     }
 
-    public void execute(PlayInputData playInputData) {
+    public void execute() {
         userDataAccessObject.playSong();
     }
 }
+
