@@ -23,7 +23,6 @@ import java.util.List;
 
 public class PlayView extends JPanel implements ActionListener, PropertyChangeListener {
     public static final String viewName = "PLAY_VIEW"; // Add a static constant for the view name
-    private final TimerController timerController;
     private PlayViewModel playViewModel;
     private PlayState playState;
 
