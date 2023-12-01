@@ -45,7 +45,7 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
                     TimerController timerController, GuessController guessController) {
         this.playViewModel = playViewModel;
         this.skipController = skipController;
-        this.guessController = this.guessController;
+        this.guessController = guessController;
         this.scoreController = scoreController;
         this.timerController = timerController;
         this.setLayout(new BorderLayout());

@@ -12,6 +12,7 @@ import java.util.Random;
 public class SpotifyPlaylist implements Playlist {
 
     private final ArrayList<Song> songsList;
+
     public SpotifyPlaylist(List<HashMap<String, String>> tracks)
     {
         // <Song name, URL>
@@ -19,12 +20,12 @@ public class SpotifyPlaylist implements Playlist {
         for (HashMap<String, String> track : tracks) {
             // Assuming each map contains keys "name" and "url"
             String name = track.get("name");
-            String url = track.get("url");
+            String url = track.get("preview_url");
             songsList.add(new SongData(name, url)); // Assuming SongData is a concrete implementation of Song
         }
     }
     @Override
-    public ArrayList<Song> songsList() {
+    public ArrayList<Song> getSongsList() {
         return songsList;
     }
 
@@ -33,7 +34,7 @@ public class SpotifyPlaylist implements Playlist {
         if (index >= 0 && index < songsList.size()) {
             return songsList.get(index);
         }
-        return null; // or throw an exception if you prefer
+        return null;
     }
 
     @Override
