@@ -29,7 +29,6 @@ public class PlayViewModel extends ViewModel {
 
     public void setScore(int score) {
         this.score = score;
-        support.firePropertyChange("score", null, this.score);
     }
 
     // Setters and Getters for time
@@ -39,7 +38,6 @@ public class PlayViewModel extends ViewModel {
 
     public void setTime(int time) {
         this.time = time;
-        support.firePropertyChange("time", null, this.time);
     }
 
     // PlayState related methods
@@ -49,7 +47,10 @@ public class PlayViewModel extends ViewModel {
 
     public void setState(PlayState state) {
         this.state = state;
-        support.firePropertyChange("state", null, this.state);
+    }
+    public void setSuggestions(PlayState state) {
+        this.state = state;
+        support.firePropertyChange("suggestion", null, this.state);
     }
 
     // PropertyChangeListener support methods
@@ -57,20 +58,13 @@ public class PlayViewModel extends ViewModel {
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         support.addPropertyChangeListener(listener);
     }
-    public void setSuggestion() {
-        this.state = state;
-        support.firePropertyChange("suggestion", null, this.state);
-    }
 
     // Fire all property changes, this can be used to notify observers of all changes at once
     @Override
     public void firePropertyChanged() {
         // Notify about the score change
-        support.firePropertyChange("score", null, this.score);
-        // Notify about the time change
-        support.firePropertyChange("time", null, this.time);
         // Notify about the state change
         support.firePropertyChange("state", null, this.state);
-        support.firePropertyChange("suggestion", null, this.state);
+
     }
 }

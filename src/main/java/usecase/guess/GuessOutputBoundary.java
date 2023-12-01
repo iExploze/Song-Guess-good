@@ -1,7 +1,9 @@
 package usecase.guess;
 
+import entities.Song;
+
 public interface GuessOutputBoundary {
     void prepareSuccessView(GuessOutputData correctGuess);
 
-    void prepareFailView(String incorrectGuess);
+    void prepareFailView(String oldSongName, Song newSong, int score);
 }
