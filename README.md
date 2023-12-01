@@ -27,9 +27,10 @@ Goals: Finish entities and Use case to be completed:
 - Score counter - Ian [Done]
 - Score popup - Anson [Done]
 - Login - Ricky [Done]
-- AutoCompleteTextBox - Ricky
-- Quiz instantiation - Ian
-- Song Progress Bar - Anson
+- AutoCompleteTextBox - Ricky [Done]
+- AutoComplete Suggestion - Ricky
+- Quiz instantiation - Ian [Done]
+- Song Progress Bar - Anson [Done]
   
 
 **A description of the problem domain your team is tentatively wanting to focus 
