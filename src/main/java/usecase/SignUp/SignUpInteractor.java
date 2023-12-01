@@ -2,11 +2,18 @@ package usecase.SignUp;
 
 import dataAccessObjects.UserStorage.UserDataAccessObject;
 
+import dataAccessObjects.getTop200SongNames;
 import dataAccessObjects.spotifyAccessObjects.*;
+import entities.Quiz;
+import entities.SpotifyPlaylist;
 import entities.Users.User;
 import entities.Users.UserFactory;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class SignUpInteractor implements SignUpInputBoundary {
 
@@ -15,13 +22,15 @@ public class SignUpInteractor implements SignUpInputBoundary {
     UserFactory userFactory;
     SignupUserDataAccessInterface userDataAccessObject;
     SignUpOutputBoundary userPresenter;
+    Quiz quiz;
     UserAuthenticationBuilder userAuthenticationBuilder;
 
     public SignUpInteractor(UserFactory userFactory, SignupUserDataAccessInterface userDataAccessObject,
-                            SignUpOutputBoundary userPresenter) {
+                            SignUpOutputBoundary userPresenter, Quiz quiz) {
         this.userFactory = userFactory;
         this.userDataAccessObject = userDataAccessObject;
         this.userPresenter = userPresenter;
+        this.quiz = quiz;
     }
     public void execute(SignUpInputData signUpInputData) throws IOException {
         String username = signUpInputData.getUsername();
@@ -39,10 +48,17 @@ public class SignUpInteractor implements SignUpInputBoundary {
 
             UserTopTracks userTopTracksObject = new UserTopTracksObject(); // Here we don't actually care about top tracks
             // but it still does authentication for the user
-            userTopTracksObject.getTopTracks(user);
-            userDataAccessObject.save(user);
+            SpotifyPlaylist spotifyPlaylist = new SpotifyPlaylist(userTopTracksObject.getTopTracks(user));
+            quiz.setQuiz(spotifyPlaylist);
+            getTop200SongNames g = new getTop200SongNames();
+            List topSongs =  g.top200("./top200SongsWeekly.csv");
+            Set<String> topSongsSet = new HashSet<>(topSongs);
+            topSongsSet.addAll(spotifyPlaylist.getSuggestions());
+            List<String> allSuggestions = new ArrayList<>(topSongsSet);
 
-            SignUpOutputData signUpOutputData = new SignUpOutputData(user);
+            quiz.setSuggestions(allSuggestions);
+            userDataAccessObject.save(user);
+            SignUpOutputData signUpOutputData = new SignUpOutputData(user, quiz);
             userPresenter.prepareSuccessView(signUpOutputData);
         }
 

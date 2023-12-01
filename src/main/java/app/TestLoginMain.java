@@ -1,7 +1,12 @@
 package app;
 
 import dataAccessObjects.UserStorage.FileUserDataAccessObject;
+import entities.Player;
+import entities.PlaylistQuiz;
+import entities.Quiz;
+import entities.SinglePlayer;
 import entities.Users.CommonUserFactory;
+import entities.Users.User;
 import interface_adapter.PlayViewModel;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.login.LoginViewModel;
@@ -45,9 +50,12 @@ public class TestLoginMain {
                 IOException e) {
             throw new RuntimeException(e);
         }
+        CommonUserFactory commonUserFactory= new CommonUserFactory();
+        User user = commonUserFactory.createUser("a","b");
+        Player player = new SinglePlayer(user);
+        Quiz quiz = new PlaylistQuiz(player);
 
-
-        SignupView signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel, signupViewModel, userDataAccessObject, playViewModel);
+        SignupView signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel, signupViewModel, userDataAccessObject, playViewModel, quiz);
 
         views.add(signupView, signupView.viewName);
 

@@ -33,7 +33,7 @@ public class SignupPresenter implements SignUpOutputBoundary {
         // On success, switch to the play view.
         //response has a user, we can use it to make a play view
         PlayState playState = playViewModel.getState();
-
+        playState.setSuggestions(response.getQuiz());
         this.playViewModel.setState(playState);
         this.playViewModel.firePropertyChanged();
 

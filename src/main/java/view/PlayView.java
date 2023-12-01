@@ -1,6 +1,9 @@
 package view;
 
+import app.TextFieldSuggestion;
 import interface_adapter.guess.GuessController;
+import interface_adapter.guess.GuessPresenter;
+import interface_adapter.login.LoginState;
 import interface_adapter.play_song.PlayController;
 import interface_adapter.PlayViewModel;
 import interface_adapter.score.ScoreController;
@@ -16,17 +19,19 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.List;
 
 public class PlayView extends JPanel implements ActionListener, PropertyChangeListener {
     public static final String viewName = "PLAY_VIEW"; // Add a static constant for the view name
     private PlayViewModel playViewModel;
+    private PlayState playState;
 
     // buttons
     private final JButton skipButton;
     private final JButton pauseButton;
     private final JButton startButton;
 
-    private JTextField guessInputField = new JTextField(15);
+    private TextFieldSuggestion guessInputField;
 
     private final SkipController skipController;
     private final ScoreController scoreController;
@@ -42,14 +47,17 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
                     SkipController skipController,
                     ScoreController scoreController,
                     PlayViewModel playViewModel,
-                    TimerController timerController, GuessController guessController) {
+                    TimerController timerController,
+                    GuessController guessController) {
         this.playViewModel = playViewModel;
         this.skipController = skipController;
         this.guessController = guessController;
         this.scoreController = scoreController;
         this.timerController = timerController;
         this.setLayout(new BorderLayout());
-
+        this.guessInputField = new TextFieldSuggestion();
+        this.guessInputField.setPreferredSize(new Dimension(200, 30));
+        this.playState = new PlayState();
         // Set the background color for the main panel
         this.setBackground(new Color(64, 64, 64)); // Dark grey
 
@@ -105,19 +113,21 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
         scorePanel.setBackground(new Color(64, 64, 64)); // Dark grey background
         scorePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
+        guessInputField.setRound(15);
+        guessInputField.setBackground(new Color(255,255,255));
         guessInputField.addKeyListener(
                 new KeyListener() {
                     @Override
                     public void keyTyped(KeyEvent e) {
                         PlayState currentState = playViewModel.getState();
                         String input = guessInputField.getText();
-                        currentState.setGuess(input);
+                        //currentState.setGuess(input);
                     }
 
                     @Override
                     public void keyPressed(KeyEvent e) {
                         if (e.getKeyCode() == KeyEvent.VK_ENTER){
-                            PlayView.this.guessController.execute(guessInputField.getText());
+                            guessController.execute(guessInputField.getText());
                         }
                     }
 
@@ -134,6 +144,12 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
         this.add(guessInfo);
 
         playViewModel.addPropertyChangeListener(this);
+    }
+
+    public void updateSuggestion(List<String> names) {
+        for (String item: names) {
+            guessInputField.addItemSuggestion(item);
+        }
     }
 
 
@@ -164,12 +180,17 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+
         if ("score".equals(evt.getPropertyName())) {
             updateScore();
         }
         if ("time".equals(evt.getPropertyName())) {
             //System.out.println("L");
             updateTime();
+        }
+        if ("suggestion".equals(evt.getPropertyName())) {
+            PlayState state = (PlayState) evt.getNewValue();
+            updateSuggestion(state.getSuggestions());
         }
 
     }

@@ -23,7 +23,7 @@ public class GuessPresenter implements GuessOutputBoundary {
     public void prepareSuccessView(GuessOutputData correctGuess) {
         PlayState playState = playViewModel.getState();
         this.playViewModel.setState(playState);
-        playState.setGuess(correctGuess.getGuess());
+        //playState.setGuess(correctGuess.getGuess());
 
         String correctMessage = "Your guess was correct!";
         JOptionPane.showMessageDialog(null, correctMessage);
