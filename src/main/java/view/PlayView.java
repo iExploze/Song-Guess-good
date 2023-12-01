@@ -101,21 +101,6 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
         this.pauseButton.setBackground(new Color(96, 96, 96)); // Slightly lighter grey for the button
         this.pauseButton.setForeground(Color.BLACK); // White text for visibility
 
-        // Create reset button
-        this.startButton = new JButton("Start Timer");
-        this.startButton.addActionListener(this);
-        this.startButton.setPreferredSize(new Dimension(200, 100));
-        this.startButton.setBackground(new Color(96, 96, 96)); // Slightly lighter grey for the button
-        this.startButton.setForeground(Color.BLACK); // White text for visibility
-
-
-        // Panel for skip button
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridBagLayout());
-        buttonPanel.setBackground(new Color(64, 64, 64)); // Dark grey background
-        buttonPanel.add(this.skipButton);
-        buttonPanel.add(this.startButton);
-        buttonPanel.add(this.pauseButton);
 
         // Score Panel - Positioned at the top right
         JPanel scorePanel = new JPanel();
@@ -263,5 +248,6 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
             PlayState state = (PlayState) evt.getNewValue();
             updateSuggestion(state.getSuggestions());
         }
+
     }
 }
