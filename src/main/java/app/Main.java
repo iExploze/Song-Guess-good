@@ -68,40 +68,16 @@ public class Main {
         JPanel views = new JPanel(cardLayout);
         application.add(views);
 
-        ViewManagerModel viewManagerModel = new ViewManagerModel();
-        new ViewManager(views, cardLayout, viewManagerModel);
-        PlayViewModel playViewModel = new PlayViewModel();
-
         CommonUserFactory commonUserFactory= new CommonUserFactory();
         User user = commonUserFactory.createUser("a","b");
 
-        Player player = new SinglePlayer(user);
-        Quiz quiz = new PlaylistQuiz(player);
-
-
+        ViewManagerModel viewManagerModel = new ViewManagerModel();
+        new ViewManager(views, cardLayout, viewManagerModel);
+        PlayViewModel playViewModel = new PlayViewModel();
         SkipViewModel skipViewModel = new SkipViewModel();
 
-        SkipOutputBoundary skipOutputBoundary = new SkipPresenter(viewManagerModel, skipViewModel);
-        SkipInputBoundary skipInputBoundary = new SkipInteractor(quiz, skipOutputBoundary);
-        SkipController skipController = new SkipController(skipInputBoundary);
-
-        GuessOutputBoundary guessOutputBoundary = new GuessPresenter(viewManagerModel, playViewModel);
-        GuessInputBoundary guessInputBoundary = new GuessInteractor(guessOutputBoundary, quiz);
-        GuessController guessController = new GuessController(guessInputBoundary);
-
-        ScoreOutputBoundary scoreOutputBoundary = new ScorePresenter(playViewModel);
-        ScoreInputBoundary scoreInputBoundary = new ScoreInteractor(quiz, scoreOutputBoundary);
-        ScoreController scoreController = new ScoreController(scoreInputBoundary);
-
-        TimeInputData timeInputData = new TimeInputData();
-        TimeOutputData timeOutputData = new TimeOutputData();
-        TimeOutputBoundary timeOutputBoundary = new TimerPresenter(playViewModel); // Assuming TimerPresenter is correctly implemented
-        TimeInputBoundary timeInteractor = new TimeInteractor(quiz, timeOutputBoundary, timeInputData, timeOutputData);
-        TimerController timerController = new TimerController(timeInteractor, timeInputData);
-
-        // Pass the timerController to the PlayView
-        PlayView playView = new PlayView(playController, skipController, scoreController, playViewModel, timerController, guessController);
-
+        Player player = new SinglePlayer(user);
+        Quiz quiz = new PlaylistQuiz(player);
 
         // Test End
         UAuthOutputData uAuthOutputData = new UAuthOutputData();
@@ -131,8 +107,8 @@ public class Main {
 
 
         PlayUserDataAccessInterface playUserDataAccessObject = new SongData();
-        PlayView playView = PlayUseCaseFactory.create(viewManagerModel, playViewModel, playUserDataAccessObject, quiz);
-
+        PlayView playView = PlayUseCaseFactory.create(viewManagerModel, playViewModel, skipViewModel,
+                playUserDataAccessObject, quiz);
 
         views.add(playView, PlayView.viewName);
         // Here, the viewName is a public static final String field in the PlayView class
@@ -148,13 +124,6 @@ public class Main {
          // Set the size of the window
         application.setLocationRelativeTo(null); // Center the window
         application.setVisible(true);
-
-
-
-
-
-
-
 
     }
 }

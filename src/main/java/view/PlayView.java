@@ -2,12 +2,10 @@ package view;
 
 import app.TextFieldSuggestion;
 import interface_adapter.guess.GuessController;
-import interface_adapter.guess.GuessPresenter;
-import interface_adapter.login.LoginState;
 import interface_adapter.play_song.PlayController;
 import interface_adapter.PlayViewModel;
-import interface_adapter.score.ScoreController;
 import interface_adapter.PlayState;
+import interface_adapter.score.ScoreController;
 import interface_adapter.skip_song.SkipController;
 import interface_adapter.timer.TimerController;
 
@@ -27,18 +25,15 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
     private PlayState playState;
 
     // buttons
-    private final JButton skipButton;
-    private final JButton pauseButton;
-    private final JButton startButton;
     private final JButton play;
     private final JButton next;
 
     private TextFieldSuggestion guessInputField;
 
-    //private final SkipController skipController;
+    private final SkipController skipController;
     private final PlayController playController;
-    //private final ScoreController scoreController;
-    //private final TimerController timerController;
+    private final ScoreController scoreController;
+    private final TimerController timerController;
     private GuessController guessController;
     private JLabel scoreLabel;
     private JLabel timeLabel;
@@ -47,13 +42,14 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
 
 
     public PlayView(PlayController playController, PlayViewModel playViewModel,
-                    GuessController guessController) {
+                    GuessController guessController, SkipController skipController,
+                    ScoreController scoreController, TimerController timerController) {
         this.playViewModel = playViewModel;
         this.playController = playController;
-        //this.skipController = skipController;
+        this.skipController = skipController;
         this.guessController = guessController;
-        //this.scoreController = scoreController;
-        //this.timerController = timerController;
+        this.scoreController = scoreController;
+        this.timerController = timerController;
         //this.setLayout(new BorderLayout());
         playViewModel.addPropertyChangeListener(this);
 
@@ -94,7 +90,7 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
         buttons.add(next);
 
         guessInputField.setRound(15);
-        guessInputField.setBackground(new Color(255,255,255));
+        guessInputField.setBackground(new Color(255, 255, 255));
         guessInputField.addKeyListener(
                 new KeyListener() {
                     @Override
@@ -106,7 +102,7 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
 
                     @Override
                     public void keyPressed(KeyEvent e) {
-                        if (e.getKeyCode() == KeyEvent.VK_ENTER){
+                        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                             guessController.execute(guessInputField.getText());
                         }
                     }
@@ -128,7 +124,7 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
                 }
         );
 
-        /*
+
         next.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
@@ -138,30 +134,20 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
                     }
                 }
         );
-        */
+
 
         // Add components to layout
         this.add(scorePanel, BorderLayout.NORTH);
         this.add(guessInfo);
+        this.add(buttons);
 
         playViewModel.addPropertyChangeListener(this);
     }
 
     public void updateSuggestion(List<String> names) {
-        for (String item: names) {
+        for (String item : names) {
             guessInputField.addItemSuggestion(item);
         }
-    }
-
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource().equals(this.skipButton)) {
-            this.scoreController.getScore();
-            this.skipController.execute(); // Ensure this method is implemented in the PlayController
-        }
-        this.add(buttons);
-
     }
 
     private void updateScore() {
@@ -172,27 +158,27 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
         this.scoreLabel.setText("Time Left: " + this.playViewModel.getTime());
     }
 
+
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
 
         if ("score".equals(evt.getPropertyName())) {
             updateScore();
         }
-        else if ("time".equals(evt.getPropertyName())) {
+        if ("time".equals(evt.getPropertyName())) {
             //System.out.println("L");
             updateTime();
         }
-        //else if (evt.getNewValue() instanceof PlayState) {
-            //PlayState s = (PlayState) evt.getNewValue();
-        //}
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
         if ("suggestion".equals(evt.getPropertyName())) {
             PlayState state = (PlayState) evt.getNewValue();
             updateSuggestion(state.getSuggestions());
         }
+    }
+
+
+    @Override
+    public void actionPerformed(ActionEvent evt) {
+
 
     }
 }
