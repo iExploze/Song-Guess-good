@@ -1,18 +1,19 @@
 package interface_adapter;
 
 public class PlayState {
+    private int score;
+    private String song;
     private String guess = "";
     private String incorrectGuessMessage = null;
 
-    public PlayState(PlayState copy){
-        guess = copy.guess;
-        incorrectGuessMessage = copy.incorrectGuessMessage;
-    }
-
+    // List of stuff that needs to be updated on the playview
+    // Score
+    // Current Song Playing #name + playing thing
+    // AutoCorrectDatabase
     public PlayState(){}
 
-    public void setGuess(String guess){this.guess = guess;}
 
-    public String getGuess(){return guess;}
+
+    public void setScore
 
 }

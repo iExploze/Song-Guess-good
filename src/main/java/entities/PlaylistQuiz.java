@@ -3,7 +3,7 @@ package entities;
 import java.util.ArrayList;
 
 public class PlaylistQuiz implements Quiz{
-    private final Playlist SongList;
+    private Playlist songList;
     private final Player player;
     private Song curr; // the song currently playing
     private int index;
@@ -12,8 +12,8 @@ public class PlaylistQuiz implements Quiz{
     public PlaylistQuiz(Player player)
     {
         this.index = 0;
-        this.SongList = player.getPlayList();
-        this.curr = this.SongList.getSong(this.index);
+        this.songList = player.getPlayList();
+        this.curr = this.songList.getSong(this.index);
         this.player = player;
         this.timeLeft = 0;
         this.points = 0;
@@ -24,6 +24,10 @@ public class PlaylistQuiz implements Quiz{
         temp.add(this.player);
         return temp ;
     }
+    public void setSongList(Playlist songList) {
+        this.songList = songList;
+    }
+
 
     @Override
     public Song currentPlaying() {

@@ -53,6 +53,7 @@ import interface_adapter.play_song.PlayController;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
@@ -103,7 +104,26 @@ public class Main {
         // Pass the timerController to the PlayView
         PlayView playView = new PlayView(playController, skipController, scoreController, playViewModel, timerController, guessController);
 
+        // Test
+        String suggestions = "[LOVE DIVE, lovely (with Khalid), OMG, GODS, " +
+                "SUMMER TIME SADNESS HARDSTYLE, Super Shy, What's Up Danger (with Black Caviar), " +
+                "Kitsch, Enemy (with JID) - from the series Arcane League of Legends, " +
+                "PART OF ME HARDSTYLE (SPED UP), New Jeans, Either Way, Phoenix, Ditto, " +
+                "Blue Blood, EVERYTIME WE TOUCH HARDSTYLE (SPED UP), Playground (from the series Arcane League of Legends), " +
+                "I AM, I WANT, golden hour, Legends Never Die, OUTSIDE HARDSTYLE SPED UP, WAVE, " +
+                "Cool With You, PART OF ME HARDSTYLE, Enemy - From the series Arcane League of Legends, " +
+                "Warriors, RISE, ETA, Maria, Lips, Hype Boy, SET FIRE TO THE RAIN HARDSTYLE, Way Up, " +
+                "OUTSIDE HARDSTYLE, 섬찟 (Hypnosis), MIDDLE OF THE NIGHT - HARDSTYLE REMIX, Queencard, VILLAIN, " +
+                "ELEVEN, Attention, Get Up, DRUM GO DUM, JUST DANCE HARDSTYLE, Cupid - Twin Ver., NOT YOUR GIRL, " +
+                "你的答案, ONLY GIRL HARDSTYLE, Take Over, DARK HORSE HARDSTYLE]";
+        String[] elements = suggestions.substring(1, suggestions.length() - 1).split(", ");
+        ArrayList list = new ArrayList();
+        for (String element : elements) {
+            list.add(element);
+        }
+        playView.addSuggestions(list);
 
+        // Test End
         UAuthOutputData uAuthOutputData = new UAuthOutputData();
 
         UAuthViewModel uAuthViewModel = new UAuthViewModel();
@@ -138,7 +158,7 @@ public class Main {
         views.add(uAuthView, UAuthView.viewName);
         views.add(signupView, signupView.viewName);
         //viewManagerModel.setActiveView(UAuthView.viewName);
-        viewManagerModel.setActiveView(loginView.viewName);
+        viewManagerModel.setActiveView(playView.viewName);
         viewManagerModel.firePropertyChanged();
 
         application.pack();
