@@ -15,4 +15,6 @@ public interface Player {
     String getPoints();
 
     Playlist getPlayList();
+
+    void setPlaylist() throws IOException;
 }

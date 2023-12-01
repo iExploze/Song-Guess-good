@@ -19,15 +19,18 @@ Goals: Finish entities and Use case to be completed:
 
 - signup - Ricky [Done]
 - login - Ricky [Done]
-- play song(stop song) - Flora
+- play song(stop song) - Flora 
 - skip song - Ian [Done]
-- guess song - Anson
+- guess song - Anson [Done]
 - API authentication - Ian & Ricky [Done]
 - Timer - Ian [Done]
 - Score counter - Ian [Done]
-- Score popup - Anson
-- Login - Ricky
-- AutoCompleteTextBox - Ricky
+- Score popup - Anson [Done]
+- Login - Ricky [Done]
+- AutoCompleteTextBox - Ricky [Done]
+- AutoComplete Suggestion - Ricky
+- Quiz instantiation - Ian [Done]
+- Song Progress Bar - Anson [Done]
   
 
 **A description of the problem domain your team is tentatively wanting to focus 

@@ -24,14 +24,9 @@ public class SpotifyPlaylist implements Playlist {
             songsList.add(new SongData(name, url)); // Assuming SongData is a concrete implementation of Song
         }
     }
-
+    @Override
     public ArrayList<Song> getSongsList() {
         return songsList;
-    }
-
-    @Override
-    public ArrayList<Song> songs() {
-        return null;
     }
 
     @Override
@@ -51,19 +46,11 @@ public class SpotifyPlaylist implements Playlist {
         }
         return null;
     }
-
-    @Override
-    public Song getByAuthor(String author) {
-        return null;
-    }
-
-    @Override
-    public void addSong(Song song) {
-
-    }
-
-    @Override
-    public void addSong(Song[] songs) {
-
+    public List<String> getSuggestions() {
+        List<String> res = new ArrayList();
+        for (Song song : songsList) {
+            res.add(song.getSongName());
+        }
+        return res;
     }
 }

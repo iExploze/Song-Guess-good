@@ -21,7 +21,7 @@ public class SongData implements Song, PlayUserDataAccessInterface {
     public SongData(String name, String url)
     {
         this.name = name;
-        this.url = getURL();
+        this.url = url;
     }
 
     @Override

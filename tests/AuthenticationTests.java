@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class AuthenticationTests {
     HashMap b;
     HashMap c;
     String topTracks;
-    List topTrackData;
+    List<HashMap<String, String>> topTrackData;
     @Before
     public void init() throws IOException, UserTopTracksDataAccessObject.NeedRefreshException {
         RandomSecureS256Generator randomSecureS256Generator = new RandomSecureS256Generator();
@@ -80,5 +81,12 @@ public class AuthenticationTests {
         System.out.println(topTrackData);
         assertNotNull(topTrackData);
     }
-
+    @Test
+    public void getTopTrackNames() {
+        ArrayList res = new ArrayList();
+        for (HashMap ma: topTrackData) {
+            res.add(ma.get("name"));
+        }
+        System.out.println(res);
+    }
 }

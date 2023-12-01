@@ -1,23 +1,39 @@
 package entities;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PlaylistQuiz implements Quiz{
-    private final Playlist SongList;
+    private Playlist SongList;
     private final Player player;
     private Song curr; // the song currently playing
     private int index;
     private int timeLeft;
     private int points;
+    private List<String> suggestions;
     public PlaylistQuiz(Player player)
     {
         this.index = 0;
-        this.SongList = player.getPlayList();
-        this.curr = this.SongList.getSong(this.index);
+        this.curr = null;
         this.player = player;
         this.timeLeft = 0;
         this.points = 0;
+        this.suggestions = null;
     }
+
+    @Override
+    public void setQuiz(Playlist songList) {
+        this.SongList = songList;
+    }
+
+    public void setSuggestions(List<String> suggestions) {
+        this.suggestions = suggestions;
+    }
+
+    public List<String> getSuggestions() {
+        return suggestions;
+    }
+
     @Override
     public ArrayList<Player> players() {
         ArrayList<Player> temp = new ArrayList<>();
@@ -27,13 +43,21 @@ public class PlaylistQuiz implements Quiz{
 
     @Override
     public Song currentPlaying() {
+        if(this.curr == null) {
+            this.curr = this.SongList.getSong(this.index);
+        }
         return this.curr;
     }
 
     @Override
     public void goNext() {
-        this.index++;
-        this.curr = SongList.getSong(this.index);
+        if(this.curr == null) {
+            this.curr = this.SongList.getSong(this.index);
+        }
+        else {
+            this.index++;
+            this.curr = this.SongList.getSong(this.index);
+        }
     }
 
     @Override
@@ -43,7 +67,7 @@ public class PlaylistQuiz implements Quiz{
 
     @Override
     public int getRemaining() {
-        return 0;
+        return 50 - index;
     }
 
     @Override

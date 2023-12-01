@@ -56,6 +56,7 @@ import interface_adapter.play_song.PlayController;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
@@ -98,6 +99,11 @@ public class Main {
         TimeInputBoundary timeInteractor = new TimeInteractor(quiz, timeOutputBoundary, timeInputData, timeOutputData);
         TimerController timerController = new TimerController(timeInteractor, timeInputData);
 
+        // Pass the timerController to the PlayView
+        PlayView playView = new PlayView(playController, skipController, scoreController, playViewModel, timerController, guessController);
+
+
+        // Test End
         UAuthOutputData uAuthOutputData = new UAuthOutputData();
 
         UAuthViewModel uAuthViewModel = new UAuthViewModel();
@@ -117,11 +123,11 @@ public class Main {
         }
 
 
-        SignupView signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel, signupViewModel, userDataAccessObject, playViewModel);
+        SignupView signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel, signupViewModel, userDataAccessObject, playViewModel, quiz);
 
 
 
-        LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel, userDataAccessObject, playViewModel, signupViewModel);
+        LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel, userDataAccessObject, playViewModel, signupViewModel, quiz);
 
 
         PlayUserDataAccessInterface playUserDataAccessObject = new SongData();
