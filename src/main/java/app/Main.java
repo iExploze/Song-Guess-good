@@ -16,6 +16,8 @@ import interface_adapter.UAuth.UAuthViewModel;
 import interface_adapter.ViewManagerModel;
 
 import interface_adapter.PlayViewModel;
+import interface_adapter.guess.GuessController;
+import interface_adapter.guess.GuessPresenter;
 import interface_adapter.login.LoginViewModel;
 
 
@@ -120,7 +122,7 @@ public class Main {
             throw new RuntimeException(e);
         }
 
-        ;
+
         SignupView signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel, signupViewModel, userDataAccessObject, playViewModel);
 
 

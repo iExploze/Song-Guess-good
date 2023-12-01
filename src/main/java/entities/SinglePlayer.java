@@ -4,16 +4,18 @@ import dataAccessObjects.spotifyAccessObjects.UserTopTracksDataAccessObject;
 import entities.Users.User;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
 
 public class SinglePlayer implements Player {
     private float points;
     private Playlist playlist;
     private User user;
 
-    public SinglePlayer(User user)
+    public SinglePlayer(User user, List<HashMap<String, String>> tracks)
     {
         this.user = user;
-        this.playlist = new SpotifyPlaylist();
+        this.playlist = new SpotifyPlaylist(tracks);
         this.points = 0;
     }
     @Override

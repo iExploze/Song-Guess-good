@@ -42,10 +42,10 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
                     SkipController skipController,
                     ScoreController scoreController,
                     PlayViewModel playViewModel,
-                    TimerController timerController) {
+                    TimerController timerController, GuessController guessController) {
         this.playViewModel = playViewModel;
         this.skipController = skipController;
-        this.guessController = guessController;
+        this.guessController = this.guessController;
         this.scoreController = scoreController;
         this.timerController = timerController;
         this.setLayout(new BorderLayout());
@@ -117,7 +117,7 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
                     @Override
                     public void keyPressed(KeyEvent e) {
                         if (e.getKeyCode() == KeyEvent.VK_ENTER){
-                            guessController.execute(guessInputField.getText());
+                            PlayView.this.guessController.execute(guessInputField.getText());
                         }
                     }
 
