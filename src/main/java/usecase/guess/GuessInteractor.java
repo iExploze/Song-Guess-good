@@ -14,15 +14,20 @@ public class GuessInteractor implements GuessInputBoundary{
 
     @Override
     public void execute(GuessInputData guessInputData) {
-        String songName = quiz.currentPlaying().getSongName();
+        String oldSongName = quiz.currentPlaying().getSongName();
         String playerGuess = guessInputData.getGuess();
-        boolean guessStatus = songName.equals(playerGuess);
-
+        boolean guessStatus = oldSongName.equals(playerGuess);
+        quiz.goNext();
+        Song song = quiz.currentPlaying();
         if (guessStatus){
-            GuessOutputData guessOutputData = new GuessOutputData(playerGuess, songName);
+            quiz.addPoints();
+            int score = quiz.getPoints();
+            GuessOutputData guessOutputData = new GuessOutputData(playerGuess, oldSongName, song, score);
+
             guessPresenter.prepareSuccessView(guessOutputData);
         }else{
-            guessPresenter.prepareFailView(songName);
+            int score = quiz.getPoints();
+            guessPresenter.prepareFailView(oldSongName, song, score);
         }
     }
 }

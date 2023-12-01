@@ -34,6 +34,8 @@ public class SignupPresenter implements SignUpOutputBoundary {
         //response has a user, we can use it to make a play view
         PlayState playState = playViewModel.getState();
         playState.setSuggestions(response.getQuiz());
+        playState.setSong(response.getQuiz().currentPlaying());
+        this.playViewModel.setSuggestions(playState);
         this.playViewModel.setState(playState);
         this.playViewModel.firePropertyChanged();
 
