@@ -201,14 +201,14 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
         this.scoreLabel.setText("Time Left: " + this.playViewModel.getTime());
     }
     private void updateSong(Song song) { //something that plays the song
-
-    private void resetTimer(){
+    }
+    private void resetTimer() {
         timeLeft = 30;
         timerProgress.setValue(0);
         timer.start();
     }
 
-    }
+
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
 
