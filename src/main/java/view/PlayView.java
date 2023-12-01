@@ -12,6 +12,7 @@ import interface_adapter.PlayState;
 import interface_adapter.skip_song.SkipController;
 import interface_adapter.timer.TimerController;
 
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -20,13 +21,18 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
+import java.net.URL;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class PlayView extends JPanel implements ActionListener, PropertyChangeListener {
     public static final String viewName = "PLAY_VIEW"; // Add a static constant for the view name
     private PlayViewModel playViewModel;
     private PlayState playState;
-
+    private ExecutorService executorService;
+    ;
     // buttons
     private final JButton skipButton;
     private final JButton pauseButton;
@@ -42,9 +48,10 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
     private final JLabel timeLabel;
     private JProgressBar timerProgress;
     private int score = 0;
-    private  int timeLeft = 30; // time remaining for progress bar
+    private int timeLeft = 30; // time remaining for progress bar
     private int totalTime = 120; // total time left to play
     Timer timer;
+    BackgroundAudioPlayer audioPlayer;
 
     public PlayView(PlayController playController,
                     SkipController skipController,
@@ -101,6 +108,7 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
         this.startButton.setBackground(new Color(96, 96, 96)); // Slightly lighter grey for the button
         this.startButton.setForeground(Color.BLACK); // White text for visibility
 
+
         // Panel for skip button
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new GridBagLayout());
@@ -113,12 +121,11 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
         JPanel scorePanel = new JPanel();
         scorePanel.setLayout(new BorderLayout());
         scorePanel.add(this.scoreLabel, BorderLayout.EAST);
-        scorePanel.add(this.timeLabel, BorderLayout.WEST);
         scorePanel.setBackground(new Color(64, 64, 64)); // Dark grey background
         scorePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         guessInputField.setRound(15);
-        guessInputField.setBackground(new Color(255,255,255));
+        guessInputField.setBackground(new Color(255, 255, 255));
         guessInputField.addKeyListener(
                 new KeyListener() {
                     @Override
@@ -130,7 +137,7 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
 
                     @Override
                     public void keyPressed(KeyEvent e) {
-                        if (e.getKeyCode() == KeyEvent.VK_ENTER){
+                        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                             timer.stop();
                             guessController.execute(guessInputField.getText());
                             resetTimer();
@@ -149,16 +156,19 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
                     timeLeft--;
                     timerProgress.setValue(30 - timeLeft);
 
-                    if (timeLeft == 0){
+                    if (timeLeft == 0) {
                         timer.stop();
-                        JOptionPane.showMessageDialog(null,"Time's up!");
+                        JOptionPane.showMessageDialog(null, "Time's up!");
+                        guessController.execute(guessInputField.getText());
                         resetTimer();
                         // go to next song
                     }
                 }
         );
 
+
         // Add components to layout
+
         this.add(buttonPanel, BorderLayout.CENTER);
         this.add(scorePanel, BorderLayout.NORTH);
         this.add(guessInfo);
@@ -168,8 +178,10 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
         playViewModel.addPropertyChangeListener(this);
     }
 
+
+
     public void updateSuggestion(List<String> names) {
-        for (String item: names) {
+        for (String item : names) {
             guessInputField.addItemSuggestion(item);
         }
     }
@@ -197,11 +209,39 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
         this.scoreLabel.setText("Score: " + this.playViewModel.getScore());
     }
 
-    private void updateTime() {
-        this.scoreLabel.setText("Time Left: " + this.playViewModel.getTime());
+
+    private void updateSong(Song song) { //something that plays the songaudioPlayer.setSong(song);
+        if (audioPlayer != null) {
+            audioPlayer.setPlaying(false);
+            audioPlayer.cancel(true);
+            audioPlayer.cleanup();
+        }
+        audioPlayer = new BackgroundAudioPlayer();
+
+        // Add a property change listener to handle changes in the "playing" property
+        audioPlayer.addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                if ("state".equals(evt.getPropertyName())) {
+                    // Update the playing state of the audio player
+                    if (evt.getNewValue() == "DONE") {
+                        audioPlayer.setPlaying(false);
+                    }
+                    //audioPlayer.setPlaying((boolean) evt.getNewValue());
+                    // Trigger SwingWorker to execute or cancel based on the playing state
+                    if (audioPlayer.isPlaying()) {
+                        audioPlayer.execute();
+                    } else {
+                        audioPlayer.stopPlaybackManually();
+                    }
+                }
+            }
+        });
+        audioPlayer.setSong(song);
+        audioPlayer.setPlaying(true);
+        audioPlayer.execute();
     }
-    private void updateSong(Song song) { //something that plays the song
-    }
+
     private void resetTimer() {
         timeLeft = 30;
         timerProgress.setValue(0);
@@ -213,9 +253,9 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
     public void propertyChange(PropertyChangeEvent evt) {
 
         if ("state".equals(evt.getPropertyName())) {
+            resetTimer();
             PlayState state = (PlayState) evt.getNewValue();
             updateScore(state.getScore());
-            updateTime();
             updateSong(state.getSong());
         }
 
@@ -223,6 +263,5 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
             PlayState state = (PlayState) evt.getNewValue();
             updateSuggestion(state.getSuggestions());
         }
-
     }
 }

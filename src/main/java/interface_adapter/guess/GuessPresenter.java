@@ -27,11 +27,11 @@ public class GuessPresenter implements GuessOutputBoundary {
         playState.setScore(correctGuess.getScore());
         this.playViewModel.setState(playState);
         //playState.setGuess(correctGuess.getGuess());
-
+        this.playViewModel.firePropertyChanged();
         String correctMessage = "Your guess was correct!";
         JOptionPane.showMessageDialog(null, correctMessage);
 
-        playViewModel.firePropertyChanged();
+        //playViewModel.firePropertyChanged();
         viewManagerModel.setActiveView(playViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }

@@ -29,7 +29,6 @@ public class PlayViewModel extends ViewModel {
 
     public void setScore(int score) {
         this.score = score;
-        support.firePropertyChange("score", null, this.score);
     }
 
     // Setters and Getters for time
@@ -39,7 +38,6 @@ public class PlayViewModel extends ViewModel {
 
     public void setTime(int time) {
         this.time = time;
-        support.firePropertyChange("time", null, this.time);
     }
 
     // PlayState related methods
@@ -49,7 +47,10 @@ public class PlayViewModel extends ViewModel {
 
     public void setState(PlayState state) {
         this.state = state;
-        support.firePropertyChange("state", null, this.state);
+    }
+    public void setSuggestions(PlayState state) {
+        this.state = state;
+        support.firePropertyChange("suggestion", null, this.state);
     }
 
     // PropertyChangeListener support methods
@@ -64,7 +65,6 @@ public class PlayViewModel extends ViewModel {
         // Notify about the score change
         // Notify about the state change
         support.firePropertyChange("state", null, this.state);
-        support.firePropertyChange("suggestion", null, this.state);
 
     }
 }
