@@ -51,6 +51,7 @@ public class PlaylistQuiz implements Quiz{
 
     @Override
     public void goNext() {
+
         if(this.curr == null) {
             this.curr = this.SongList.getSong(this.index);
         }
