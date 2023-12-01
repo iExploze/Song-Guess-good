@@ -5,8 +5,7 @@ import usecase.play_song.PlayInputBoundary;
 public class PlayController {
     PlayInputBoundary userPlayUseCaseInteractor;
 
-    public PlayController(PlayInputBoundary userPlayUseCaseInteractor) {
-        this.userPlayUseCaseInteractor = userPlayUseCaseInteractor;
+    public PlayController() {
     }
     public void execute() {
         userPlayUseCaseInteractor.execute();

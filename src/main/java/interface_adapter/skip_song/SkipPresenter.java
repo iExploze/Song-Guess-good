@@ -9,9 +9,8 @@ public class SkipPresenter implements SkipOutputBoundary {
     private ViewManagerModel viewManagerModel;
     private SkipViewModel skipViewModel;
 
-    public SkipPresenter(ViewManagerModel viewManagerModel, SkipViewModel skipViewModel)
+    public SkipPresenter(SkipViewModel skipViewModel)
     {
-        this.viewManagerModel = viewManagerModel;
         this.skipViewModel = skipViewModel;
     }
     @Override

@@ -43,9 +43,9 @@ public class PlayUseCaseFactory {
         SkipController skipController = createUsersSkipCase(viewManagerModel, skipViewModel, quiz);
         ScoreController scoreController = createUsersScoreCase(playViewModel, quiz);
         TimerController timerController = createUsersTimerCase(playViewModel, quiz);
-        return new PlayView(playController, playViewModel,
-                guessController, skipController,
-                scoreController, timerController);
+        return new PlayView(playController, skipController,
+                scoreController, playViewModel,
+                timerController, guessController);
     }
 
     private static PlayController createUsersPlayCase(
@@ -56,7 +56,7 @@ public class PlayUseCaseFactory {
 
         PlayInputBoundary userPlayInteractor = new PlayInteractor(
                 playUserDataAccessInterface, playOutputBoundary);
-        return new PlayController(userPlayInteractor);
+        return new PlayController();
     }
 
     private static GuessController createUsersGuessCase(
@@ -73,7 +73,7 @@ public class PlayUseCaseFactory {
     private static SkipController createUsersSkipCase(
             ViewManagerModel viewManagerModel, SkipViewModel skipViewModel, Quiz quiz) {
 
-        SkipOutputBoundary skipOutputBoundary = new SkipPresenter(viewManagerModel, skipViewModel);
+        SkipOutputBoundary skipOutputBoundary = new SkipPresenter(skipViewModel);
 
         SkipInputBoundary userSkipInteractor = new SkipInteractor(
                 quiz, skipOutputBoundary);
