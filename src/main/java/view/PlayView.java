@@ -19,6 +19,7 @@ import java.beans.PropertyChangeListener;
 
 public class PlayView extends JPanel implements ActionListener, PropertyChangeListener {
     public static final String viewName = "PLAY_VIEW"; // Add a static constant for the view name
+    private final TimerController timerController;
     private PlayViewModel playViewModel;
 
     // buttons
@@ -30,19 +31,21 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
 
     private final SkipController skipController;
     private final ScoreController scoreController;
-    private final TimerController timerController;
     private GuessController guessController;
     private JLabel scoreLabel;
-    private JLabel timeLabel;
-    private int score;
-    private int timeLeft;
-
+    private final JLabel timeLabel;
+    private JProgressBar timerProgress;
+    private int score = 0;
+    private  int timeLeft = 30; // time remaining for progress bar
+    private int totalTime = 120; // total time left to play
+    Timer timer;
 
     public PlayView(PlayController playController,
                     SkipController skipController,
                     ScoreController scoreController,
                     PlayViewModel playViewModel,
-                    TimerController timerController) {
+                    TimerController timerController,
+                    GuessController guessController) {
         this.playViewModel = playViewModel;
         this.skipController = skipController;
         this.guessController = guessController;
@@ -57,14 +60,15 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
         LabelTextPanel guessInfo = new LabelTextPanel(new JLabel(PlayViewModel.ANSWER_LABEL), guessInputField);
 
         // Initialize score
-        this.score = 0;
         this.scoreLabel = new JLabel("Score: " + this.score);
         this.scoreLabel.setFont(new Font("SansSerif", Font.BOLD, 50));
         this.scoreLabel.setForeground(Color.WHITE); // White font for visibility
 
+        // Initialize the timer bar
+        timerProgress = new JProgressBar(0, timeLeft);
+
         // Initialize Timer
-        this.timeLeft = 0;
-        this.timeLabel = new JLabel("Time: " + this.timeLeft);
+        this.timeLabel = new JLabel("Time: " + this.totalTime);
         this.timeLabel.setFont(new Font("SansSerif", Font.BOLD, 50));
         this.timeLabel.setForeground(Color.WHITE); // White font for visibility
 
@@ -117,7 +121,9 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
                     @Override
                     public void keyPressed(KeyEvent e) {
                         if (e.getKeyCode() == KeyEvent.VK_ENTER){
+                            timer.stop();
                             guessController.execute(guessInputField.getText());
+                            resetTimer();
                         }
                     }
 
@@ -128,10 +134,26 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
                 }
         );
 
+        timer = new Timer(1000,
+                e -> {
+                    timeLeft--;
+                    timerProgress.setValue(30 - timeLeft);
+
+                    if (timeLeft == 0){
+                        timer.stop();
+                        JOptionPane.showMessageDialog(null,"Time's up!");
+                        resetTimer();
+                        // go to next song
+                    }
+                }
+        );
+
         // Add components to layout
         this.add(buttonPanel, BorderLayout.CENTER);
         this.add(scorePanel, BorderLayout.NORTH);
         this.add(guessInfo);
+        this.add(timerProgress, BorderLayout.SOUTH);
+        resetTimer();
 
         playViewModel.addPropertyChangeListener(this);
     }
@@ -162,15 +184,16 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
         this.scoreLabel.setText("Time Left: " + this.playViewModel.getTime());
     }
 
+    private void resetTimer(){
+        timeLeft = 30;
+        timerProgress.setValue(0);
+        timer.start();
+    }
+
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if ("score".equals(evt.getPropertyName())) {
             updateScore();
         }
-        if ("time".equals(evt.getPropertyName())) {
-            //System.out.println("L");
-            updateTime();
-        }
-
     }
 }
