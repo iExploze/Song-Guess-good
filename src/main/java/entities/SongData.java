@@ -9,13 +9,13 @@ import java.security.SecureRandom;
 import java.util.Random;
 
 public class SongData implements Song {
-    String name;
-    String url;
+    private final String name;
+    private final String url;
 
-    public SongData(String name)
+    public SongData(String name, String url)
     {
         this.name = name;
-        this.url = getURL();
+        this.url = url;
     }
     @Override
     public String getArtistName() {
@@ -24,16 +24,7 @@ public class SongData implements Song {
 
     @Override
     public String getSongName() {
-        int length = 5;
-        Random random = new SecureRandom();
-        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-        StringBuilder sb = new StringBuilder(length);
-        for (int i = 0; i < length; i++) {
-            int randomIndex = random.nextInt(characters.length());
-            sb.append(characters.charAt(randomIndex));
-        }
-
-        return sb.toString();
+        return this.name;
     }
 
     @Override
@@ -48,7 +39,7 @@ public class SongData implements Song {
 
     @Override
     public String getURL() {
-        return null;
+        return this.url;
     }
 
     /**
