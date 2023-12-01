@@ -14,6 +14,6 @@ public class TimerPresenter implements TimeOutputBoundary {
     @Override
     public void displayTime(int time) {
         playViewModel.setTime(time); // Assuming there is a setTime method in PlayViewModel
-        playViewModel.firePropertyChanged(); // Notify observers about the change
+        playViewModel.fireTimerChanged(); // Notify observers about the change
     }
 }

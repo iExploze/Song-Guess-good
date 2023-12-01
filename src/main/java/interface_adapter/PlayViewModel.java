@@ -67,4 +67,8 @@ public class PlayViewModel extends ViewModel {
         support.firePropertyChange("state", null, this.state);
 
     }
+
+    public void fireTimerChanged(){
+        support.firePropertyChange("time", null, this.state);
+    }
 }

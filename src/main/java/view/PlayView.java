@@ -121,6 +121,7 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
         JPanel scorePanel = new JPanel();
         scorePanel.setLayout(new BorderLayout());
         scorePanel.add(this.scoreLabel, BorderLayout.EAST);
+        scorePanel.add(this.timeLabel, BorderLayout.WEST);
         scorePanel.setBackground(new Color(64, 64, 64)); // Dark grey background
         scorePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
@@ -173,9 +174,12 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
         this.add(scorePanel, BorderLayout.NORTH);
         this.add(guessInfo);
         this.add(timerProgress, BorderLayout.SOUTH);
-        resetTimer();
-
         playViewModel.addPropertyChangeListener(this);
+
+
+        this.timerController.setTimer(120);
+        this.timerController.startTimer();
+        resetTimer();
     }
 
 
@@ -248,6 +252,11 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
         timer.start();
     }
 
+    private void updateMainTimer()
+    {
+        this.timeLabel.setText("Time: " + this.playViewModel.getTime());
+    }
+
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
@@ -257,6 +266,11 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
             PlayState state = (PlayState) evt.getNewValue();
             updateScore(state.getScore());
             updateSong(state.getSong());
+        }
+
+        if ("time".equals(evt.getPropertyName()))
+        {
+            updateMainTimer();
         }
 
         if ("suggestion".equals(evt.getPropertyName())) {

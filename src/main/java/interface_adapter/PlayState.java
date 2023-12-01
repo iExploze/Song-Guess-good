@@ -7,6 +7,7 @@ import java.util.List;
 
 public class PlayState {
     private int score;
+    private int time;
     private Song song;
     private String guess = "";
     private String incorrectGuessMessage = null;
@@ -21,7 +22,6 @@ public class PlayState {
 
 
     public void setGuess(){};
-    //ublic void setScore();
     public void setSong(Song song){
         this.song = song;
     };
@@ -43,5 +43,15 @@ public class PlayState {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public void setTime(int time)
+    {
+        this.time = time;
+    }
+
+    public int getTime()
+    {
+        return time;
     }
 }
