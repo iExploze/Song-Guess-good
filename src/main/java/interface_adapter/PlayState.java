@@ -13,7 +13,7 @@ public class PlayState {
     public PlayState(){}
 
 
-
-    public void setScore
+    public void setGuess(){};
+    //ublic void setScore();
 
 }

@@ -118,7 +118,7 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
                     public void keyTyped(KeyEvent e) {
                         PlayState currentState = playViewModel.getState();
                         String input = guessInputField.getText();
-                        currentState.setGuess(input);
+                        //currentState.setGuess(input);
                     }
 
                     @Override

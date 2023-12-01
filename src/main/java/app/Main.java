@@ -142,7 +142,7 @@ public class Main {
             throw new RuntimeException(e);
         }
 
-        ;
+
         SignupView signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel, signupViewModel, userDataAccessObject, playViewModel);
 
 
