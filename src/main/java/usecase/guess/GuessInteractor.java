@@ -21,6 +21,8 @@ public class GuessInteractor implements GuessInputBoundary{
 
         if (guessStatus){
             GuessOutputData guessOutputData = new GuessOutputData(playerGuess, songName);
+            quiz.addPoints();
+            quiz.goNext();
             guessPresenter.prepareSuccessView(guessOutputData);
         }else{
             guessPresenter.prepareFailView(songName);

@@ -27,9 +27,6 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
     private PlayState playState;
 
     // buttons
-    private final JButton skipButton;
-    private final JButton pauseButton;
-    private final JButton startButton;
 
     private TextFieldSuggestion guessInputField;
 
@@ -79,34 +76,7 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
         this.timeLabel.setFont(new Font("SansSerif", Font.BOLD, 50));
         this.timeLabel.setForeground(Color.WHITE); // White font for visibility
 
-        // Create skip button
-        this.skipButton = new JButton("Skip");
-        this.skipButton.addActionListener(this);
-        this.skipButton.setPreferredSize(new Dimension(200, 100));
-        this.skipButton.setBackground(new Color(96, 96, 96)); // Slightly lighter grey for the button
-        this.skipButton.setForeground(Color.BLACK); // White text for visibility
 
-        // Create pause button
-        this.pauseButton = new JButton("Pause");
-        this.pauseButton.addActionListener(this);
-        this.pauseButton.setPreferredSize(new Dimension(200, 100));
-        this.pauseButton.setBackground(new Color(96, 96, 96)); // Slightly lighter grey for the button
-        this.pauseButton.setForeground(Color.BLACK); // White text for visibility
-
-        // Create reset button
-        this.startButton = new JButton("Start Timer");
-        this.startButton.addActionListener(this);
-        this.startButton.setPreferredSize(new Dimension(200, 100));
-        this.startButton.setBackground(new Color(96, 96, 96)); // Slightly lighter grey for the button
-        this.startButton.setForeground(Color.BLACK); // White text for visibility
-
-        // Panel for skip button
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridBagLayout());
-        buttonPanel.setBackground(new Color(64, 64, 64)); // Dark grey background
-        buttonPanel.add(this.skipButton);
-        buttonPanel.add(this.startButton);
-        buttonPanel.add(this.pauseButton);
 
         // Score Panel - Positioned at the top right
         JPanel scorePanel = new JPanel();
@@ -132,6 +102,7 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
                         if (e.getKeyCode() == KeyEvent.VK_ENTER){
                             timer.stop();
                             guessController.execute(guessInputField.getText());
+                            scoreController.getScore();
                             resetTimer();
                         }
                     }
@@ -158,16 +129,19 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
         );
 
         // Add components to layout
-        this.add(buttonPanel, BorderLayout.CENTER);
         this.add(scorePanel, BorderLayout.NORTH);
         this.add(guessInfo);
         this.add(timerProgress, BorderLayout.SOUTH);
         resetTimer();
 
         playViewModel.addPropertyChangeListener(this);
+        this.timerController.setTimer(120);
+        this.timerController.startTimer();
     }
 
     public void updateSuggestion(List<String> names) {
+        if(names == null)
+            return;
         for (String item: names) {
             guessInputField.addItemSuggestion(item);
         }
@@ -176,19 +150,7 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource().equals(this.skipButton)) {
-            this.scoreController.getScore();
-            this.skipController.execute(); // Ensure this method is implemented in the PlayController
-        }
 
-        if (e.getSource().equals(this.pauseButton)) {
-            this.timerController.updateTimerState();
-        }
-
-        if (e.getSource().equals(this.startButton)) {
-            this.timerController.setTimer(120);
-            this.timerController.startTimer();
-        }
     }
 
     private void updateScore() {
@@ -196,7 +158,7 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
     }
 
     private void updateTime() {
-        this.scoreLabel.setText("Time Left: " + this.playViewModel.getTime());
+        this.timeLabel.setText("Time Left: " + this.playViewModel.getTime());
     }
 
     private void resetTimer(){
