@@ -2,27 +2,27 @@ package usecase.play_song;
 
 import entities.Player;
 import entities.PlayerFactory;
+import entities.Quiz;
 import entities.Song;
 
 public class PlayInteractor implements PlayInputBoundary{
-    final PlayUserDataAccessInterface userDataAccessObject;
+    final Quiz quiz;
     final PlayOutputBoundary playPresenter;
-    final PlayerFactory playerFactory;
 
-    public PlayInteractor(PlayUserDataAccessInterface userDataAccessInterface,
-                          PlayOutputBoundary playOutputBoundary,
-                          PlayerFactory playerFactory) {
-        this.userDataAccessObject = userDataAccessInterface;
+    public PlayInteractor(Quiz quiz, PlayOutputBoundary playOutputBoundary) {
+        this.quiz = quiz;
         this.playPresenter = playOutputBoundary;
-        this.playerFactory = playerFactory;
     }
 
-    public void execute(PlayInputData playInputData) {
-        // check if the song preview exists, could be null
-        String name = playInputData.getTitle();
-        if (userDataAccessObject.existSong(name)) {
-            userDataAccessObject.playSong(userDataAccessObject.getSong(name));
-        }
-        playPresenter.prepareSuccessView();
+    @Override
+    public void PlaySong() {
+        if(quiz.currentPlaying() != null)
+            this.quiz.currentPlaying().playSong();
     }
+
+    @Override
+    public void StopSong() {
+        this.quiz.currentPlaying().stopSong();
+    }
+
 }

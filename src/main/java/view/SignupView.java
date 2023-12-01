@@ -1,5 +1,6 @@
 package view;
 
+import interface_adapter.PlayViewModel;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginViewModel;
 import interface_adapter.signup.SignupController;
@@ -33,7 +34,7 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
     // TODO Note: this is the new JButton for clearing the users file
     private final JButton login;
 
-    public SignupView(SignupController controller, SignupViewModel signupViewModel, LoginViewModel loginViewModel) {
+    public SignupView(SignupController controller, SignupViewModel signupViewModel, LoginViewModel loginViewModel, PlayViewModel playViewModel) {
 
         this.signupController = controller;
         this.signupViewModel = signupViewModel;

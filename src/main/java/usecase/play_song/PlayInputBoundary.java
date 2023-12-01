@@ -1,5 +1,7 @@
 package usecase.play_song;
 
 public interface PlayInputBoundary {
-    void execute(PlayInputData playInputData);
+    void PlaySong();
+
+    void StopSong();
 }

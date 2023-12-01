@@ -29,11 +29,13 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
     // buttons
 
     private TextFieldSuggestion guessInputField;
-
-    private final SkipController skipController;
     private final ScoreController scoreController;
     private final TimerController timerController;
+
+    private final PlayController playController;
     private GuessController guessController;
+
+    private JButton startButton;
     private JLabel scoreLabel;
     private final JLabel timeLabel;
     private JProgressBar timerProgress;
@@ -43,13 +45,12 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
     Timer timer;
 
     public PlayView(PlayController playController,
-                    SkipController skipController,
                     ScoreController scoreController,
                     PlayViewModel playViewModel,
                     TimerController timerController,
                     GuessController guessController) {
         this.playViewModel = playViewModel;
-        this.skipController = skipController;
+        this.playController = playController;
         this.guessController = guessController;
         this.scoreController = scoreController;
         this.timerController = timerController;
@@ -60,8 +61,14 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
         // Set the background color for the main panel
         this.setBackground(new Color(64, 64, 64)); // Dark grey
 
-        // Get the user's guess
+        this.startButton = new JButton("Start");
+        startButton.addActionListener(e -> startUp());
+        startButton.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the button
+        startButton.setPreferredSize(new Dimension(200, 30)); // Match the size of the guess input field
+
+        // Get the user's guess panel
         LabelTextPanel guessInfo = new LabelTextPanel(new JLabel(PlayViewModel.ANSWER_LABEL), guessInputField);
+        guessInfo.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the panel
 
         // Initialize score
         this.scoreLabel = new JLabel("Score: " + this.score);
@@ -82,6 +89,7 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
         JPanel scorePanel = new JPanel();
         scorePanel.setLayout(new BorderLayout());
         scorePanel.add(this.scoreLabel, BorderLayout.EAST);
+        scorePanel.add(this.startButton, BorderLayout.CENTER);
         scorePanel.add(this.timeLabel, BorderLayout.WEST);
         scorePanel.setBackground(new Color(64, 64, 64)); // Dark grey background
         scorePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -94,15 +102,18 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
                     public void keyTyped(KeyEvent e) {
                         PlayState currentState = playViewModel.getState();
                         String input = guessInputField.getText();
-                        //currentState.setGuess(input);
+                        //currentState.setGuess();
                     }
 
                     @Override
                     public void keyPressed(KeyEvent e) {
                         if (e.getKeyCode() == KeyEvent.VK_ENTER){
                             timer.stop();
+                            timerController.updateTimerState();
                             guessController.execute(guessInputField.getText());
                             scoreController.getScore();
+                            timerController.updateTimerState();
+                            playController.StopSong();
                             resetTimer();
                         }
                     }
@@ -122,6 +133,7 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
                     if (timeLeft == 0){
                         timer.stop();
                         JOptionPane.showMessageDialog(null,"Time's up!");
+                        this.playController.StopSong();
                         resetTimer();
                         // go to next song
                     }
@@ -135,8 +147,13 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
         resetTimer();
 
         playViewModel.addPropertyChangeListener(this);
+    }
+
+    public void startUp()
+    {
         this.timerController.setTimer(120);
         this.timerController.startTimer();
+        this.playController.PlaySong();
     }
 
     public void updateSuggestion(List<String> names) {

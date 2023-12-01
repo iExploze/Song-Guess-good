@@ -14,4 +14,7 @@ public interface Song {
 
     void playSong();
     // gets the mp3 file and plays the song
+
+
+    void stopSong();
 }

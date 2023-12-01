@@ -11,11 +11,15 @@ import java.util.Random;
 public class SongData implements Song {
     private final String name;
     private final String url;
+    private volatile boolean playing;
+    private SourceDataLine line;
+    private Thread playbackThread;
 
     public SongData(String name, String url)
     {
         this.name = name;
         this.url = url;
+        this.playing = false;
     }
     @Override
     public String getArtistName() {
@@ -55,77 +59,86 @@ public class SongData implements Song {
      */
     @Override
     public void playSong() {
-        AudioInputStream converted = null;
-        try {
-            // get the audio input stream from the song URL
-            // checks if it's a supported format
-            AudioInputStream audioInput = AudioSystem.getAudioInputStream(new URL(url));
+        // If already playing, do nothing
+        if (playing) {
+            return;
+        }
+        playing = true;
 
-            // get the audio stream format
-            AudioFormat sourceFormat = audioInput.getFormat();
+        // Define the playback thread
+        playbackThread = new Thread(() -> {
+            AudioInputStream audioInput = null;
+            AudioInputStream converted = null;
+            try {
+                // Get the audio input stream from the URL
+                audioInput = AudioSystem.getAudioInputStream(new URL(url));
+                AudioFormat baseFormat = audioInput.getFormat();
+                AudioFormat decodedFormat = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED,
+                        baseFormat.getSampleRate(),
+                        16,
+                        baseFormat.getChannels(),
+                        baseFormat.getChannels() * 2,
+                        baseFormat.getSampleRate(),
+                        false);
+                // Get a decoded audio input stream
+                converted = AudioSystem.getAudioInputStream(decodedFormat, audioInput);
 
-            // converts the original audio input format so that it can be used
-            // allows us to specify the encoding, sampleRate, and other data
-            AudioFormat convertFormat = new AudioFormat(
-                    AudioFormat.Encoding.PCM_SIGNED,
-                    sourceFormat.getSampleRate(), 16, sourceFormat.getChannels(),
-                    sourceFormat.getChannels() * 2, sourceFormat.getSampleRate(),
-                    false);
-
-            // gets the desired audio format after conversion
-            converted = AudioSystem.getAudioInputStream(convertFormat, audioInput);
-
-            // construct a dataline specifying the desired audio line related to the given audio format
-            DataLine.Info info = new DataLine.Info(SourceDataLine.class, convertFormat);
-
-            // fetches the audio line that matches the above requirements
-            // allows us to manipulate the audio (play, stop, etc)
-            SourceDataLine line = (SourceDataLine) AudioSystem.getLine(info);
-
-            if (line != null) {
-                // opens the audio line using the desired audio format
-                // start the line which allows it to start processing data
-                line.open(convertFormat);
-                line.start();
-
-                // creates an array of bytes to read audio data
-                byte[] byteData = new byte[4096];
-                int bytesRead;
-
-                // loop that reads from the desired audio format and writes it to the line
-                // which plays the inputted song
-                // stops when there is no more data to be read
-                while (true) {
-                    bytesRead = converted.read(byteData, 0, byteData.length);
-                    if (bytesRead == -1) {
-                        break;
+                // Get a line that matches the decoded format
+                DataLine.Info info = new DataLine.Info(SourceDataLine.class, decodedFormat);
+                line = (SourceDataLine) AudioSystem.getLine(info);
+                if (line != null) {
+                    line.open(decodedFormat);
+                    byte[] buffer = new byte[4096];
+                    line.start();
+                    int bytesRead;
+                    while (playing && (bytesRead = converted.read(buffer, 0, buffer.length)) != -1) {
+                        line.write(buffer, 0, bytesRead);
                     }
-                    line.write(byteData, 0, bytesRead);
+                    line.drain();
                 }
-
-                // waits for the line to finish playing
-                // stops the line from processing any further info and closes it
-                // closes the converted audio source that was being read from
-                line.drain();
-                line.stop();
-                line.close();
-                converted.close();
-            }
-
-        }
-        // handle exceptions
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        // if the converted source still exists
-        // close it
-        finally {
-            if (converted != null) {
+            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                e.printStackTrace();
+            } finally {
+                if (line != null && line.isOpen()) {
+                    line.stop();
+                    line.close();
+                }
                 try {
-                    converted.close();
-                } catch (IOException e) {
+                    if (audioInput != null) {
+                        audioInput.close();
+                    }
+                    if (converted != null) {
+                        converted.close();
+                    }
+                } catch (IOException ex) {
+                    ex.printStackTrace();
                 }
+            }
+        });
+
+        // Start the playback thread
+        playbackThread.start();
+    }
+
+
+    @Override
+    public void stopSong() {
+        // Set the flag to false to stop the playback loop
+        playing = false;
+
+        // If the line is open, stop and close it
+        if (line != null) {
+            line.stop();
+            line.close();
+        }
+
+        // Interrupt the playback thread and join
+        if (playbackThread != null && playbackThread.isAlive()) {
+            playbackThread.interrupt();
+            try {
+                playbackThread.join();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt(); // Restore the interrupted status
             }
         }
     }

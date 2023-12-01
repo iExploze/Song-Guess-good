@@ -21,7 +21,7 @@ import interface_adapter.guess.GuessPresenter;
 import interface_adapter.login.LoginViewModel;
 
 
-
+import interface_adapter.play_song.PlayPresenter;
 import interface_adapter.score.ScoreController;
 import interface_adapter.score.ScorePresenter;
 import interface_adapter.signup.SignupViewModel;
@@ -41,6 +41,10 @@ import usecase.UserAuth.UAuthOutputData;
 import usecase.guess.GuessInputBoundary;
 import usecase.guess.GuessInteractor;
 import usecase.guess.GuessOutputBoundary;
+import usecase.play_song.PlayInputBoundary;
+import usecase.play_song.PlayInteractor;
+import usecase.play_song.PlayOutputBoundary;
+import usecase.play_song.PlayUserDataAccessInterface;
 import usecase.score.ScoreInputBoundary;
 import usecase.score.ScoreInteractor;
 import usecase.score.ScoreOutputBoundary;
@@ -68,8 +72,7 @@ public class Main {
         ViewManagerModel viewManagerModel = new ViewManagerModel();
         new ViewManager(views, cardLayout, viewManagerModel);
 
-        // Assuming PlayController is correctly implemented and has the required methods
-        PlayController playController = new PlayController();
+
 
         CommonUserFactory commonUserFactory= new CommonUserFactory();
         User user = commonUserFactory.createUser("a","b");
@@ -80,12 +83,11 @@ public class Main {
         Quiz quiz = new PlaylistQuiz(player);
 
         PlayViewModel playViewModel = new PlayViewModel();
-        SkipViewModel skipViewModel = new SkipViewModel();
 
-
-        SkipOutputBoundary skipOutputBoundary = new SkipPresenter(skipViewModel);
-        SkipInputBoundary skipInputBoundary = new SkipInteractor(quiz, skipOutputBoundary);
-        SkipController skipController = new SkipController(skipInputBoundary);
+        // Assuming PlayController is correctly implemented and has the required methods
+        PlayOutputBoundary playOutputBoundary = new PlayPresenter(viewManagerModel, playViewModel);
+        PlayInputBoundary playInputBoundary = new PlayInteractor(quiz, playOutputBoundary);
+        PlayController playController = new PlayController(playInputBoundary);
 
         GuessOutputBoundary guessOutputBoundary = new GuessPresenter(viewManagerModel, playViewModel);
         GuessInputBoundary guessInputBoundary = new GuessInteractor(guessOutputBoundary, quiz);
@@ -102,7 +104,6 @@ public class Main {
         TimerController timerController = new TimerController(timeInteractor, timeInputData);
 
         // Pass the timerController to the PlayView
-        PlayView playView = new PlayView(playController, skipController, scoreController, playViewModel, timerController, guessController);
 
 
         // Test End
@@ -131,9 +132,8 @@ public class Main {
 
         LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel, userDataAccessObject, playViewModel, signupViewModel, quiz);
 
+        PlayView playView = new PlayView(playController, scoreController, playViewModel, timerController, guessController);
 
-
-        views.add(playView, PlayView.viewName);
         // Here, the viewName is a public static final String field in the PlayView class
         views.add(loginView, loginView.viewName);
 
@@ -147,13 +147,8 @@ public class Main {
          // Set the size of the window
         application.setLocationRelativeTo(null); // Center the window
         application.setVisible(true);
-
-
-
-
-
-
-
-
+        views.add(playView, PlayView.viewName);
     }
+
+
 }
