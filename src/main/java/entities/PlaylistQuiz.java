@@ -1,6 +1,7 @@
 package entities;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PlaylistQuiz implements Quiz{
     private Playlist SongList;
@@ -9,6 +10,7 @@ public class PlaylistQuiz implements Quiz{
     private int index;
     private int timeLeft;
     private int points;
+    private List<String> suggestions;
     public PlaylistQuiz(Player player)
     {
         this.index = 0;
@@ -16,11 +18,20 @@ public class PlaylistQuiz implements Quiz{
         this.player = player;
         this.timeLeft = 0;
         this.points = 0;
+        this.suggestions = null;
     }
 
     @Override
     public void setQuiz(Playlist songList) {
         this.SongList = songList;
+    }
+
+    public void setSuggestions(List<String> suggestions) {
+        this.suggestions = suggestions;
+    }
+
+    public List<String> getSuggestions() {
+        return suggestions;
     }
 
     @Override

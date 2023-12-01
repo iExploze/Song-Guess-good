@@ -46,4 +46,11 @@ public class SpotifyPlaylist implements Playlist {
         }
         return null;
     }
+    public List<String> getSuggestions() {
+        List<String> res = new ArrayList();
+        for (Song song : songsList) {
+            res.add(song.getSongName());
+        }
+        return res;
+    }
 }
