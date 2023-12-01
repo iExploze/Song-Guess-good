@@ -1,6 +1,7 @@
 package view;
 
 import app.TextFieldSuggestion;
+import entities.Song;
 import interface_adapter.guess.GuessController;
 import interface_adapter.guess.GuessPresenter;
 import interface_adapter.login.LoginState;
@@ -64,17 +65,19 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
         // Get the user's guess
         LabelTextPanel guessInfo = new LabelTextPanel(new JLabel(PlayViewModel.ANSWER_LABEL), guessInputField);
 
-        // Initialize score
-        this.score = 0;
-        this.scoreLabel = new JLabel("Score: " + this.score);
-        this.scoreLabel.setFont(new Font("SansSerif", Font.BOLD, 50));
-        this.scoreLabel.setForeground(Color.WHITE); // White font for visibility
+
 
         // Initialize Timer
         this.timeLeft = 0;
         this.timeLabel = new JLabel("Time: " + this.timeLeft);
         this.timeLabel.setFont(new Font("SansSerif", Font.BOLD, 50));
         this.timeLabel.setForeground(Color.WHITE); // White font for visibility
+        // Initialize score
+        this.score = 0;
+        this.scoreLabel = new JLabel("Score: " + this.score);
+        this.scoreLabel.setFont(new Font("SansSerif", Font.BOLD, 50));
+        this.scoreLabel.setForeground(Color.WHITE); // White font for visibility
+
 
         // Create skip button
         this.skipButton = new JButton("Skip");
@@ -108,8 +111,8 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
         // Score Panel - Positioned at the top right
         JPanel scorePanel = new JPanel();
         scorePanel.setLayout(new BorderLayout());
+        scorePanel.add(this.scoreLabel, BorderLayout.WEST);
         scorePanel.add(this.scoreLabel, BorderLayout.EAST);
-        scorePanel.add(this.timeLabel, BorderLayout.WEST);
         scorePanel.setBackground(new Color(64, 64, 64)); // Dark grey background
         scorePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
@@ -170,24 +173,27 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
         }
     }
 
-    private void updateScore() {
+    private void updateScore(int score) {
+        this.playViewModel.setScore(score);
         this.scoreLabel.setText("Score: " + this.playViewModel.getScore());
     }
 
     private void updateTime() {
         this.scoreLabel.setText("Time Left: " + this.playViewModel.getTime());
     }
+    private void updateSong(Song song) { //something that plays the song
 
+    }
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
 
-        if ("score".equals(evt.getPropertyName())) {
-            updateScore();
-        }
-        if ("time".equals(evt.getPropertyName())) {
-            //System.out.println("L");
+        if ("state".equals(evt.getPropertyName())) {
+            PlayState state = (PlayState) evt.getNewValue();
+            updateScore(state.getScore());
             updateTime();
+            updateSong(state.getSong());
         }
+
         if ("suggestion".equals(evt.getPropertyName())) {
             PlayState state = (PlayState) evt.getNewValue();
             updateSuggestion(state.getSuggestions());

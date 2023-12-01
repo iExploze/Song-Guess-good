@@ -57,20 +57,14 @@ public class PlayViewModel extends ViewModel {
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         support.addPropertyChangeListener(listener);
     }
-    public void setSuggestion() {
-        this.state = state;
-        support.firePropertyChange("suggestion", null, this.state);
-    }
 
     // Fire all property changes, this can be used to notify observers of all changes at once
     @Override
     public void firePropertyChanged() {
         // Notify about the score change
-        support.firePropertyChange("score", null, this.score);
-        // Notify about the time change
-        support.firePropertyChange("time", null, this.time);
         // Notify about the state change
         support.firePropertyChange("state", null, this.state);
         support.firePropertyChange("suggestion", null, this.state);
+
     }
 }

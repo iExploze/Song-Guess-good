@@ -1,5 +1,6 @@
 package interface_adapter.guess;
 
+import entities.Song;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.PlayState;
 import interface_adapter.PlayViewModel;
@@ -22,6 +23,8 @@ public class GuessPresenter implements GuessOutputBoundary {
     @Override
     public void prepareSuccessView(GuessOutputData correctGuess) {
         PlayState playState = playViewModel.getState();
+        playState.setSong(correctGuess.getNewSong());
+        playState.setScore(correctGuess.getScore());
         this.playViewModel.setState(playState);
         //playState.setGuess(correctGuess.getGuess());
 
@@ -34,9 +37,16 @@ public class GuessPresenter implements GuessOutputBoundary {
     }
 
     @Override
-    public void prepareFailView(String songName) {
-        String incorrectMessage = "Your guess was not correct. The current song playing is " + songName + ".";
+    public void prepareFailView(String oldSongName, Song song, int score) {
+        String incorrectMessage = "Your guess was not correct. The current song playing is " + oldSongName + ".";
         JOptionPane.showMessageDialog(null, incorrectMessage);
+
+
+        //update song on play view
+        PlayState playState = playViewModel.getState();
+        playState.setSong(song);
+        playState.setScore(score);
+        this.playViewModel.setState(playState);
 
         playViewModel.firePropertyChanged();
         viewManagerModel.setActiveView(playViewModel.getViewName());
