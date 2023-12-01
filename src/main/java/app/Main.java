@@ -54,9 +54,19 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import javax.swing.UIManager;
+import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.FlatLightLaf;
+import javax.swing.UnsupportedLookAndFeelException;
+
+
 
 public class Main {
     public static void main(String[] args) {
+
+        try {
+            UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+        } catch(Exception ignored){}
 
         JFrame application = new JFrame("Song Playback Example");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
