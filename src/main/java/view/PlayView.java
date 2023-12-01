@@ -3,6 +3,7 @@ package view;
 import app.TextFieldSuggestion;
 import interface_adapter.guess.GuessController;
 import interface_adapter.guess.GuessPresenter;
+import interface_adapter.login.LoginState;
 import interface_adapter.play_song.PlayController;
 import interface_adapter.PlayViewModel;
 import interface_adapter.score.ScoreController;
@@ -23,6 +24,7 @@ import java.util.List;
 public class PlayView extends JPanel implements ActionListener, PropertyChangeListener {
     public static final String viewName = "PLAY_VIEW"; // Add a static constant for the view name
     private PlayViewModel playViewModel;
+    private PlayState playState;
 
     // buttons
     private final JButton skipButton;
@@ -55,6 +57,7 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
         this.setLayout(new BorderLayout());
         this.guessInputField = new TextFieldSuggestion();
         this.guessInputField.setPreferredSize(new Dimension(200, 30));
+        this.playState = new PlayState();
         // Set the background color for the main panel
         this.setBackground(new Color(64, 64, 64)); // Dark grey
 
@@ -143,11 +146,13 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
         playViewModel.addPropertyChangeListener(this);
     }
 
-    public void addSuggestions(List<String> names) {
+    public void updateSuggestion(List<String> names) {
         for (String item: names) {
             guessInputField.addItemSuggestion(item);
         }
     }
+
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(this.skipButton)) {
@@ -175,12 +180,17 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+
         if ("score".equals(evt.getPropertyName())) {
             updateScore();
         }
         if ("time".equals(evt.getPropertyName())) {
             //System.out.println("L");
             updateTime();
+        }
+        if ("suggestion".equals(evt.getPropertyName())) {
+            PlayState state = (PlayState) evt.getNewValue();
+            updateSuggestion(state.getSuggestions());
         }
 
     }

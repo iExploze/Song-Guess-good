@@ -1,5 +1,6 @@
 package app;
 
+import entities.Quiz;
 import entities.Users.CommonUser;
 import entities.Users.CommonUserFactory;
 import interface_adapter.PlayViewModel;
@@ -25,10 +26,10 @@ public class SignupUseCaseFactory {
 
     public static SignupView create(
             ViewManagerModel viewManagerModel, LoginViewModel loginViewModel, SignupViewModel signupViewModel, SignupUserDataAccessInterface userDataAccessObject,
-            PlayViewModel playViewModel) {
+            PlayViewModel playViewModel, Quiz quiz) {
 
         try {
-            SignupController signupController = createUserSignupUseCase(viewManagerModel, signupViewModel, loginViewModel, userDataAccessObject, playViewModel);
+            SignupController signupController = createUserSignupUseCase(viewManagerModel, signupViewModel, loginViewModel, userDataAccessObject, playViewModel, quiz);
             return new SignupView(signupController, signupViewModel,loginViewModel);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Could not open user data file.");
@@ -39,7 +40,7 @@ public class SignupUseCaseFactory {
 
 
     private static SignupController createUserSignupUseCase(ViewManagerModel viewManagerModel, SignupViewModel signupViewModel, LoginViewModel loginViewModel, SignupUserDataAccessInterface userDataAccessObject,
-    PlayViewModel playViewModel) throws IOException {
+    PlayViewModel playViewModel, Quiz quiz) throws IOException {
 
         // Notice how we pass this method's parameters to the Presenter.
         SignUpOutputBoundary signupOutputBoundary = new SignupPresenter(viewManagerModel, signupViewModel, loginViewModel, playViewModel);
@@ -47,7 +48,7 @@ public class SignupUseCaseFactory {
         CommonUserFactory userFactory = new CommonUserFactory();
 
         SignUpInputBoundary userSignupInteractor = new SignUpInteractor(userFactory,
-                userDataAccessObject, signupOutputBoundary);
+                userDataAccessObject, signupOutputBoundary, quiz);
 
         return new SignupController(userSignupInteractor);
     }

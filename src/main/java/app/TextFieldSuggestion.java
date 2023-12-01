@@ -6,7 +6,7 @@ public class TextFieldSuggestion extends JTextField {
     private TextFieldSuggestionUI textUI;
 
 
-    public void TextFieldSuggestion() {
+    public TextFieldSuggestion() {
         this.textUI = new TextFieldSuggestionUI(this);
         this.setUI(textUI);
 
