@@ -1,5 +1,7 @@
 package usecase.Login;
 
+import entities.Player;
+
 import java.io.IOException;
 
 public interface LoginInputBoundary {

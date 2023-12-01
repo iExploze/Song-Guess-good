@@ -37,6 +37,8 @@ public class LoginPresenter implements LoginOutputBoundary {
 
         this.viewManagerModel.setActiveView(playViewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();
+
+
     }
 
     @Override

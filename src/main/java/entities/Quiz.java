@@ -3,6 +3,8 @@ package entities;
 import java.util.ArrayList;
 
 public interface Quiz {
+
+    void setQuiz(Playlist songList);
     ArrayList<Player> players();
 
     Song currentPlaying();

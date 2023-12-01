@@ -1,9 +1,10 @@
 package entities;
 
-import java.util.ArrayList;
+
+import java.util.List;
 
 public interface Playlist {
-    ArrayList<Song> songsList();
+    List<Song> getSongsList();
 
     Song getSong(int index);
 

@@ -1,5 +1,6 @@
 package app;
 
+import entities.Quiz;
 import entities.Users.CommonUserFactory;
 import interface_adapter.PlayViewModel;
 import interface_adapter.ViewManagerModel;
@@ -24,10 +25,10 @@ public class LoginUseCaseFactory {
             ViewManagerModel viewManagerModel,
             LoginViewModel loginViewModel,
             LoginUserDataAccessInterface userDataAccessObject,
-            PlayViewModel playViewModel, SignupViewModel signupViewModel) {
+            PlayViewModel playViewModel, SignupViewModel signupViewModel, Quiz quiz) {
 
         try {
-            LoginController loginController = createLoginUseCase(viewManagerModel, loginViewModel, userDataAccessObject, playViewModel, signupViewModel);
+            LoginController loginController = createLoginUseCase(viewManagerModel, loginViewModel, userDataAccessObject, playViewModel, signupViewModel, quiz);
             return new LoginView(loginViewModel, loginController);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Could not open user data file.");
@@ -41,7 +42,7 @@ public class LoginUseCaseFactory {
             LoginViewModel loginViewModel,
             LoginUserDataAccessInterface userDataAccessObject,
             PlayViewModel playViewModel,
-            SignupViewModel signupViewModel) throws IOException {
+            SignupViewModel signupViewModel, Quiz quiz) throws IOException {
 
         // Notice how we pass this method's parameters to the Presenter.
         LoginOutputBoundary loginOutputBoundary = new LoginPresenter(viewManagerModel, playViewModel, loginViewModel, signupViewModel);
@@ -49,7 +50,7 @@ public class LoginUseCaseFactory {
         CommonUserFactory userFactory = new CommonUserFactory();
 
         LoginInputBoundary loginInteractor = new LoginInteractor(
-                userDataAccessObject, loginOutputBoundary);
+                userDataAccessObject, loginOutputBoundary, quiz);
 
         return new LoginController(loginInteractor);
     }

@@ -15,7 +15,7 @@ public class SongData implements Song {
     public SongData(String name, String url)
     {
         this.name = name;
-        this.url = getURL();
+        this.url = url;
     }
     @Override
     public String getArtistName() {

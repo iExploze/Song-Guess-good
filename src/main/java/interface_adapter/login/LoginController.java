@@ -1,6 +1,7 @@
 package interface_adapter.login;
 
 
+import entities.Player;
 import usecase.Login.LoginInputBoundary;
 import usecase.Login.LoginInputData;
 
