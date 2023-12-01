@@ -144,7 +144,7 @@ public class Main {
         viewManagerModel.firePropertyChanged();
 
         application.pack();
-         // Set the size of the window
+        // Set the size of the window
         application.setLocationRelativeTo(null); // Center the window
         application.setVisible(true);
 
