@@ -5,11 +5,9 @@ import entities.Song;
 import interface_adapter.guess.GuessController;
 import interface_adapter.guess.GuessPresenter;
 import interface_adapter.login.LoginState;
-import interface_adapter.play_song.PlayController;
 import interface_adapter.PlayViewModel;
 import interface_adapter.score.ScoreController;
 import interface_adapter.PlayState;
-import interface_adapter.skip_song.SkipController;
 import interface_adapter.timer.TimerController;
 
 import javax.sound.sampled.*;
@@ -47,8 +45,7 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
     BackgroundAudioPlayer audioPlayer;
     private boolean timerStarted;
 
-    public PlayView(PlayController playController,
-                    ScoreController scoreController,
+    public PlayView(ScoreController scoreController,
                     PlayViewModel playViewModel,
                     TimerController timerController,
                     GuessController guessController) {

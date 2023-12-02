@@ -10,9 +10,6 @@ import entities.SinglePlayer;
 import entities.Users.CommonUserFactory;
 import entities.Users.User;
 import interface_adapter.PlayViewModel;
-import interface_adapter.UAuth.UAuthController;
-import interface_adapter.UAuth.UAuthPresenter;
-import interface_adapter.UAuth.UAuthViewModel;
 import interface_adapter.ViewManagerModel;
 
 import interface_adapter.guess.GuessController;
@@ -20,7 +17,6 @@ import interface_adapter.guess.GuessPresenter;
 import interface_adapter.login.LoginViewModel;
 
 
-import interface_adapter.play_song.PlayPresenter;
 import interface_adapter.score.ScoreController;
 import interface_adapter.score.ScorePresenter;
 import interface_adapter.signup.SignupViewModel;
@@ -33,16 +29,12 @@ import usecase.UserAuth.UAuthOutputData;
 import usecase.guess.GuessInputBoundary;
 import usecase.guess.GuessInteractor;
 import usecase.guess.GuessOutputBoundary;
-import usecase.play_song.PlayInputBoundary;
-import usecase.play_song.PlayInteractor;
-import usecase.play_song.PlayOutputBoundary;
 import usecase.score.ScoreInputBoundary;
 import usecase.score.ScoreInteractor;
 import usecase.score.ScoreOutputBoundary;
 import usecase.timer.*;
 
 import view.*;
-import interface_adapter.play_song.PlayController;
 
 
 import javax.swing.*;
@@ -75,7 +67,6 @@ public class Main {
         PlayViewModel playViewModel = new PlayViewModel();
 
         // Assuming PlayController is correctly implemented and has the required methods
-        PlayController playController = new PlayController();
 
         GuessOutputBoundary guessOutputBoundary = new GuessPresenter(viewManagerModel, playViewModel);
         GuessInputBoundary guessInputBoundary = new GuessInteractor(guessOutputBoundary, quiz);
@@ -93,15 +84,6 @@ public class Main {
 
         // Pass the timerController to the PlayView
 
-
-        // Test End
-        UAuthOutputData uAuthOutputData = new UAuthOutputData();
-
-        UAuthViewModel uAuthViewModel = new UAuthViewModel();
-        UAuthOutputBoundary uAuthOutputBoundary = new UAuthPresenter(uAuthOutputData, uAuthViewModel);
-        UAuthInputBoundary uAuthInputBoundary = new UAuthInteractor(uAuthOutputBoundary, uAuthOutputData);
-        UAuthController uAuthController = new UAuthController(uAuthInputBoundary);
-        UAuthView uAuthView = new UAuthView(uAuthController, uAuthViewModel);
         LoginViewModel loginViewModel = new LoginViewModel();
         SignupViewModel signupViewModel = new SignupViewModel();
 
@@ -120,12 +102,10 @@ public class Main {
 
         LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel, userDataAccessObject, playViewModel, signupViewModel, quiz);
 
-        PlayView playView = new PlayView(playController, scoreController, playViewModel, timerController, guessController);
+        PlayView playView = new PlayView(scoreController, playViewModel, timerController, guessController);
 
         // Here, the viewName is a public static final String field in the PlayView class
         views.add(loginView, loginView.viewName);
-
-        views.add(uAuthView, UAuthView.viewName);
         views.add(signupView, signupView.viewName);
         //viewManagerModel.setActiveView(UAuthView.viewName);
         viewManagerModel.setActiveView(loginView.viewName);
