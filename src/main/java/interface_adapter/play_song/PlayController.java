@@ -4,18 +4,18 @@ import usecase.play_song.PlayInputBoundary;
 
 public class PlayController {
 
-    private final PlayInputBoundary playInputBoundary;
-    public PlayController(PlayInputBoundary playInputBoundary)
+
+    public PlayController()
     {
-        this.playInputBoundary = playInputBoundary;
+
     }
     public void PlaySong()
     {
-        this.playInputBoundary.PlaySong();
+
     }
 
     public void StopSong()
     {
-        this.playInputBoundary.StopSong();
+
     }
 }

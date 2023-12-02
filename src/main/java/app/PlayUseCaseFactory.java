@@ -43,7 +43,7 @@ public class PlayUseCaseFactory {
         SkipController skipController = createUsersSkipCase(viewManagerModel, skipViewModel, quiz);
         ScoreController scoreController = createUsersScoreCase(playViewModel, quiz);
         TimerController timerController = createUsersTimerCase(playViewModel, quiz);
-        return new PlayView(playController, skipController,
+        return new PlayView(playController,
                 scoreController, playViewModel,
                 timerController, guessController);
     }

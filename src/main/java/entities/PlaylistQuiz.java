@@ -90,8 +90,7 @@ public class PlaylistQuiz implements Quiz{
     }
 
     public void decreaseTime() {
-        if(this.timeLeft > 0)
-            this.timeLeft = this.timeLeft - 1;
+        this.timeLeft = this.timeLeft - 1;
     }
 
     public void decreaseTime(int amount) {

@@ -6,23 +6,22 @@ import entities.Quiz;
 import entities.Song;
 
 public class PlayInteractor implements PlayInputBoundary{
-    final Quiz quiz;
+    final PlayUserDataAccessInterface playUserDataAccessInterface;
     final PlayOutputBoundary playPresenter;
 
-    public PlayInteractor(Quiz quiz, PlayOutputBoundary playOutputBoundary) {
-        this.quiz = quiz;
+    public PlayInteractor(PlayUserDataAccessInterface playUserDataAccessInterface, PlayOutputBoundary playOutputBoundary) {
+        this.playUserDataAccessInterface = playUserDataAccessInterface;
         this.playPresenter = playOutputBoundary;
     }
 
     @Override
     public void PlaySong() {
-        if(quiz.currentPlaying() != null)
-            this.quiz.currentPlaying().playSong();
+
     }
 
     @Override
     public void StopSong() {
-        this.quiz.currentPlaying().stopSong();
+
     }
 
 }
