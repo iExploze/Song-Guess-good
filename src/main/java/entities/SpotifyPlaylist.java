@@ -4,10 +4,7 @@ import entities.Playlist;
 import entities.Song;
 
 import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class SpotifyPlaylist implements Playlist {
 
@@ -23,6 +20,7 @@ public class SpotifyPlaylist implements Playlist {
             String url = track.get("preview_url");
             songsList.add(new SongData(name, url)); // Assuming SongData is a concrete implementation of Song
         }
+        Collections.shuffle(this.songsList);
     }
     @Override
     public ArrayList<Song> getSongsList() {

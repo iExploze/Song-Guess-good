@@ -29,7 +29,7 @@ public class UserTopTracksDataAccessObject implements userTrackandPlaylistDataAc
     public String getTopTracks() throws IOException {
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://api.spotify.com/v1/me/top/tracks?limit=50"))
+                .uri(URI.create("https://api.spotify.com/v1/me/top/tracks?limit=50&time_range=long_term"))
                 .header("Authorization", "Bearer " + this.user.getAccessToken())
                 .GET()
                 .build();
