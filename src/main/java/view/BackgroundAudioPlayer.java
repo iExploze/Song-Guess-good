@@ -61,6 +61,9 @@ public class BackgroundAudioPlayer extends SwingWorker<Void, Void> {
                 // start the line which allows it to start processing data
                 line.open(convertFormat);
                 line.start();
+                FloatControl gainControl = (FloatControl) line.getControl(FloatControl.Type.MASTER_GAIN);
+                // Value is in decibels. 0 dB is normal volume, a positive value means increased volume, negative means decreased.
+                gainControl.setValue(-32.5f);
 
                 // creates an array of bytes to read audio data
                 byte[] byteData = new byte[4096];

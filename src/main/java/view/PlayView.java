@@ -28,6 +28,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class PlayView extends JPanel implements ActionListener, PropertyChangeListener {
+    private int times = 0;
     public static final String viewName = "PLAY_VIEW"; // Add a static constant for the view name
     private PlayViewModel playViewModel;
     private PlayState playState;
@@ -196,6 +197,10 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
 
 
     private void updateSong(Song song) { //something that plays the songaudioPlayer.setSong(song);
+        if (times >= 50) {
+            JOptionPane.showMessageDialog(null, "The Game is Over. You Score Was: " + this.score);
+            System.exit(0);
+        }
         if (audioPlayer != null) {
             audioPlayer.setPlaying(false);
             audioPlayer.cancel(true);
@@ -225,6 +230,8 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
         audioPlayer.setSong(song);
         audioPlayer.setPlaying(true);
         audioPlayer.execute();
+        times++;
+
     }
 
     private void resetTimer() {

@@ -8,10 +8,7 @@ import entities.Users.User;
 import usecase.Suggestions.SuggestionOutputBoundary;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 public class LoginInteractor implements LoginInputBoundary {
@@ -40,7 +37,8 @@ public class LoginInteractor implements LoginInputBoundary {
 
                 User user = userDataAccessObject.getUser(loginInputData.getUsername());
                 UserTopTracks userTopTracksObject = new UserTopTracksObject();
-                SpotifyPlaylist spotifyPlaylist = new SpotifyPlaylist(userTopTracksObject.getTopTracks(user));
+                List<HashMap<String, String>> topTracks = userTopTracksObject.getTopTracks(user);
+                SpotifyPlaylist spotifyPlaylist = new SpotifyPlaylist(topTracks);
                 quiz.setQuiz(spotifyPlaylist);
                 // Gets top 200 songs and then adds current songs from playlist to them. hashset ensures uniqueness.
                 getTop200SongNames g = new getTop200SongNames();
