@@ -212,7 +212,7 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
 
 
     private void updateSong(Song song) { //something that plays the songaudioPlayer.setSong(song);
-        if (times >= 3) {
+        if (times >= 50) {
             JOptionPane.showMessageDialog(null, "The Game is Over. You Score Was: " + this.score);
             System.exit(0);
         }
