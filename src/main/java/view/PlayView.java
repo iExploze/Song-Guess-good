@@ -31,9 +31,7 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
     private int times = 0;
     public static final String viewName = "PLAY_VIEW"; // Add a static constant for the view name
     private PlayViewModel playViewModel;
-    private PlayState playState;
-    private ExecutorService executorService;
-    ;
+    private PlayState playState;;
     // buttons
     private final JButton skipButton;
     private final JButton pauseButton;
@@ -110,13 +108,6 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
         this.startButton.setForeground(Color.BLACK); // White text for visibility
 
 
-        // Panel for skip button
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridBagLayout());
-        buttonPanel.setBackground(new Color(64, 64, 64)); // Dark grey background
-        buttonPanel.add(this.skipButton);
-        buttonPanel.add(this.startButton);
-        buttonPanel.add(this.pauseButton);
 
         // Score Panel - Positioned at the top right
         JPanel scorePanel = new JPanel();
@@ -170,7 +161,6 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
 
         // Add components to layout
 
-        this.add(buttonPanel, BorderLayout.CENTER);
         this.add(scorePanel, BorderLayout.NORTH);
         this.add(guessInfo);
         this.add(timerProgress, BorderLayout.SOUTH);
