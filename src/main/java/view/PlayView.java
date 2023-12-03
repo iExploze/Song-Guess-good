@@ -1,13 +1,11 @@
 package view;
 
-import app.TextFieldSuggestion;
 import interface_adapter.PlayState;
 import interface_adapter.PlayViewModel;
 import interface_adapter.guess.GuessController;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;

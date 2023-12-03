@@ -1,6 +1,6 @@
 import app.LoginUseCaseFactory;
 import app.SignupUseCaseFactory;
-import app.TextFieldSuggestion;
+import view.TextFieldSuggestion;
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
 import dataAccessObjects.UserStorage.FileUserDataAccessObject;
@@ -26,7 +26,6 @@ import view.SignupView;
 import view.ViewManager;
 
 import javax.swing.*;
-import javax.ws.rs.core.Application;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.IOException;

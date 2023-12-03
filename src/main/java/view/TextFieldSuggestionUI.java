@@ -1,4 +1,4 @@
-package app;
+package view;
 
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
