@@ -243,7 +243,7 @@ public class PlayView extends JPanel implements ActionListener, PropertyChangeLi
             updateMainTimer();
             if (this.playViewModel.getTime() == 0)
             {
-                JOptionPane.showMessageDialog(null, "The Game is Over. You Score Was: " + this.score);
+                JOptionPane.showMessageDialog(null, "The Game is Over. You Score Was: " + this.playViewModel.getScore());
                 System.exit(0);
             }
         }
