@@ -1,6 +1,6 @@
 package app;
 
-import org.apache.http.auth.AUTH;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -10,7 +10,6 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.util.ArrayList;
 import java.util.List;
-import org.jdesktop.swingx.autocomplete.*;
 
 public class TextFieldSuggestionUI extends MetalTextFieldUI {
     public int getRound() {

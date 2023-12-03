@@ -1,7 +1,5 @@
 package view;
 
-import entities.Song;
-
 import javax.sound.sampled.*;
 import javax.swing.*;
 import java.io.IOException;
@@ -9,31 +7,31 @@ import java.net.URL;
 
 public class BackgroundAudioPlayer extends SwingWorker<Void, Void> {
     private volatile boolean isPlaying = false;
-    private Song song;
+    private String songURL;
     private SourceDataLine line;
     public BackgroundAudioPlayer() {    }
 
-    public void setSong(Song song) {
-        this.song = song;
+    public void setSong(String songURL) {
+        this.songURL = songURL;
     }
 
     @Override
     protected Void doInBackground() throws Exception {
         while (!isCancelled()) {
             if (isPlaying) {
-                playSong(song);
+                playSong(songURL);
             } else {
                 stopPlayback();
             }
         }
         return null;
     }
-    private void playSong(Song song) {
+    private void playSong(String songURL) {
         AudioInputStream converted = null;
         try {
             // get the audio input stream from the song URL
             // checks if it's a supported format
-            AudioInputStream audioInput = AudioSystem.getAudioInputStream(new URL(song.getURL()));
+            AudioInputStream audioInput = AudioSystem.getAudioInputStream(new URL(songURL));
 
             // get the audio stream format
             AudioFormat sourceFormat = audioInput.getFormat();

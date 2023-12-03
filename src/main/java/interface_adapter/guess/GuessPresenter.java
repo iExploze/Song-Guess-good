@@ -1,14 +1,12 @@
 package interface_adapter.guess;
 
-import entities.Song;
-import interface_adapter.ViewManagerModel;
 import interface_adapter.PlayState;
 import interface_adapter.PlayViewModel;
+import interface_adapter.ViewManagerModel;
 import usecase.guess.GuessOutputBoundary;
 import usecase.guess.GuessOutputData;
 
 import javax.swing.*;
-import javax.swing.text.View;
 
 public class GuessPresenter implements GuessOutputBoundary {
     private final PlayViewModel playViewModel;
@@ -37,14 +35,14 @@ public class GuessPresenter implements GuessOutputBoundary {
     }
 
     @Override
-    public void prepareFailView(String oldSongName, Song song, int score) {
+    public void prepareFailView(String oldSongName, String songURL, int score) {
         String incorrectMessage = "Your guess was not correct. The current song playing is " + oldSongName + ".";
         JOptionPane.showMessageDialog(null, incorrectMessage);
 
 
         //update song on play view
         PlayState playState = playViewModel.getState();
-        playState.setSong(song);
+        playState.setSong(songURL);
         playState.setScore(score);
         this.playViewModel.setState(playState);
 

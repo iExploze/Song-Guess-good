@@ -1,13 +1,10 @@
 package interface_adapter;
 
-import entities.Quiz;
-import entities.Song;
-
 import java.util.List;
 
 public class PlayState {
     private int score;
-    private Song song;
+    private String songURL;
     private String guess = "";
     private String incorrectGuessMessage = null;
     private List<String> suggestions;
@@ -22,15 +19,15 @@ public class PlayState {
 
     public void setGuess(){};
     //ublic void setScore();
-    public void setSong(Song song){
-        this.song = song;
+    public void setSong(String songurl){
+        this.songURL = songurl;
     };
-    public Song getSong(){
-        return this.song;
+    public String getSong(){
+        return this.songURL;
     }
 
-    public void setSuggestions(Quiz quiz) {
-        this.suggestions = quiz.getSuggestions();
+    public void setSuggestions(List<String> suggestions) {
+        this.suggestions = suggestions;
     }
 
     public List<String> getSuggestions() {

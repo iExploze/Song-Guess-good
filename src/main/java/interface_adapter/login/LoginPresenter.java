@@ -31,8 +31,8 @@ public class LoginPresenter implements LoginOutputBoundary {
 
         // using user change playViewModel, create it, and set to new presenter
         PlayState playState = playViewModel.getState();
-        playState.setSuggestions(response.getQuiz());
-        playState.setSong(response.getQuiz().currentPlaying());
+        playState.setSuggestions(response.getSuggestions());
+        playState.setSong(response.getSong());
         this.playViewModel.setState(playState);
         this.playViewModel.setSuggestions(playState);
         this.playViewModel.firePropertyChanged();

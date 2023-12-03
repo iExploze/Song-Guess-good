@@ -1,13 +1,9 @@
 package entities;
 
-import dataAccessObjects.spotifyAccessObjects.UserTopTracks;
-import dataAccessObjects.spotifyAccessObjects.UserTopTracksDataAccessObject;
 import dataAccessObjects.spotifyAccessObjects.UserTopTracksObject;
 import entities.Users.User;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
 
 public class SinglePlayer implements Player {
     private float points;

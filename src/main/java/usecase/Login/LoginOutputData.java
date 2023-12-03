@@ -1,17 +1,20 @@
 package usecase.Login;
 
-import entities.Quiz;
 import entities.Users.User;
+
+import java.util.List;
 
 public class LoginOutputData {
 
     private final User user;
-    private Quiz quiz;
+    private List suggestions;
+    private String song;
     private boolean useCaseFailed;
 
-    public LoginOutputData(User user, Quiz quiz, boolean useCaseFailed) {
+    public LoginOutputData(User user, List suggestions, String strings, boolean useCaseFailed) {
         this.user = user;
-        this.quiz = quiz;
+        this.suggestions = suggestions;
+        this.song = strings;
         this.useCaseFailed = useCaseFailed;
     }
 
@@ -19,8 +22,11 @@ public class LoginOutputData {
         return user.getUsername();
     }
 
-    public Quiz getQuiz() {
-        return quiz;
+    public List getSuggestions() {
+        return suggestions;
     }
 
+    public String getSong() {
+        return song;
+    }
 }

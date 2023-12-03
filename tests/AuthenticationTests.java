@@ -1,4 +1,3 @@
-
 import com.google.gson.Gson;
 import dataAccessObjects.spotifyAccessObjects.*;
 import entities.Users.CommonUserFactory;
@@ -11,7 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 public class AuthenticationTests {
     userAuthentication userauthentication;
     String authorization;

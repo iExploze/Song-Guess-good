@@ -1,7 +1,6 @@
 package dataAccessObjects.spotifyAccessObjects;
 
 import com.google.gson.Gson;
-import entities.Users.CommonUserFactory;
 import entities.Users.User;
 
 import java.io.IOException;
@@ -54,6 +53,7 @@ public class UserAuthenticationBuilder {
         }
 
         String topTracks = this.userTopTracksDataAccessObject.getTopTracks();
+
 
         List topTrackData = userTopTracksDataAccessObject.topTracksResponseToNamePreviewUrl(topTracks);
         return topTrackData;
