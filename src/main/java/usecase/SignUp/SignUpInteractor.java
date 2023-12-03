@@ -1,9 +1,9 @@
 package usecase.SignUp;
 
-import dataAccessObjects.UserStorage.UserDataAccessObject;
-
 import dataAccessObjects.getTop200SongNames;
-import dataAccessObjects.spotifyAccessObjects.*;
+import dataAccessObjects.spotifyAccessObjects.UserAuthenticationBuilder;
+import dataAccessObjects.spotifyAccessObjects.UserTopTracks;
+import dataAccessObjects.spotifyAccessObjects.UserTopTracksObject;
 import entities.Quiz;
 import entities.SpotifyPlaylist;
 import entities.Users.User;
@@ -55,10 +55,9 @@ public class SignUpInteractor implements SignUpInputBoundary {
             Set<String> topSongsSet = new HashSet<>(topSongs);
             topSongsSet.addAll(spotifyPlaylist.getSuggestions());
             List<String> allSuggestions = new ArrayList<>(topSongsSet);
-
             quiz.setSuggestions(allSuggestions);
             userDataAccessObject.save(user);
-            SignUpOutputData signUpOutputData = new SignUpOutputData(user, quiz);
+            SignUpOutputData signUpOutputData = new SignUpOutputData(user, quiz.getSuggestions(), quiz.currentPlaying().getURL());
             userPresenter.prepareSuccessView(signUpOutputData);
         }
 

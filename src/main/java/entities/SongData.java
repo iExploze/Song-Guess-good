@@ -47,4 +47,9 @@ public class SongData implements Song {
     public String playSong() {
         return this.url;
     }
+
+    @Override
+    public void stopSong() {
+
+    }
 }

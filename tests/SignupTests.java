@@ -1,4 +1,3 @@
-
 import dataAccessObjects.UserStorage.FileUserDataAccessObject;
 import dataAccessObjects.UserStorage.InMemoryUserDataAccessObject;
 import dataAccessObjects.UserStorage.UserDataAccessObject;
@@ -9,7 +8,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 
 public class SignupTests {

@@ -1,10 +1,9 @@
 package entities;
 
-import entities.Playlist;
-import entities.Song;
-
-import java.security.SecureRandom;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 
 public class SpotifyPlaylist implements Playlist {
 

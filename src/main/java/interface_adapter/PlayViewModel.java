@@ -1,5 +1,7 @@
 package interface_adapter;
 
+import view.PlayView;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
@@ -13,6 +15,8 @@ public class PlayViewModel extends ViewModel {
     private PlayState state = new PlayState();
     private int score;
     private int time; // New attribute for the timer
+
+    private PlayView playView;
 
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
 
@@ -66,5 +70,9 @@ public class PlayViewModel extends ViewModel {
         // Notify about the state change
         support.firePropertyChange("state", null, this.state);
 
+    }
+
+    public void fireTimeChanged() {
+        support.firePropertyChange("time", null, this.state);
     }
 }

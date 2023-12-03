@@ -3,13 +3,9 @@ package interface_adapter.signup;
 import interface_adapter.PlayState;
 import interface_adapter.PlayViewModel;
 import interface_adapter.ViewManagerModel;
-import interface_adapter.login.LoginState;
 import interface_adapter.login.LoginViewModel;
 import usecase.SignUp.SignUpOutputBoundary;
 import usecase.SignUp.SignUpOutputData;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 public class SignupPresenter implements SignUpOutputBoundary {
 
@@ -33,8 +29,8 @@ public class SignupPresenter implements SignUpOutputBoundary {
         // On success, switch to the play view.
         //response has a user, we can use it to make a play view
         PlayState playState = playViewModel.getState();
-        playState.setSuggestions(response.getQuiz());
-        playState.setSong(response.getQuiz().currentPlaying());
+        playState.setSuggestions(response.getSuggestions());
+        playState.setSong(response.getSong());
         this.playViewModel.setSuggestions(playState);
         this.playViewModel.setState(playState);
         this.playViewModel.firePropertyChanged();

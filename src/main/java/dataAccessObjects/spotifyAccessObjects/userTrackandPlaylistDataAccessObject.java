@@ -1,7 +1,5 @@
 package dataAccessObjects.spotifyAccessObjects;
 
-import dataAccessObjects.spotifyAccessObjects.UserTopTracksDataAccessObject;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;

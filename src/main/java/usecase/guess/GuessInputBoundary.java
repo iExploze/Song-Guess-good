@@ -1,5 +1,5 @@
 package usecase.guess;
 
 public interface GuessInputBoundary {
-    void execute(GuessInputData guessInputData);
+    public void execute(GuessInputData guessInputData);
 }

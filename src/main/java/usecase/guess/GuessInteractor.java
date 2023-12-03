@@ -22,12 +22,12 @@ public class GuessInteractor implements GuessInputBoundary{
         if (guessStatus){
             quiz.addPoints();
             int score = quiz.getPoints();
-            GuessOutputData guessOutputData = new GuessOutputData(playerGuess, oldSongName, song, score);
+            GuessOutputData guessOutputData = new GuessOutputData(playerGuess, oldSongName, song.getURL(), score);
 
             guessPresenter.prepareSuccessView(guessOutputData);
         }else{
             int score = quiz.getPoints();
-            guessPresenter.prepareFailView(oldSongName, song, score);
+            guessPresenter.prepareFailView(oldSongName, song.getURL(), score);
         }
     }
 }

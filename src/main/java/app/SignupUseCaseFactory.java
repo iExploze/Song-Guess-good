@@ -1,7 +1,6 @@
 package app;
 
 import entities.Quiz;
-import entities.Users.CommonUser;
 import entities.Users.CommonUserFactory;
 import interface_adapter.PlayViewModel;
 import interface_adapter.ViewManagerModel;
@@ -9,7 +8,6 @@ import interface_adapter.login.LoginViewModel;
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupPresenter;
 import interface_adapter.signup.SignupViewModel;
-
 import usecase.SignUp.SignUpInputBoundary;
 import usecase.SignUp.SignUpInteractor;
 import usecase.SignUp.SignUpOutputBoundary;
@@ -30,7 +28,7 @@ public class SignupUseCaseFactory {
 
         try {
             SignupController signupController = createUserSignupUseCase(viewManagerModel, signupViewModel, loginViewModel, userDataAccessObject, playViewModel, quiz);
-            return new SignupView(signupController, signupViewModel,loginViewModel);
+            return new SignupView(signupController, signupViewModel, loginViewModel);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Could not open user data file.");
         }

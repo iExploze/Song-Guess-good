@@ -1,4 +1,3 @@
-
 import dataAccessObjects.spotifyAccessObjects.UserTopTracksDataAccessObject;
 import dataAccessObjects.spotifyAccessObjects.UserTopTracksObject;
 import entities.Users.CommonUserFactory;
@@ -10,7 +9,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 public class DataTopTracksObjectTests {
     List<HashMap<String, String>> topTracks;
