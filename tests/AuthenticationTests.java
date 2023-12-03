@@ -2,14 +2,19 @@ import com.google.gson.Gson;
 import dataAccessObjects.spotifyAccessObjects.*;
 import entities.Users.CommonUserFactory;
 import entities.Users.User;
+import org.checkerframework.checker.units.qual.C;
 import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 public class AuthenticationTests {
     userAuthentication userauthentication;
@@ -23,7 +28,11 @@ public class AuthenticationTests {
     HashMap c;
     String topTracks;
     List<HashMap<String, String>> topTrackData;
-    @Before
+    User user;
+    String refresh1;
+    String refresh2;
+    String refresh3;
+    @BeforeClass
     public void init() throws IOException, UserTopTracksDataAccessObject.NeedRefreshException {
         RandomSecureS256Generator randomSecureS256Generator = new RandomSecureS256Generator();
         userOAuthObject useroAuthObject = new userOAuthObject();
@@ -44,16 +53,18 @@ public class AuthenticationTests {
         HashMap b= gson.fromJson(a, HashMap.class);
         String f = spotifyAuthenticationObject.getRequestTokenfromRefreshToken((String) b.get("refresh_token"), client_id);
         c = gson.fromJson(f, HashMap.class);
-
         // top songs info
         CommonUserFactory commonUserFactory = new CommonUserFactory();
-        User user = commonUserFactory.createUser("a","b");
+        user = commonUserFactory.createUser("a","b");
         user.setTokenInfo(c);
+        refresh1 = user.getRefreshToken();
 
-        UserTopTracksDataAccessObject userTopTracksDataAccessObject = new UserTopTracksDataAccessObject(user);
-        topTracks = userTopTracksDataAccessObject.getTopTracks();
+        UserTopTracks userTopTracksDataAccessObject = new UserTopTracksObject();
+        topTrackData = userTopTracksDataAccessObject.getTopTracks(user);
+        refresh2 = user.getRefreshToken();
 
-        topTrackData = userTopTracksDataAccessObject.topTracksResponseToNamePreviewUrl(topTracks);
+        topTrackData = userTopTracksDataAccessObject.getTopTracks(user);
+        refresh3 = user.getRefreshToken();
     }
 
     @Test
@@ -88,4 +99,10 @@ public class AuthenticationTests {
         }
         System.out.println(res);
     }
+
+    @Test @Ignore
+    public void testMulitpleRefresh() throws IOException, AWTException, InterruptedException {
+        assertNotEquals(refresh1, refresh2);
+        assertNotEquals(refresh2, refresh3);
+     }
 }

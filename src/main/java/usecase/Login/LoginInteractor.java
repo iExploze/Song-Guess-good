@@ -34,6 +34,8 @@ public class LoginInteractor implements LoginInputBoundary {
     public void execute(LoginInputData loginInputData) throws IOException {
         String username = loginInputData.getUsername();
         String password = loginInputData.getPassword();
+        System.out.println(username);
+        System.out.println(password);
         if (!userDataAccessObject.exists(username)) {
             loginPresenter.prepareFailView(username + ": Account does not exist.");
         } else {
@@ -44,6 +46,7 @@ public class LoginInteractor implements LoginInputBoundary {
 
                 User user = userDataAccessObject.getUser(loginInputData.getUsername());
                 List<HashMap<String, String>> topTracks = userTopTracks.getTopTracks(user);
+                userDataAccessObject.save(user);
                 playlist.setSongsList(topTracks);
                 quiz.setQuiz(playlist);
                 // Gets top 200 songs and then adds current songs from playlist to them. hashset ensures uniqueness.

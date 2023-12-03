@@ -38,7 +38,6 @@ public class UserTopTracksDataAccessObject implements userTrackandPlaylistDataAc
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
             // Handle the response
-            System.out.println("Response Code: " + response.statusCode());
 
             return response.body();
         } catch (Exception e) {

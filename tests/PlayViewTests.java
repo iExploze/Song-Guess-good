@@ -1,5 +1,7 @@
 import app.LoginUseCaseFactory;
 import app.SignupUseCaseFactory;
+import dataAccessObjects.spotifyAccessObjects.UserTopTracks;
+import dataAccessObjects.spotifyAccessObjects.UserTopTracksObject;
 import view.TextFieldSuggestion;
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
@@ -121,7 +123,8 @@ public class PlayViewTests {
                 "{preview_url=https://p.scdn.co/mp3-preview/4aae7af14e3ffb58ab0499099fc8c9a6936152fe?cid=ee5a4dc5c931462e9e630c64a8aee5ac, name=@ my worst}, " +
                 "{preview_url=https://p.scdn.co/mp3-preview/f6958f897e3817fcbb6647d62f66c71ee96d1981?cid=ee5a4dc5c931462e9e630c64a8aee5ac, name=THATS WHAT I WANT}]";
 
-        SpotifyPlaylist spotifyPlaylist = new SpotifyPlaylist(convertStringToMap(songs));
+        SpotifyPlaylist spotifyPlaylist = new SpotifyPlaylist();
+        spotifyPlaylist.setSongsList(convertStringToMap(songs));
         quiz.setQuiz(spotifyPlaylist);
 
         playViewModel = new PlayViewModel();
@@ -135,7 +138,8 @@ public class PlayViewTests {
         PV = new PlayView(playViewModel, guessController);
         playState = playViewModel.getState();
 
-
+        Playlist playlist = new SpotifyPlaylist();
+        UserTopTracks userTopTracks = new UserTopTracksObject();
 
 
         LoginViewModel loginViewModel = new LoginViewModel();
@@ -150,11 +154,11 @@ public class PlayViewTests {
         }
 
 
-        SignupView signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel, signupViewModel, userDataAccessObject, playViewModel, quiz);
+        SignupView signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel, signupViewModel, userDataAccessObject, playViewModel, quiz, userTopTracks, playlist);
 
 
 
-        LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel, userDataAccessObject, playViewModel, signupViewModel, quiz);
+        LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel, userDataAccessObject, playViewModel, signupViewModel, quiz, userTopTracks, playlist);
 
 
 

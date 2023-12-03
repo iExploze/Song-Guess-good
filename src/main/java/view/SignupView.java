@@ -104,8 +104,11 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
                     @Override
                     public void keyTyped(KeyEvent e) {
                         SignupState currentState = signupViewModel.getState();
-                        String text = usernameInputField.getText() + e.getKeyChar();
-                        currentState.setUsername(text);
+                        String newText = usernameInputField.getText() + e.getKeyChar();
+                        if (e.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
+                            newText = newText.substring(0,newText.length() - 1);
+                        }
+                        currentState.setUsername(newText);
                         signupViewModel.setState(currentState);
                     }
 
@@ -123,7 +126,11 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
                     @Override
                     public void keyTyped(KeyEvent e) {
                         SignupState currentState = signupViewModel.getState();
-                        currentState.setPassword(passwordInputField.getText() + e.getKeyChar());
+                        String newText = passwordInputField.getText() + e.getKeyChar();
+                        if (e.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
+                            newText = newText.substring(0,newText.length() - 1);
+                        }
+                        currentState.setPassword(newText);
                         signupViewModel.setState(currentState);
                     }
 
@@ -144,7 +151,11 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
                     @Override
                     public void keyTyped(KeyEvent e) {
                         SignupState currentState = signupViewModel.getState();
-                        currentState.setRepeatPassword(repeatPasswordInputField.getText() + e.getKeyChar());
+                        String newText = repeatPasswordInputField.getText() + e.getKeyChar();
+                        if (e.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
+                            newText = newText.substring(0,newText.length() - 1);
+                        }
+                        currentState.setRepeatPassword(newText);
                         signupViewModel.setState(currentState); // Hmm, is this necessary?
                     }
 

@@ -123,7 +123,7 @@ public class PlayView extends JPanel implements PropertyChangeListener {
 
 
 
-    public void updateSuggestion(List<String> names) {
+    private void updateSuggestion(List<String> names) {
         for (String item : names) {
             guessInputField.addItemSuggestion(item);
         }
