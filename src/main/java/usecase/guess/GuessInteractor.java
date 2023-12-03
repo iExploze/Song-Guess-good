@@ -7,8 +7,7 @@ public class GuessInteractor implements GuessInputBoundary{
     final GuessOutputBoundary guessPresenter;
     final Quiz quiz;
 
-    public GuessInteractor(GuessOutputBoundary guessOutputBoundary,
-                           Quiz quiz){
+    public GuessInteractor(GuessOutputBoundary guessOutputBoundary, Quiz quiz){
         this.guessPresenter = guessOutputBoundary;
         this.quiz = quiz;
     }

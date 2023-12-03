@@ -28,7 +28,7 @@ Goals: Finish entities and Use case to be completed:
 - Score popup - Anson [Done]
 - Login - Ricky [Done]
 - AutoCompleteTextBox - Ricky [Done]
-- AutoComplete Suggestion - Ricky
+- AutoComplete Suggestion - Ricky [Done]
 - Quiz instantiation - Ian [Done]
 - Song Progress Bar - Anson [Done]
   
