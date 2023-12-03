@@ -9,4 +9,6 @@ public interface Playlist {
     Song getSong(int index);
 
     Song getByName(String name);
+
+    List<String> getSuggestions();
 }
