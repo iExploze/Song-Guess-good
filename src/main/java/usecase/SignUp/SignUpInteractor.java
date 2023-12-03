@@ -50,9 +50,9 @@ public class SignUpInteractor implements SignUpInputBoundary {
         else {
             User user = userFactory.createUser(username, password);
 
-            UserTopTracks userTopTracksObject = new UserTopTracksObject(); // Here we don't actually care about top tracks
+             // Here we don't actually care about top tracks
             // but it still does authentication for the user
-            playlist.setSongsList(userTopTracksObject.getTopTracks(user));
+            playlist.setSongsList(userTopTracks.getTopTracks(user));
             quiz.setQuiz(playlist);
             getTop200SongNames g = new getTop200SongNames();
             List topSongs =  g.top200("./top200SongsWeekly.csv");
