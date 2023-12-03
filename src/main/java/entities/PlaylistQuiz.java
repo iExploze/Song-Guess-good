@@ -9,11 +9,13 @@ public class PlaylistQuiz implements Quiz{
     private int index;
     private int points;
     private List<String> suggestions;
+    private int timeLeft;
     public PlaylistQuiz(Player player)
     {
         this.index = 0;
         this.curr = null;
         this.player = player;
+        this.timeLeft = 0;
         this.points = 0;
         this.suggestions = null;
     }
@@ -55,6 +57,21 @@ public class PlaylistQuiz implements Quiz{
 
     public void addPoints(){
         this.points = this.points + 1;
+    }
+
+    @Override
+    public void decreaseTime() {
+        this.timeLeft = this.timeLeft - 1;
+    }
+
+    @Override
+    public int getTimeLeft() {
+        return this.timeLeft;
+    }
+
+    @Override
+    public void setTime(int time) {
+        this.timeLeft = time;
     }
 
     @Override

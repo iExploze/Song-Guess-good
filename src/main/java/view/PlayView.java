@@ -3,6 +3,7 @@ package view;
 import interface_adapter.PlayState;
 import interface_adapter.PlayViewModel;
 import interface_adapter.guess.GuessController;
+import interface_adapter.timer.TimerController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,12 +14,15 @@ import java.beans.PropertyChangeListener;
 import java.util.List;
 
 public class PlayView extends JPanel implements PropertyChangeListener {
+    private boolean timerStarted;
     private int times = 0;
     public static final String viewName = "PLAY_VIEW"; // Add a static constant for the view name
     private PlayViewModel playViewModel;
     private PlayState playState;;
 
     private TextFieldSuggestion guessInputField;
+
+    private TimerController timerController;
 
     private GuessController guessController;
     private JLabel scoreLabel;
@@ -31,9 +35,11 @@ public class PlayView extends JPanel implements PropertyChangeListener {
     BackgroundAudioPlayer audioPlayer;
 
     public PlayView(PlayViewModel playViewModel,
+                    TimerController timerController,
                     GuessController guessController) {
         this.playViewModel = playViewModel;
         this.guessController = guessController;
+        this.timerController = timerController;
         this.setLayout(new BorderLayout());
         this.guessInputField = new TextFieldSuggestion();
         this.guessInputField.setPreferredSize(new Dimension(200, 30));
@@ -56,6 +62,7 @@ public class PlayView extends JPanel implements PropertyChangeListener {
         this.timeLabel = new JLabel("Time: " + this.totalTime);
         this.timeLabel.setFont(new Font("SansSerif", Font.BOLD, 50));
         this.timeLabel.setForeground(Color.WHITE); // White font for visibility
+        this.timerStarted = false;
 
 
 
@@ -65,6 +72,7 @@ public class PlayView extends JPanel implements PropertyChangeListener {
         JPanel scorePanel = new JPanel();
         scorePanel.setLayout(new BorderLayout());
         scorePanel.add(this.scoreLabel, BorderLayout.EAST);
+        scorePanel.add(this.timeLabel, BorderLayout.WEST);
         scorePanel.setBackground(new Color(64, 64, 64)); // Dark grey background
         scorePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
@@ -82,9 +90,13 @@ public class PlayView extends JPanel implements PropertyChangeListener {
                     @Override
                     public void keyPressed(KeyEvent e) {
                         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                            if(timerStarted)
+                                updateTimerState();
                             timer.stop();
                             guessController.execute(guessInputField.getText());
                             resetTimer();
+                            if(timerStarted)
+                                updateTimerState();
                         }
                     }
 
@@ -101,11 +113,15 @@ public class PlayView extends JPanel implements PropertyChangeListener {
                     timerProgress.setValue(30 - timeLeft);
 
                     if (timeLeft == 0) {
+                        if(timerStarted)
+                            updateTimerState();
                         timer.stop();
                         JOptionPane.showMessageDialog(null, "Time's up!");
                         guessController.execute(guessInputField.getText());
                         resetTimer();
                         // go to next song
+                        if(timerStarted)
+                            updateTimerState();
                     }
                 }
         );
@@ -180,6 +196,22 @@ public class PlayView extends JPanel implements PropertyChangeListener {
         timer.start();
     }
 
+    private void startMainTimer(int seconds)
+    {
+        this.timerController.setTimer(seconds);
+        this.timerController.startTimer();
+        this.timerStarted = true;
+    }
+
+    private void updateMainTimer()
+    {
+        this.timeLabel.setText("Time: " + this.playViewModel.getTime());
+    }
+
+    private void updateTimerState(){
+        this.timerController.updateTimerState();
+    }
+
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
@@ -189,6 +221,21 @@ public class PlayView extends JPanel implements PropertyChangeListener {
             PlayState state = (PlayState) evt.getNewValue();
             updateScore(state.getScore());
             updateSong(state.getSong());
+            if(!this.timerStarted)
+            {
+                this.timerStarted = true;
+                startMainTimer(this.totalTime);
+            }
+        }
+
+        if ("time".equals(evt.getPropertyName()))
+        {
+            updateMainTimer();
+            if (this.playViewModel.getTime() == 0)
+            {
+                JOptionPane.showMessageDialog(null, "The Game is Over. You Score Was: " + this.playViewModel.getScore());
+                System.exit(0);
+            }
         }
 
         if ("suggestion".equals(evt.getPropertyName())) {
