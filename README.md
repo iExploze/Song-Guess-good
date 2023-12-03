@@ -19,7 +19,7 @@ Goals: Finish entities and Use case to be completed:
 
 - signup - Ricky [Done]
 - login - Ricky [Done]
-- play song(stop song) - Flora 
+- play song - Flora [Done]
 - skip song - Ian [Done]
 - guess song - Anson [Done]
 - API authentication - Ian & Ricky [Done]
