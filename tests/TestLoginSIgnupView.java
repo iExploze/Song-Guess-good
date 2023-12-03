@@ -20,8 +20,6 @@ import view.ViewManager;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
-
-import static org.junit.Assert.*;
 public class TestLoginSIgnupView {
     @Before
     public void init() {

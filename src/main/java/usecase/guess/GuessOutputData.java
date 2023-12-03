@@ -1,14 +1,12 @@
 package usecase.guess;
 
-import entities.Song;
-
 public class GuessOutputData {
     private final String guess;
     private final String oldSongName;
-    private final Song song;
+    private final String song;
     private int score;
 
-    public GuessOutputData(String guess, String oldSongName, Song song, int score) {
+    public GuessOutputData(String guess, String oldSongName, String song, int score) {
         this.guess = guess;
         this.song = song;
         this.oldSongName = oldSongName;
@@ -26,5 +24,5 @@ public class GuessOutputData {
     public String getCorrectSong(){
         return this.oldSongName;
     }
-    public Song getNewSong(){return song;}
+    public String getNewSong(){return song;}
 }

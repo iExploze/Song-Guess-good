@@ -1,12 +1,9 @@
 package view;
 
 
-
-import interface_adapter.PlayViewModel;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginState;
 import interface_adapter.login.LoginViewModel;
-import interface_adapter.signup.SignupState;
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,7 +30,7 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
     final JButton signUp;
     private final LoginController loginController;
 
-    public LoginView(LoginViewModel loginViewModel, LoginController controller, PlayViewModel playViewModel) {
+    public LoginView(LoginViewModel loginViewModel, LoginController controller) {
 
         this.loginController = controller;
         this.loginViewModel = loginViewModel;

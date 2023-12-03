@@ -1,8 +1,7 @@
 package app;
 
 import javax.swing.*;
-import java.awt.Color;
-import java.util.ArrayList;
+import java.awt.*;
 
 public class TestAutoComplete extends JFrame {
 

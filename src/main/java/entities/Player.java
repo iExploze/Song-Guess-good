@@ -1,7 +1,5 @@
 package entities;
 
-import dataAccessObjects.spotifyAccessObjects.UserTopTracksDataAccessObject;
-
 import java.io.IOException;
 
 public interface Player {

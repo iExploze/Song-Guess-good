@@ -6,11 +6,9 @@ import usecase.Login.LoginUserDataAccessInterface;
 import usecase.SignUp.SignupUserDataAccessInterface;
 
 import java.io.*;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Scanner;
 
 public class FileUserDataAccessObject implements UserDataAccessObject, LoginUserDataAccessInterface, SignupUserDataAccessInterface {
     private final File csvFile;
@@ -38,7 +36,7 @@ public class FileUserDataAccessObject implements UserDataAccessObject, LoginUser
                 String header = reader.readLine();
 
                 // TODO clean this up by creating a new Exception subclass and handling it in the UI.
-                assert header.equals("username,password,access_token");
+                assert header.equals("username,password,access_token,refresh_token");
 
                 String row;
                 while ((row = reader.readLine()) != null) {

@@ -1,9 +1,9 @@
 package dataAccessObjects.spotifyAccessObjects;
 
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Base64;
-import java.security.NoSuchAlgorithmException;
 
 
 /*Generates S256 hash */

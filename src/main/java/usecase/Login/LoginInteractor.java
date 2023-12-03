@@ -3,9 +3,10 @@ package usecase.Login;
 import dataAccessObjects.getTop200SongNames;
 import dataAccessObjects.spotifyAccessObjects.UserTopTracks;
 import dataAccessObjects.spotifyAccessObjects.UserTopTracksObject;
-import entities.*;
+import entities.Quiz;
+import entities.Song;
+import entities.SpotifyPlaylist;
 import entities.Users.User;
-import usecase.Suggestions.SuggestionOutputBoundary;
 
 import java.io.IOException;
 import java.util.*;
@@ -47,9 +48,10 @@ public class LoginInteractor implements LoginInputBoundary {
                 topSongsSet.addAll(spotifyPlaylist.getSuggestions());
                 List<String> allSuggestions = new ArrayList<>(topSongsSet);
 
-                quiz.setSuggestions(allSuggestions);
 
-                LoginOutputData loginOutputData = new LoginOutputData(user, quiz, false);
+                quiz.setSuggestions(allSuggestions);
+                Song song = quiz.currentPlaying();
+                LoginOutputData loginOutputData = new LoginOutputData(user, quiz.getSuggestions(), song.getURL(), false);
                 loginPresenter.prepareSuccessView(loginOutputData);
             }
         }

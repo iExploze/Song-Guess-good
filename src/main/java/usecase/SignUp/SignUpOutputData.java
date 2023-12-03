@@ -1,24 +1,31 @@
 package usecase.SignUp;
 
-import entities.Quiz;
 import entities.Users.User;
+
+import java.util.List;
 
 public class SignUpOutputData {
     // so far only give back username, can add more later for this view
     User user;
-    Quiz quiz;
+    List suggestions;
+    String song;
 
 
-    public SignUpOutputData(User user, Quiz quiz) {
+    public SignUpOutputData(User user, List suggestions, String song) {
         this.user = user;
-        this.quiz = quiz;
+        this.suggestions = suggestions;
+        this.song = song;
     }
 
     public User getUsername() {
         return this.user;
     }
 
-    public Quiz getQuiz() {
-        return this.quiz;
+    public List getSuggestions() {
+        return suggestions;
+    }
+
+    public String getSong() {
+        return song;
     }
 }
