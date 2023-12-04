@@ -85,19 +85,22 @@ public class SignUpInteractorTest {
         User user = mock(User.class);
         when(user.getUsername()).thenReturn("username");
         when(user.getPassword()).thenReturn("pwd");
-        when(userFactory.createUser("username", "pwd")).thenReturn(user);SignupUserDataAccessInterface userRepository = mock(SignupUserDataAccessInterface.class);
+        when(userFactory.createUser("username", "pwd")).thenReturn(user);
+
+        SignupUserDataAccessInterface userRepository = mock(SignupUserDataAccessInterface.class);
 
         UserTopTracks userTopTracks = mock(UserTopTracks.class);
         when(userTopTracks.getTopTracks(user)).thenReturn(new ArrayList<>());
 
         Playlist playlist = mock(Playlist.class);
-        when(playlist.getSuggestions()).thenReturn(new ArrayList<>());
+        when(playlist.getSongsList()).thenReturn(new ArrayList<>());
 
         getTop200SongNames g = mock(getTop200SongNames.class);
         when(g.top200("path.csv")).thenReturn(new ArrayList<>());
 
         Quiz quiz = mock(Quiz.class);
         when(quiz.currentPlaying()).thenReturn(new SongData("song", "url"));
+        when(quiz.getSuggestions()).thenReturn(new ArrayList<>());
 
         // initialize the interactor
         SignUpOutputBoundary signUpPresenter = mock(SignUpOutputBoundary.class);
