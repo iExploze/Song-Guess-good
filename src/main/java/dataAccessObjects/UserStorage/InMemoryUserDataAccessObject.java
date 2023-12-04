@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class InMemoryUserDataAccessObject implements UserDataAccessObject, SignupUserDataAccessInterface {
-public class InMemoryUserDataAccessObject implements UserDataAccessObject, LoginUserDataAccessInterface {
 
     private final Map<String, User> users = new HashMap<>();
 
