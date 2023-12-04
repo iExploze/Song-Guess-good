@@ -3,10 +3,8 @@ package usecase.Login;
 import static org.junit.Assert.*;
 import dataAccessObjects.UserStorage.FileUserDataAccessObject;
 import dataAccessObjects.UserStorage.InMemoryUserDataAccessObject;
-import entities.Player;
-import entities.PlaylistQuiz;
-import entities.Quiz;
-import entities.SinglePlayer;
+import dataAccessObjects.spotifyAccessObjects.UserTopTracksObject;
+import entities.*;
 import entities.Users.CommonUser;
 import entities.Users.CommonUserFactory;
 import entities.Users.User;
@@ -53,7 +51,9 @@ public class LoginInteractorTest {
         assertEquals("Flora", loginOutputData.getUser());
         assertEquals(null, loginOutputData.getSuggestions());
         assertEquals(null, loginOutputData.getSong());
-        LoginInputBoundary interactor = new LoginInteractor(userRepository, successPresenter, new PlaylistQuiz(player));
+
+        LoginInputBoundary interactor = new LoginInteractor(userRepository, successPresenter, new PlaylistQuiz(player),
+                new UserTopTracksObject(), new SpotifyPlaylist());
         try {
             interactor.execute(inputData);
         } catch (IOException e) {
@@ -88,7 +88,8 @@ public class LoginInteractorTest {
         User user = new CommonUser("Flora", "123", hashMap);
         userRepository.save(user);
         Player player = new SinglePlayer(user);
-        LoginInputBoundary interactor = new LoginInteractor(userRepository, failurePresenter, new PlaylistQuiz(player));
+        LoginInputBoundary interactor = new LoginInteractor(userRepository, failurePresenter, new PlaylistQuiz(player),
+                new UserTopTracksObject(), new SpotifyPlaylist());
 
         try {
             interactor.execute(inputData);
@@ -126,7 +127,8 @@ public class LoginInteractorTest {
         User user = new CommonUser("Flora", "123", hashMap);
         userRepository.save(user);
         Player player = new SinglePlayer(user);
-        LoginInputBoundary interactor = new LoginInteractor(userRepository, failurePresenter, new PlaylistQuiz(player));
+        LoginInputBoundary interactor = new LoginInteractor(userRepository, failurePresenter, new PlaylistQuiz(player),
+                new UserTopTracksObject(), new SpotifyPlaylist());
         try {
             interactor.execute(inputData);
         } catch (IOException e) {
