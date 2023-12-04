@@ -1,5 +1,7 @@
 package app;
 
+import dataAccessObjects.spotifyAccessObjects.UserTopTracks;
+import entities.Playlist;
 import entities.Quiz;
 import entities.Users.CommonUserFactory;
 import interface_adapter.PlayViewModel;
@@ -25,10 +27,10 @@ public class LoginUseCaseFactory {
             ViewManagerModel viewManagerModel,
             LoginViewModel loginViewModel,
             LoginUserDataAccessInterface userDataAccessObject,
-            PlayViewModel playViewModel, SignupViewModel signupViewModel, Quiz quiz) {
+            PlayViewModel playViewModel, SignupViewModel signupViewModel, Quiz quiz, UserTopTracks userTopTracks, Playlist playlist) {
 
         try {
-            LoginController loginController = createLoginUseCase(viewManagerModel, loginViewModel, userDataAccessObject, playViewModel, signupViewModel, quiz);
+            LoginController loginController = createLoginUseCase(viewManagerModel, loginViewModel, userDataAccessObject, playViewModel, signupViewModel, quiz, userTopTracks, playlist);
             return new LoginView(loginViewModel, loginController);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Could not open user data file.");
@@ -42,15 +44,13 @@ public class LoginUseCaseFactory {
             LoginViewModel loginViewModel,
             LoginUserDataAccessInterface userDataAccessObject,
             PlayViewModel playViewModel,
-            SignupViewModel signupViewModel, Quiz quiz) throws IOException {
+            SignupViewModel signupViewModel, Quiz quiz, UserTopTracks userTopTracks, Playlist playlist) throws IOException {
 
         // Notice how we pass this method's parameters to the Presenter.
         LoginOutputBoundary loginOutputBoundary = new LoginPresenter(viewManagerModel, playViewModel, loginViewModel, signupViewModel);
 
-        CommonUserFactory userFactory = new CommonUserFactory();
-
         LoginInputBoundary loginInteractor = new LoginInteractor(
-                userDataAccessObject, loginOutputBoundary, quiz);
+                userDataAccessObject, loginOutputBoundary, quiz, userTopTracks, playlist);
 
         return new LoginController(loginInteractor);
     }

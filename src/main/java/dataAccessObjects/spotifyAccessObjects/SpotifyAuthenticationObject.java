@@ -47,8 +47,7 @@ public class SpotifyAuthenticationObject {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
             // Handle the response
-            System.out.println("Response Code: " + response.statusCode());
-            System.out.println("Response Body: " + response.body());
+
             return response.body();
         } catch (Exception e) {
             e.printStackTrace();
@@ -71,8 +70,7 @@ public class SpotifyAuthenticationObject {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
             // Handle the response
-            System.out.println("Response Code: " + response.statusCode());
-            System.out.println("Response Body: " + response.body());
+
             return response.body();
         } catch (Exception e) {
             e.printStackTrace();

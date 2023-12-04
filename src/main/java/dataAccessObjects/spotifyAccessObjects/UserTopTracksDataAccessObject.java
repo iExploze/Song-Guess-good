@@ -19,11 +19,6 @@ public class UserTopTracksDataAccessObject implements userTrackandPlaylistDataAc
     public UserTopTracksDataAccessObject(User user) {
         this.user = user;
     }
-    public class NeedRefreshException extends Exception {
-        public NeedRefreshException(String message) {
-            super(message);
-        }
-    }
 
     //@Override
     public String getTopTracks() throws IOException {
@@ -38,7 +33,6 @@ public class UserTopTracksDataAccessObject implements userTrackandPlaylistDataAc
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
             // Handle the response
-            System.out.println("Response Code: " + response.statusCode());
 
             return response.body();
         } catch (Exception e) {
