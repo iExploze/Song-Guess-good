@@ -2,13 +2,13 @@ package dataAccessObjects.UserStorage;
 
 
 import entities.Users.User;
-import usecase.SignUp.SignupUserDataAccessInterface;
 import usecase.Login.LoginUserDataAccessInterface;
+import usecase.SignUp.SignupUserDataAccessInterface;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class InMemoryUserDataAccessObject implements UserDataAccessObject, SignupUserDataAccessInterface {
+public class InMemoryUserDataAccessObject implements UserDataAccessObject, LoginUserDataAccessInterface, SignupUserDataAccessInterface {
 
     private final Map<String, User> users = new HashMap<>();
 
