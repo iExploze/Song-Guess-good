@@ -7,20 +7,9 @@ import java.util.List;
 
 public class SpotifyPlaylist implements Playlist {
 
-    private final ArrayList<Song> songsList;
+    private ArrayList<Song> songsList;
 
-    public SpotifyPlaylist(List<HashMap<String, String>> tracks)
-    {
-        // <Song name, URL>
-        this.songsList = new ArrayList<>();
-        for (HashMap<String, String> track : tracks) {
-            // Assuming each map contains keys "name" and "url"
-            String name = track.get("name");
-            String url = track.get("preview_url");
-            songsList.add(new SongData(name, url)); // Assuming SongData is a concrete implementation of Song
-        }
-        Collections.shuffle(this.songsList);
-    }
+    public SpotifyPlaylist() {}
     @Override
     public ArrayList<Song> getSongsList() {
         return songsList;
@@ -49,5 +38,21 @@ public class SpotifyPlaylist implements Playlist {
             res.add(song.getSongName());
         }
         return res;
+    }
+
+    @Override
+    public void setSongsList(List<HashMap<String, String>> tracks) {
+        this.songsList = new ArrayList<>();
+        for (HashMap<String, String> track : tracks) {
+            // Assuming each map contains keys "name" and "url"
+            String name = track.get("name");
+            String url = track.get("preview_url");
+            songsList.add(new SongData(name, url)); // Assuming SongData is a concrete implementation of Song
+        }
+        Collections.shuffle(this.songsList);
+    }
+    @Override
+    public void setSongsList(ArrayList<Song> songsList) {
+        this.songsList = songsList;
     }
 }

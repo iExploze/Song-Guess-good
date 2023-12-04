@@ -1,5 +1,7 @@
 package app;
 
+import dataAccessObjects.spotifyAccessObjects.UserTopTracks;
+import entities.Playlist;
 import entities.Quiz;
 import entities.Users.CommonUserFactory;
 import interface_adapter.PlayViewModel;
@@ -24,10 +26,11 @@ public class SignupUseCaseFactory {
 
     public static SignupView create(
             ViewManagerModel viewManagerModel, LoginViewModel loginViewModel, SignupViewModel signupViewModel, SignupUserDataAccessInterface userDataAccessObject,
-            PlayViewModel playViewModel, Quiz quiz) {
+            PlayViewModel playViewModel, Quiz quiz, UserTopTracks userTopTracks, Playlist playlist) {
 
         try {
-            SignupController signupController = createUserSignupUseCase(viewManagerModel, signupViewModel, loginViewModel, userDataAccessObject, playViewModel, quiz);
+            SignupController signupController = createUserSignupUseCase(viewManagerModel, signupViewModel,
+                    loginViewModel, userDataAccessObject, playViewModel, quiz, userTopTracks, playlist);
             return new SignupView(signupController, signupViewModel, loginViewModel);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Could not open user data file.");
@@ -38,7 +41,7 @@ public class SignupUseCaseFactory {
 
 
     private static SignupController createUserSignupUseCase(ViewManagerModel viewManagerModel, SignupViewModel signupViewModel, LoginViewModel loginViewModel, SignupUserDataAccessInterface userDataAccessObject,
-    PlayViewModel playViewModel, Quiz quiz) throws IOException {
+                                                            PlayViewModel playViewModel, Quiz quiz, UserTopTracks userTopTracks, Playlist playlist) throws IOException {
 
         // Notice how we pass this method's parameters to the Presenter.
         SignUpOutputBoundary signupOutputBoundary = new SignupPresenter(viewManagerModel, signupViewModel, loginViewModel, playViewModel);
@@ -46,7 +49,7 @@ public class SignupUseCaseFactory {
         CommonUserFactory userFactory = new CommonUserFactory();
 
         SignUpInputBoundary userSignupInteractor = new SignUpInteractor(userFactory,
-                userDataAccessObject, signupOutputBoundary, quiz);
+                userDataAccessObject, signupOutputBoundary, quiz, userTopTracks, playlist);
 
         return new SignupController(userSignupInteractor);
     }
