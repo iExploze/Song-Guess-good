@@ -1,5 +1,6 @@
 package interface_adapter.login;
 
+import dataAccessObjects.UserStorage.InMemoryUserDataAccessObject;
 import interface_adapter.login.LoginController;
 import usecase.Login.*;
 
@@ -14,6 +15,8 @@ public class LoginControllerTest {
 
     @Test
     public void successTest() throws IOException {
+        LoginInputData inputData = new LoginInputData("Flora", "123");
+        LoginUserDataAccessInterface userRepository = new InMemoryUserDataAccessObject();
         // test the controller pass on the input data when executed
         LoginInputBoundary successInteractor = new LoginInputBoundary() {
             @Override
@@ -24,6 +27,7 @@ public class LoginControllerTest {
 
             @Override
             public void switchSignUp() {
+
             }
         };
 

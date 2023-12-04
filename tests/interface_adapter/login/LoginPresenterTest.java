@@ -31,7 +31,8 @@ public class LoginPresenterTest {
         PlayViewModel playViewModel = new PlayViewModel();
         LoginViewModel loginViewModel = new LoginViewModel();
         SignupViewModel signupViewModel = new SignupViewModel();
-        PlayState playState = new PlayState();
+        LoginState loginState = new LoginState();
+
 
         HashMap<String, String> hashMap = new HashMap<>();
         User user = new CommonUser("Flora", "123", hashMap);
@@ -46,12 +47,12 @@ public class LoginPresenterTest {
     }
 
     @Test
-    public void failTest() throws IOException {
+    public void failPasswordTest() throws IOException {
         ViewManagerModel viewManagerModel = new ViewManagerModel();
         PlayViewModel playViewModel = new PlayViewModel();
         LoginViewModel loginViewModel = new LoginViewModel();
         SignupViewModel signupViewModel = new SignupViewModel();
-        PlayState playState = new PlayState();
+        LoginState loginState = new LoginState();
 
         User user = new CommonUser("Flora", "123", new HashMap<>());
         LoginOutputData loginOutputData = new LoginOutputData(user, null, "", true);
@@ -63,6 +64,28 @@ public class LoginPresenterTest {
 
         // check whether switched to the play view
         assertEquals(null, viewManagerModel.getActiveView());
+        assertEquals(null, loginState.getPasswordError());
+    }
+
+    @Test
+    public void failUsernameTest() throws IOException {
+        ViewManagerModel viewManagerModel = new ViewManagerModel();
+        PlayViewModel playViewModel = new PlayViewModel();
+        LoginViewModel loginViewModel = new LoginViewModel();
+        SignupViewModel signupViewModel = new SignupViewModel();
+        LoginState loginState = new LoginState();
+
+        User user = new CommonUser("Flora", "123", new HashMap<>());
+        LoginOutputData loginOutputData = new LoginOutputData(user, null, "", true);
+
+        LoginPresenter loginPresenter = new LoginPresenter(viewManagerModel, playViewModel,
+                loginViewModel, signupViewModel);
+        String error = "NULL: Account does not exist.";
+        loginPresenter.prepareFailView(error);
+
+        // check whether switched to the play view
+        assertEquals(null, viewManagerModel.getActiveView());
+        assertEquals(null, loginState.getUsernameError());
     }
 
 }

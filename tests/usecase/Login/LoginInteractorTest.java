@@ -23,6 +23,10 @@ public class LoginInteractorTest {
     public void successTest() throws IOException {
         LoginInputData inputData = new LoginInputData("Flora", "123");
         LoginUserDataAccessInterface userRepository = new InMemoryUserDataAccessObject();
+        HashMap<String, String> hashMap = new HashMap<>();
+        User user = new CommonUser("Flora", "123", hashMap);
+        Player player = new SinglePlayer(user);
+        LoginOutputData loginOutputData = new LoginOutputData(user, null, null, false);
 
         // This creates a successPresenter that tests whether the test case is as we expect.
         LoginOutputBoundary successPresenter = new LoginOutputBoundary() {
@@ -31,6 +35,7 @@ public class LoginInteractorTest {
                 // 2 things to check: the output data is correct, and the user has been created in the DAO.
                 assertEquals("Flora", user.getUser());
                 assertTrue(userRepository.exists("Flora"));
+
             }
 
             @Override
@@ -44,15 +49,17 @@ public class LoginInteractorTest {
             }
         };
 
-        HashMap<String, String> hashMap = new HashMap<>();
-        User user = new CommonUser("Flora", "123", hashMap);
-        Player player = new SinglePlayer(user);
+
+        assertEquals("Flora", loginOutputData.getUser());
+        assertEquals(null, loginOutputData.getSuggestions());
+        assertEquals(null, loginOutputData.getSong());
         LoginInputBoundary interactor = new LoginInteractor(userRepository, successPresenter, new PlaylistQuiz(player));
         try {
             interactor.execute(inputData);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
     }
 
     @Test
