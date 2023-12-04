@@ -29,7 +29,8 @@ public class PlaylistTest {
             songs.add(track);
             songName++;
         }
-        playlist = new SpotifyPlaylist(songs);
+        playlist = new SpotifyPlaylist();
+        playlist.setSongsList(songs);
     }
 
     @Test
