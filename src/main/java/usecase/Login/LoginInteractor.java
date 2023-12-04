@@ -8,6 +8,7 @@ import entities.Quiz;
 import entities.Song;
 import entities.SpotifyPlaylist;
 import entities.Users.User;
+import entities.Users.UserFactory;
 
 import java.io.IOException;
 import java.util.*;
@@ -19,10 +20,12 @@ public class LoginInteractor implements LoginInputBoundary {
     final Quiz quiz;
     final UserTopTracks userTopTracks;
     final Playlist playlist;
+    final UserFactory userFactory;
 
 
-    public LoginInteractor(LoginUserDataAccessInterface userDataAccessInterface,
+    public LoginInteractor(UserFactory userFactory, LoginUserDataAccessInterface userDataAccessInterface,
                            LoginOutputBoundary loginOutputBoundary, Quiz quiz, UserTopTracks userTopTracks, Playlist playlist) {
+        this.userFactory = userFactory;
         this.userDataAccessObject = userDataAccessInterface;
         this.loginPresenter = loginOutputBoundary;
         this.quiz = quiz;

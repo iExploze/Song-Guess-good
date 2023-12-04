@@ -20,6 +20,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.mockito.Mockito;
+import usecase.SignUp.SignupUserDataAccessInterface;
 import usecase.guess.GuessInteractor;
 import usecase.guess.GuessOutputBoundary;
 
@@ -59,7 +60,7 @@ public class LoginInteractorTest {
 
         assertEquals("Flora", loginOutputData.getUser());
 
-        LoginInputBoundary interactor = new LoginInteractor(userRepository, successPresenter, new PlaylistQuiz(player),
+        LoginInputBoundary interactor = new LoginInteractor(new CommonUserFactory(), userRepository, successPresenter, new PlaylistQuiz(player),
                 new UserTopTracksObject(), new SpotifyPlaylist());
         try {
             interactor.execute(inputData);
@@ -69,15 +70,15 @@ public class LoginInteractorTest {
     }
 
     @Test
-    public void successTestSignup() throws IOException{
-        // mock objects
+    public void successTestLogin() throws IOException { //apply mockito to test
         UserFactory userFactory = mock(UserFactory.class);
         User user = mock(User.class);
-        when(user.getUsername()).thenReturn("Flora");
+        when(user.getUsername()).thenReturn("User");
         when(user.getPassword()).thenReturn("123");
-        when(userFactory.createUser("Flora", "123")).thenReturn(user);
+        HashMap<String, String> hashMap = new HashMap<>();
+        when(userFactory.createUser("username", "pwd", hashMap)).thenReturn(user);
         LoginUserDataAccessInterface userRepository = mock(LoginUserDataAccessInterface.class);
-        userRepository.save(user);
+
 
         UserTopTracks userTopTracks = mock(UserTopTracks.class);
         when(userTopTracks.getTopTracks(user)).thenReturn(new ArrayList<>());
@@ -94,8 +95,10 @@ public class LoginInteractorTest {
 
         // initialize the interactor
         LoginOutputBoundary loginPresenter = mock(LoginOutputBoundary.class);
-        LoginInputData loginInputData = new LoginInputData("Flora", "123");
-        LoginInteractor loginInteractor = new LoginInteractor(userRepository, loginPresenter, quiz, userTopTracks, playlist);
+        LoginInputData loginInputData = new LoginInputData("User", "123");
+        Player player = new SinglePlayer(user);
+        LoginInteractor loginInteractor = new LoginInteractor(userFactory, userRepository, loginPresenter, quiz,
+                userTopTracks, playlist);
         loginInteractor.execute(loginInputData);
 
         // check that the user was saved once and that prepareSuccessView was called
@@ -129,7 +132,7 @@ public class LoginInteractorTest {
         User user = new CommonUser("Flora", "123", hashMap);
         userRepository.save(user);
         Player player = new SinglePlayer(user);
-        LoginInputBoundary interactor = new LoginInteractor(userRepository, failurePresenter, new PlaylistQuiz(player),
+        LoginInputBoundary interactor = new LoginInteractor(new CommonUserFactory(), userRepository, failurePresenter, new PlaylistQuiz(player),
                 new UserTopTracksObject(), new SpotifyPlaylist());
 
         try {
@@ -166,7 +169,7 @@ public class LoginInteractorTest {
         User user = new CommonUser("Flora", "123", hashMap);
         userRepository.save(user);
         Player player = new SinglePlayer(user);
-        LoginInputBoundary interactor = new LoginInteractor(userRepository, failurePresenter, new PlaylistQuiz(player),
+        LoginInputBoundary interactor = new LoginInteractor(new CommonUserFactory(), userRepository, failurePresenter, new PlaylistQuiz(player),
                 new UserTopTracksObject(), new SpotifyPlaylist());
         try {
             interactor.execute(inputData);

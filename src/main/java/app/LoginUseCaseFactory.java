@@ -4,6 +4,7 @@ import dataAccessObjects.spotifyAccessObjects.UserTopTracks;
 import entities.Playlist;
 import entities.Quiz;
 import entities.Users.CommonUserFactory;
+import entities.Users.UserFactory;
 import interface_adapter.PlayViewModel;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.login.LoginController;
@@ -44,13 +45,16 @@ public class LoginUseCaseFactory {
             LoginViewModel loginViewModel,
             LoginUserDataAccessInterface userDataAccessObject,
             PlayViewModel playViewModel,
-            SignupViewModel signupViewModel, Quiz quiz, UserTopTracks userTopTracks, Playlist playlist) throws IOException {
+            SignupViewModel signupViewModel, Quiz quiz, UserTopTracks userTopTracks,
+            Playlist playlist) throws IOException {
 
         // Notice how we pass this method's parameters to the Presenter.
         LoginOutputBoundary loginOutputBoundary = new LoginPresenter(viewManagerModel, playViewModel, loginViewModel, signupViewModel);
 
+        CommonUserFactory userFactory = new CommonUserFactory();
+
         LoginInputBoundary loginInteractor = new LoginInteractor(
-                userDataAccessObject, loginOutputBoundary, quiz, userTopTracks, playlist);
+                userFactory, userDataAccessObject, loginOutputBoundary, quiz, userTopTracks, playlist);
 
         return new LoginController(loginInteractor);
     }
