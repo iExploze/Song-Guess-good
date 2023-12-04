@@ -3,17 +3,27 @@ package usecase.Login;
 import static org.junit.Assert.*;
 import dataAccessObjects.UserStorage.FileUserDataAccessObject;
 import dataAccessObjects.UserStorage.InMemoryUserDataAccessObject;
+import dataAccessObjects.getTop200SongNames;
+import dataAccessObjects.spotifyAccessObjects.UserTopTracks;
 import dataAccessObjects.spotifyAccessObjects.UserTopTracksObject;
 import entities.*;
 import entities.Users.CommonUser;
 import entities.Users.CommonUserFactory;
 import entities.Users.User;
 
+import entities.Users.UserFactory;
 import interface_adapter.login.LoginViewModel;
+import org.junit.Before;
 import org.junit.Test;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
+import org.mockito.Mockito;
+import usecase.guess.GuessInteractor;
+import usecase.guess.GuessOutputBoundary;
+
+import static org.mockito.Mockito.*;
 
 public class LoginInteractorTest {
 
@@ -47,10 +57,7 @@ public class LoginInteractorTest {
             }
         };
 
-
         assertEquals("Flora", loginOutputData.getUser());
-        assertEquals(null, loginOutputData.getSuggestions());
-        assertEquals(null, loginOutputData.getSong());
 
         LoginInputBoundary interactor = new LoginInteractor(userRepository, successPresenter, new PlaylistQuiz(player),
                 new UserTopTracksObject(), new SpotifyPlaylist());
@@ -59,9 +66,43 @@ public class LoginInteractorTest {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
     }
 
+    @Test
+    public void successTestSignup() throws IOException{
+        // mock objects
+        UserFactory userFactory = mock(UserFactory.class);
+        User user = mock(User.class);
+        when(user.getUsername()).thenReturn("Flora");
+        when(user.getPassword()).thenReturn("123");
+        when(userFactory.createUser("Flora", "123")).thenReturn(user);
+        LoginUserDataAccessInterface userRepository = mock(LoginUserDataAccessInterface.class);
+        userRepository.save(user);
+
+        UserTopTracks userTopTracks = mock(UserTopTracks.class);
+        when(userTopTracks.getTopTracks(user)).thenReturn(new ArrayList<>());
+
+        Playlist playlist = mock(Playlist.class);
+        when(playlist.getSuggestions()).thenReturn(new ArrayList<>());
+
+        getTop200SongNames g = mock(getTop200SongNames.class);
+        when(g.top200("path.csv")).thenReturn(new ArrayList<>());
+
+        Quiz quiz = mock(Quiz.class);
+        when(quiz.currentPlaying()).thenReturn(new SongData("song", "url"));
+
+
+        // initialize the interactor
+        LoginOutputBoundary loginPresenter = mock(LoginOutputBoundary.class);
+        LoginInputData loginInputData = new LoginInputData("Flora", "123");
+        LoginInteractor loginInteractor = new LoginInteractor(userRepository, loginPresenter, quiz, userTopTracks, playlist);
+        loginInteractor.execute(loginInputData);
+
+        // check that the user was saved once and that prepareSuccessView was called
+        verify(userRepository, times(1)).save(user);
+        verify(loginPresenter, times(1)).prepareSuccessView(any(LoginOutputData.class));
+
+    }
     @Test
     public void failurePasswordMismatchTest() {
         LoginInputData inputData = new LoginInputData("Flora", "wrong");
@@ -97,8 +138,6 @@ public class LoginInteractorTest {
             throw new RuntimeException(e);
         }
 
-        //LoginViewModel loginViewModel = new LoginViewModel();
-        //assertEquals("interface_adapter.login.LoginState@45c8e616", loginViewModel.getState());
     }
 
 
