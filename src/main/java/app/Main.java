@@ -15,9 +15,12 @@ import interface_adapter.guess.GuessController;
 import interface_adapter.guess.GuessPresenter;
 import interface_adapter.login.LoginViewModel;
 import interface_adapter.signup.SignupViewModel;
+import interface_adapter.timer.TimerController;
+import interface_adapter.timer.TimerPresenter;
 import usecase.guess.GuessInputBoundary;
 import usecase.guess.GuessInteractor;
 import usecase.guess.GuessOutputBoundary;
+import usecase.timer.*;
 import view.LoginView;
 import view.PlayView;
 import view.SignupView;
@@ -58,10 +61,14 @@ public class Main {
         GuessInputBoundary guessInputBoundary = new GuessInteractor(guessOutputBoundary, quiz);
         GuessController guessController = new GuessController(guessInputBoundary);
 
-
+        TimeOutputData timeOutputData = new TimeOutputData();
+        TimeOutputBoundary timeOutputBoundary = new TimerPresenter(playViewModel);
+        TimeInputData timeInputData = new TimeInputData();
+        TimeInputBoundary timeInputBoundary = new TimeInteractor(quiz, timeOutputBoundary, timeInputData, timeOutputData);
+        TimerController timerController = new TimerController(timeInputBoundary, timeInputData);
 
         // Pass the timerController to the PlayView
-        PlayView playView = new PlayView(playViewModel, guessController);
+        PlayView playView = new PlayView(playViewModel, timerController,guessController);
 
 
         LoginViewModel loginViewModel = new LoginViewModel();
