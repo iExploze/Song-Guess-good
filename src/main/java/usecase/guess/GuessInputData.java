@@ -8,7 +8,7 @@ public class GuessInputData {
         this.guess = guess;
     }
 
-    String getGuess(){
+    public String getGuess(){
         return guess;
     }
 }
