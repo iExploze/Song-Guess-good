@@ -14,11 +14,14 @@ import interface_adapter.login.LoginState;
 import interface_adapter.login.LoginViewModel;
 import interface_adapter.signup.SignupState;
 import interface_adapter.signup.SignupViewModel;
+import interface_adapter.timer.TimerController;
+import interface_adapter.timer.TimerPresenter;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import usecase.guess.GuessInputBoundary;
 import usecase.guess.GuessInteractor;
 import usecase.guess.GuessOutputBoundary;
+import usecase.timer.*;
 import view.*;
 
 import javax.swing.*;
@@ -150,10 +153,16 @@ public class signupEndTesting {
         GuessInputBoundary guessInputBoundary = new GuessInteractor(guessOutputBoundary, quiz);
         GuessController guessController = new GuessController(guessInputBoundary);
 
+        TimeInputData timeInputData = new TimeInputData();
+        TimeOutputData timeOutputData = new TimeOutputData();
+        TimeOutputBoundary timeOutputBoundary = new TimerPresenter(playViewModel);
+        TimeInputBoundary timeInputBoundary = new TimeInteractor(quiz, timeOutputBoundary, timeInputData, timeOutputData);
+        TimerController timerController = new TimerController(timeInputBoundary, timeInputData);
+
 
 
         // Pass the timerController to the PlayView
-        playView = new PlayView(playViewModel, guessController);
+        playView = new PlayView(playViewModel, timerController, guessController);
 
 
         loginViewModel = new LoginViewModel();

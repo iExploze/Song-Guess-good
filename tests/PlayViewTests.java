@@ -2,7 +2,10 @@ import app.LoginUseCaseFactory;
 import app.SignupUseCaseFactory;
 import dataAccessObjects.spotifyAccessObjects.UserTopTracks;
 import dataAccessObjects.spotifyAccessObjects.UserTopTracksObject;
+import interface_adapter.timer.TimerController;
+import interface_adapter.timer.TimerPresenter;
 import org.junit.BeforeClass;
+import usecase.timer.*;
 import view.TextFieldSuggestion;
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
@@ -136,10 +139,16 @@ public class PlayViewTests {
         GuessInputBoundary guessInputBoundary = new GuessInteractor(guessOutputBoundary, quiz);
         GuessController guessController = new GuessController(guessInputBoundary);
 
+        TimeInputData timeInputData = new TimeInputData();
+        TimeOutputData timeOutputData = new TimeOutputData();
+        TimeOutputBoundary timeOutputBoundary = new TimerPresenter(playViewModel);
+        TimeInputBoundary timeInputBoundary = new TimeInteractor(quiz, timeOutputBoundary, timeInputData, timeOutputData);
+        TimerController timerController = new TimerController(timeInputBoundary, timeInputData);
+
 
         // Pass the timerController to the PlayView
 
-        PV = new PlayView(playViewModel, guessController);
+        PV = new PlayView(playViewModel, timerController,guessController);
         playState = playViewModel.getState();
         playState.setSuggestions(spotifyPlaylist.getSuggestions());
 
