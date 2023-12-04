@@ -11,6 +11,7 @@ import entities.Users.CommonUser;
 import entities.Users.CommonUserFactory;
 import entities.Users.User;
 
+import interface_adapter.login.LoginViewModel;
 import org.junit.Test;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -59,7 +60,6 @@ public class LoginInteractorTest {
         LoginInputData inputData = new LoginInputData("Flora", "wrong");
         LoginUserDataAccessInterface userRepository = new InMemoryUserDataAccessObject();
 
-
         // This creates a presenter that tests whether the test case is as we expect.
         LoginOutputBoundary failurePresenter = new LoginOutputBoundary() {
             @Override
@@ -82,11 +82,15 @@ public class LoginInteractorTest {
         userRepository.save(user);
         Player player = new SinglePlayer(user);
         LoginInputBoundary interactor = new LoginInteractor(userRepository, failurePresenter, new PlaylistQuiz(player));
+
         try {
             interactor.execute(inputData);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        //LoginViewModel loginViewModel = new LoginViewModel();
+        //assertEquals("interface_adapter.login.LoginState@45c8e616", loginViewModel.getState());
     }
 
 
