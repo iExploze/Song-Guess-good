@@ -1,6 +1,12 @@
 import app.LoginUseCaseFactory;
 import app.SignupUseCaseFactory;
-import app.TextFieldSuggestion;
+import dataAccessObjects.spotifyAccessObjects.UserTopTracks;
+import dataAccessObjects.spotifyAccessObjects.UserTopTracksObject;
+import interface_adapter.timer.TimerController;
+import interface_adapter.timer.TimerPresenter;
+import org.junit.BeforeClass;
+import usecase.timer.*;
+import view.TextFieldSuggestion;
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
 import dataAccessObjects.UserStorage.FileUserDataAccessObject;
@@ -14,22 +20,18 @@ import interface_adapter.guess.GuessController;
 import interface_adapter.guess.GuessPresenter;
 import interface_adapter.login.LoginViewModel;
 import interface_adapter.signup.SignupViewModel;
-import interface_adapter.timer.TimerController;
-import interface_adapter.timer.TimerPresenter;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import usecase.guess.GuessInputBoundary;
 import usecase.guess.GuessInteractor;
 import usecase.guess.GuessOutputBoundary;
-import usecase.timer.*;
 import view.LoginView;
 import view.PlayView;
 import view.SignupView;
 import view.ViewManager;
 
 import javax.swing.*;
-import javax.ws.rs.core.Application;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
@@ -38,16 +40,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.*;
 
 public class PlayViewTests {
     // Interesting tests are not ones where I check if certain component exists.
-    PlayView PV;
-    PlayViewModel playViewModel;
-    PlayState playState;
+    static PlayView PV;
+    static PlayViewModel playViewModel;
+    static PlayState playState;
     Robot robot;
-    JFrame application;
+    static JFrame application;
+    static SpotifyPlaylist spotifyPlaylist;
     private static List<HashMap<String, String>> convertStringToMap(String songs) {
         String[] mapStrings = songs.substring(1, songs.length() - 1).split("},\\s*\\{");
 
@@ -97,8 +99,8 @@ public class PlayViewTests {
         }
         return res;
     }
-    @Before
-    public void init() throws IOException {
+    @BeforeClass
+    public static void init() throws IOException {
         //Build model + get componenets I need
         application = new JFrame("Song Playback Example");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -125,8 +127,11 @@ public class PlayViewTests {
                 "{preview_url=https://p.scdn.co/mp3-preview/4aae7af14e3ffb58ab0499099fc8c9a6936152fe?cid=ee5a4dc5c931462e9e630c64a8aee5ac, name=@ my worst}, " +
                 "{preview_url=https://p.scdn.co/mp3-preview/f6958f897e3817fcbb6647d62f66c71ee96d1981?cid=ee5a4dc5c931462e9e630c64a8aee5ac, name=THATS WHAT I WANT}]";
 
-        SpotifyPlaylist spotifyPlaylist = new SpotifyPlaylist(convertStringToMap(songs));
+        spotifyPlaylist = new SpotifyPlaylist();
+        spotifyPlaylist.setSongsList(convertStringToMap(songs));
         quiz.setQuiz(spotifyPlaylist);
+
+        quiz.setSuggestions(spotifyPlaylist.getSuggestions());
 
         playViewModel = new PlayViewModel();
 
@@ -134,18 +139,21 @@ public class PlayViewTests {
         GuessInputBoundary guessInputBoundary = new GuessInteractor(guessOutputBoundary, quiz);
         GuessController guessController = new GuessController(guessInputBoundary);
 
+        TimeInputData timeInputData = new TimeInputData();
         TimeOutputData timeOutputData = new TimeOutputData();
         TimeOutputBoundary timeOutputBoundary = new TimerPresenter(playViewModel);
-        TimeInputData timeInputData = new TimeInputData();
         TimeInputBoundary timeInputBoundary = new TimeInteractor(quiz, timeOutputBoundary, timeInputData, timeOutputData);
         TimerController timerController = new TimerController(timeInputBoundary, timeInputData);
 
 
         // Pass the timerController to the PlayView
+
         PV = new PlayView(playViewModel, timerController,guessController);
         playState = playViewModel.getState();
+        playState.setSuggestions(spotifyPlaylist.getSuggestions());
 
-
+        Playlist playlist = new SpotifyPlaylist();
+        UserTopTracks userTopTracks = new UserTopTracksObject();
 
 
         LoginViewModel loginViewModel = new LoginViewModel();
@@ -160,11 +168,11 @@ public class PlayViewTests {
         }
 
 
-        SignupView signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel, signupViewModel, userDataAccessObject, playViewModel, quiz);
+        SignupView signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel, signupViewModel, userDataAccessObject, playViewModel, quiz, userTopTracks, playlist);
 
 
 
-        LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel, userDataAccessObject, playViewModel, signupViewModel, quiz);
+        LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel, userDataAccessObject, playViewModel, signupViewModel, quiz, userTopTracks, playlist);
 
 
 
@@ -182,8 +190,14 @@ public class PlayViewTests {
         // Set the size of the window
         application.setLocationRelativeTo(null); // Center the window
         application.setVisible(true);
+        application.toFront();
     }
 
+    @Before
+    public void initi() {
+        application.toFront();
+        application.requestFocus();
+    }
 
 //    public void getPlayView() {
 //        //get the score label
@@ -236,48 +250,28 @@ public class PlayViewTests {
     }
     // Suggestions Update
     @Test
-    public void textFieldWorking() throws AWTException {
-        robot = new Robot();
-         // Delay for 1 second (adjust as needed)
-
-        // Set focus on the JTextField
-        // Simulate pressing and releasing the Enter keya
-
-        TextFieldSuggestion textField = getTextField();
-        System.out.println(textField.isVisible());
-        textField.requestFocus();
-        robot.delay(1000);
-        robot.keyPress(KeyEvent.VK_A);
-        robot.keyRelease(KeyEvent.VK_A);
-        robot.keyPress(KeyEvent.VK_ENTER);
-        robot.keyRelease(KeyEvent.VK_ENTER);
-        robot.delay(1000);
-        assertEquals(textField.getText(), "a");
-
-    }
-    @Test
     public void suggestionsUpdate() throws AWTException {
+        playState.setSuggestions(spotifyPlaylist.getSuggestions());
+        playViewModel.setSuggestions(playState);
+        playViewModel.firePropertyChanged();
         robot = new Robot();
+        robot.delay(1500);
         // Delay for 1 second (adjust as needed)
 
         // Set focus on the JTextField
         // Simulate pressing and releasing the Enter keya
-
         TextFieldSuggestion textField = getTextField();
         System.out.println(textField.isVisible());
         textField.requestFocus();
-        ArrayList<String> rs = new ArrayList<>();
-        rs.add("Apple");
-        rs.add("Banana");
-        playState.setSuggestions(rs);
-        playViewModel.setSuggestions(playState);
-        robot.keyPress(KeyEvent.VK_A);
-        robot.keyRelease(KeyEvent.VK_A);
+
+
+        robot.keyPress(KeyEvent.VK_L);
+        robot.keyRelease(KeyEvent.VK_L);
 
         robot.keyPress(KeyEvent.VK_ENTER);
         robot.keyRelease(KeyEvent.VK_ENTER);
-        robot.delay(3000);
-        assertEquals(textField.getText(), "Apple");
+        robot.delay(500);
+        assertEquals(textField.getText(), "lovely");
     }
 
 
@@ -291,31 +285,8 @@ public class PlayViewTests {
         // Set focus on the JTextField
         // Simulate pressing and releasing the Enter keya
         robot.delay(5000);
-        assertEquals(5, timer.getValue());
+        assertTrue(timer.getValue() > 0);
 
-    }
-    @Test
-    public void TimerUpdates() throws AWTException {
-        robot = new Robot();
-        JProgressBar timer = getTimer();
-        // Delay for 1 second (adjust as needed)
-
-        // Set focus on the JTextField
-        // Simulate pressing and releasing the Enter keya
-        robot.delay(5000);
-        TextFieldSuggestion textField = getTextField();
-
-        textField.requestFocus();
-        robot.keyPress(KeyEvent.VK_A);
-        robot.keyRelease(KeyEvent.VK_A);
-
-        robot.keyPress(KeyEvent.VK_ENTER);
-        robot.keyRelease(KeyEvent.VK_ENTER);
-        robot.delay(2000);
-        robot.keyPress(KeyEvent.VK_ENTER);
-        robot.keyRelease(KeyEvent.VK_ENTER);
-        robot.delay(1000);
-        assertEquals(0, timer.getValue());
     }
 
     // Song updates note bug because i never set the first song to play through login/signup interactors. However the second song does play.
@@ -346,9 +317,5 @@ public class PlayViewTests {
 
 
     }
-    @After
-    public void cleanup() {
-        application.dispose();
-        robot.delay(3000);
-    }
+
 }

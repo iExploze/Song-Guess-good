@@ -1,5 +1,7 @@
 package app;
 
+import view.TextFieldSuggestion;
+
 import javax.swing.*;
 import java.awt.*;
 

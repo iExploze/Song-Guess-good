@@ -30,12 +30,6 @@ public class getTop200SongNames {
                 return res;
         }
 
-        public static void main(String[] args) throws FileNotFoundException {
-            String filePath = "./top200SongsWeekly.csv"; // Replace with the actual path to your CSV file
-            getTop200SongNames a = new getTop200SongNames();
-
-            System.out.println(a.top200(filePath));
-        }
     }
 
 

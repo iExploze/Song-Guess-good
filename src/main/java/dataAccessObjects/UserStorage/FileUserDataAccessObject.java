@@ -48,7 +48,7 @@ public class FileUserDataAccessObject implements UserDataAccessObject, LoginUser
                     HashMap <String, String> tokenInfo = new HashMap<>();
                     tokenInfo.put("access_token", accessToken);
                     tokenInfo.put("refresh_token", refreshToken);
-                    User user = userFactory.createUser(username, password, tokenInfo);
+                    User user = this.userFactory.createUser(username, password, tokenInfo);
                     accounts.put(username, user);
                 }
             }
@@ -128,7 +128,6 @@ public class FileUserDataAccessObject implements UserDataAccessObject, LoginUser
         // Delete the original file
         File originalFile = new File(csvFile.getName());
         if (!originalFile.delete()) {
-            System.out.println("Error deleting the original file.");
             return;
         }
         File tempFile = new File("temp.txt");

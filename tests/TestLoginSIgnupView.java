@@ -1,10 +1,9 @@
 import app.LoginUseCaseFactory;
 import app.SignupUseCaseFactory;
 import dataAccessObjects.UserStorage.FileUserDataAccessObject;
-import entities.Player;
-import entities.PlaylistQuiz;
-import entities.Quiz;
-import entities.SinglePlayer;
+import dataAccessObjects.spotifyAccessObjects.UserTopTracks;
+import dataAccessObjects.spotifyAccessObjects.UserTopTracksObject;
+import entities.*;
 import entities.Users.CommonUserFactory;
 import entities.Users.User;
 import interface_adapter.PlayViewModel;
@@ -43,7 +42,8 @@ public class TestLoginSIgnupView {
         LoginViewModel loginViewModel = new LoginViewModel();
         SignupViewModel signupViewModel = new SignupViewModel();
         PlayViewModel playViewModel = new PlayViewModel();
-
+        Playlist playlist = new SpotifyPlaylist();
+        UserTopTracks userTopTracks = new UserTopTracksObject();
 
         FileUserDataAccessObject userDataAccessObject;
         try {
@@ -56,12 +56,12 @@ public class TestLoginSIgnupView {
         Player player = new SinglePlayer(user);
         Quiz quiz = new PlaylistQuiz(player);
 
-        SignupView signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel, signupViewModel, userDataAccessObject, playViewModel, quiz);
+        SignupView signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel, signupViewModel, userDataAccessObject, playViewModel, quiz, userTopTracks, playlist);
 
         views.add(signupView, signupView.viewName);
 
 
-        LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel, userDataAccessObject, playViewModel, signupViewModel, quiz);
+        LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel, userDataAccessObject, playViewModel, signupViewModel, quiz, userTopTracks, playlist);
         views.add(loginView, loginView.viewName);
 
 
