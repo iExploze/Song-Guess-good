@@ -16,7 +16,7 @@ public class SinglePlayer implements Player {
     }
 
     public void setPlaylist() throws IOException {
-        this.playlist = new SpotifyPlaylist(new UserTopTracksObject().getTopTracks(user));
+        this.playlist = new SpotifyPlaylist();
     }
     @Override
     public String getName() {

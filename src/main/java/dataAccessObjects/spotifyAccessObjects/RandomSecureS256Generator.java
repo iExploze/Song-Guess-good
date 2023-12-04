@@ -9,11 +9,6 @@ import java.util.Base64;
 /*Generates S256 hash */
 public class RandomSecureS256Generator {
 
-    private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    private static final SecureRandom random = new SecureRandom();
-
-    private int length;
-    private String hash;
 
     public RandomSecureS256Generator() {
     }
@@ -67,6 +62,5 @@ public class RandomSecureS256Generator {
 
 
 
-    public static void main(String[] args) {// Specify the desired length of the random string. Should be btwn 43 and 128.
-    }
+
 }

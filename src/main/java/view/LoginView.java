@@ -83,7 +83,11 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
             @Override
             public void keyTyped(KeyEvent e) {
                 LoginState currentState = loginViewModel.getState();
-                currentState.setUsername(usernameInputField.getText() + e.getKeyChar());
+                String newText = usernameInputField.getText() + e.getKeyChar();
+                if (e.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
+                    newText = newText.substring(0,newText.length() - 1);
+                }
+                currentState.setUsername(newText);
                 loginViewModel.setState(currentState);
             }
 
@@ -102,7 +106,11 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
                     @Override
                     public void keyTyped(KeyEvent e) {
                         LoginState currentState = loginViewModel.getState();
-                        currentState.setPassword(passwordInputField.getText() + e.getKeyChar());
+                        String newText = passwordInputField.getText() + e.getKeyChar();
+                        if (e.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
+                            newText = newText.substring(0,newText.length() - 1);
+                        }
+                        currentState.setPassword(newText);
                         loginViewModel.setState(currentState);
                     }
 
@@ -121,6 +129,7 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
         this.add(passwordInfo);
         this.add(passwordErrorField);
         this.add(buttons);
+
     }
 
     /**

@@ -33,7 +33,8 @@ public class userAuthentication {
                 while (this.getResponse() == null) {
                     Thread.sleep(1000);
                     i += 1;
-                    if (i == 20) {
+                    if (i == 7) {
+                        System.out.println("Authentication Could Not be Completed. Try Again!");
                         System.exit(0);
                     }
 
@@ -66,7 +67,6 @@ public class userAuthentication {
             }
         });
         server.start();
-        System.out.println("Server started on port 8888. Waiting for redirect...");
 
     }
 

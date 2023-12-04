@@ -1,6 +1,5 @@
 package view;
 
-import app.TextFieldSuggestion;
 import interface_adapter.PlayState;
 import interface_adapter.PlayViewModel;
 import interface_adapter.guess.GuessController;
@@ -8,7 +7,6 @@ import interface_adapter.timer.TimerController;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
@@ -141,7 +139,7 @@ public class PlayView extends JPanel implements PropertyChangeListener {
 
 
 
-    public void updateSuggestion(List<String> names) {
+    private void updateSuggestion(List<String> names) {
         for (String item : names) {
             guessInputField.addItemSuggestion(item);
         }
