@@ -3,6 +3,7 @@ package usecase.Login;
 import static org.junit.Assert.*;
 import dataAccessObjects.UserStorage.FileUserDataAccessObject;
 import dataAccessObjects.UserStorage.InMemoryUserDataAccessObject;
+import dataAccessObjects.UserStorage.UserDataAccessObject;
 import dataAccessObjects.getTop200SongNames;
 import dataAccessObjects.spotifyAccessObjects.UserTopTracks;
 import dataAccessObjects.spotifyAccessObjects.UserTopTracksObject;
@@ -75,10 +76,11 @@ public class LoginInteractorTest {
         User user = mock(User.class);
         when(user.getUsername()).thenReturn("User");
         when(user.getPassword()).thenReturn("123");
-        HashMap<String, String> hashMap = new HashMap<>();
-        when(userFactory.createUser("username", "pwd", hashMap)).thenReturn(user);
-        LoginUserDataAccessInterface userRepository = mock(LoginUserDataAccessInterface.class);
 
+        HashMap<String, String> hashMap = new HashMap<>();
+        LoginUserDataAccessInterface userRepository = mock(LoginUserDataAccessInterface.class);
+        when(userRepository.exists("User")).thenReturn(true);
+        when(userRepository.getUser("User")).thenReturn(user);
 
         UserTopTracks userTopTracks = mock(UserTopTracks.class);
         when(userTopTracks.getTopTracks(user)).thenReturn(new ArrayList<>());
@@ -96,13 +98,12 @@ public class LoginInteractorTest {
         // initialize the interactor
         LoginOutputBoundary loginPresenter = mock(LoginOutputBoundary.class);
         LoginInputData loginInputData = new LoginInputData("User", "123");
-        Player player = new SinglePlayer(user);
         LoginInteractor loginInteractor = new LoginInteractor(userFactory, userRepository, loginPresenter, quiz,
                 userTopTracks, playlist);
         loginInteractor.execute(loginInputData);
 
         // check that the user was saved once and that prepareSuccessView was called
-        verify(userRepository, times(1)).save(user);
+        verify(userRepository, times(1)).exists("User");
         verify(loginPresenter, times(1)).prepareSuccessView(any(LoginOutputData.class));
 
     }
