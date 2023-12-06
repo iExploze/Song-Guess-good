@@ -5,7 +5,7 @@ group members:
 - Ricky (github name: LogicCTDT)
 - Flora (github name: mangolala1)
 
-Note: To run the program on IntelliJ, you must install this:
+Note: To run the program on IntelliJ, you must add the jarfiles in the jar_files folder as dependencies. They are part of an old swing feature that implemented autocomplete. It has since been removed in Java 8. Additionally, the files can be found at this website:
 https://jar-download.com/artifacts/org.swinglabs.swingx/swingx-autocomplete/1.6.5-1/source-code/org/jdesktop/swingx/autocomplete/AutoCompleteDecorator.java
 
 Work flow of the team:
