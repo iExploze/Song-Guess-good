@@ -68,7 +68,6 @@ option of choosing playlists from their own Spotify accounts to form the persona
 song pools. Points will be distributed to each player based on the amount of time 
 taken to guess the song (note: no points will be deducted for incorrect guesses). 
 The player with the most points at the end will be the winner.
-
 In ranked mode, players will have the opportunity to compete in a competitive match to
 earn Musical Points (MP) that will contribute to their overall score on the global 
 leaderboard. The system will pair players against each other based on relative skill 
