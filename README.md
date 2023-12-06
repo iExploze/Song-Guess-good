@@ -1,11 +1,14 @@
 CSC207-Group-Project
 group members:
-Ian
-Anson
-Ricky
-Flora
+- Ian (github name: iExploze)
+- Anson (github name: anslau)
+- Ricky (github name: LogicCTDT)
+- Flora (github name: mangolala1)
 
-Work flow:
+Note: To run the program on IntelliJ, you must install this:
+https://jar-download.com/artifacts/org.swinglabs.swingx/swingx-autocomplete/1.6.5-1/source-code/org/jdesktop/swingx/autocomplete/AutoCompleteDecorator.java
+
+Work flow of the team:
 
 - Quick discussion/ detail discussion with group
 - Divide work up clearly
@@ -15,7 +18,7 @@ Work flow:
 - Delete/pull branch
 - repeat.
   
-Goals: Finish entities and Use case to be completed: 
+Entities/use cases implemented by everyone on the team:
 
 - signup - Ricky [Done]
 - login - Ricky [Done]
@@ -31,6 +34,7 @@ Goals: Finish entities and Use case to be completed:
 - AutoComplete Suggestion - Ricky [Done]
 - Quiz instantiation - Ian [Done]
 - Song Progress Bar - Anson [Done]
+- Testing - Everyone [Done]
   
 
 **A description of the problem domain your team is tentatively wanting to focus 
@@ -51,11 +55,12 @@ to guess music and song names based on a short audio track. Players can connect 
 account to their Spotify login where they can generate quizzes based on their own 
 custom playlist.
 
-In single-player mode, a user can choose to play premade quizzes created from 
-different Spotify playlists. Quizzes will vary depending on the artist, genre, and 
-level of difficulty chosen based on the song's popularity (i.e., number of streams a 
-particular song has accumulated).
+**Current implementation of the project:**
+In single-player mode, a user will be able to play with their favourite/top 50 songs 
+from their Spotify current Spotify data.
 
+**This part is not implemented in the program:**
+========================================================================================================================
 In multiplayer mode, users will be given a unique ID that can be shared with others 
 (i.e., friends, family, colleagues) to create group-friendly competitions. Groups 
 can compete and play premade quizzes as described above, but will also be given the 
@@ -70,6 +75,7 @@ leaderboard. The system will pair players against each other based on relative s
 with MP being the primary determinant. Similar to the single-player mode, quizzes will 
 be premade and will vary across genres and difficulty levels to ensure fairness and 
 objectivity. 
+========================================================================================================================
 
 Link to the Spotify API: https://developer.spotify.com/documentation/web-api.
 We obtained an access token to the spotify API and made a Get request 
