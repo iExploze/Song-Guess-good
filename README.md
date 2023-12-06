@@ -75,6 +75,7 @@ leaderboard. The system will pair players against each other based on relative s
 with MP being the primary determinant. Similar to the single-player mode, quizzes will 
 be premade and will vary across genres and difficulty levels to ensure fairness and 
 objectivity. 
+
 ========================================================================================================================
 
 Link to the Spotify API: https://developer.spotify.com/documentation/web-api.
